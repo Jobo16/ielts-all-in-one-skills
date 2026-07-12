@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "ielts-buddy",
+  "version": "0.2.0",
+  "eventSchemaVersion": 1,
+  "channel": "stable",
+  "repository": "https://github.com/Jobo16/ielts-skills",
+  "serviceManifest": "https://ieltsbuddy.igocn.cn/api/public/skills/manifest"
+}

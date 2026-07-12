@@ -1,0 +1,33 @@
+name: Release Skill
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 scripts/validate_skills.py
+      - run: python3 -m unittest discover -s tests
+      - name: Verify tag
+        run: test "${GITHUB_REF_NAME}" = "v$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')"
+      - name: Build release package
+        run: |
+          asset="ielts-buddy-skill-${GITHUB_REF_NAME}.tar.gz"
+          tar -czf "$asset" -C skills ielts-buddy
+          shasum -a 256 "$asset" > "$asset.sha256"
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            ielts-buddy-skill-${{ github.ref_name }}.tar.gz
+            ielts-buddy-skill-${{ github.ref_name }}.tar.gz.sha256

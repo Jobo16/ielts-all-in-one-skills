@@ -13,18 +13,19 @@ OAuth discovery and dynamic client registration are supported. Do not request a 
 Clone the pinned release:
 
 ```sh
-git clone --depth 1 --branch v0.1.0 https://github.com/Jobo16/ielts-skills.git
+git clone --depth 1 --branch v0.2.0 https://github.com/Jobo16/ielts-skills.git
 ```
 
-Install the complete `skills/ielts-buddy` directory, including `references` and `agents`.
+Install the complete `skills/ielts-buddy` directory with the bundled installer. It records the installed version outside the Skill directory and initializes the local learning database.
 
 ## Codex
 
 Install the Skill:
 
 ```sh
-mkdir -p "$HOME/.codex/skills"
-cp -R ielts-skills/skills/ielts-buddy "$HOME/.codex/skills/"
+python3 ielts-skills/skills/ielts-buddy/scripts/update_skill.py install \
+  --source ielts-skills/skills/ielts-buddy \
+  --target "$HOME/.codex/skills/ielts-buddy"
 ```
 
 Add this to the Codex MCP configuration:
@@ -43,11 +44,30 @@ codex mcp login ielts-buddy
 ## Claude Code
 
 ```sh
-mkdir -p "$HOME/.claude/skills"
-cp -R ielts-skills/skills/ielts-buddy "$HOME/.claude/skills/"
+python3 ielts-skills/skills/ielts-buddy/scripts/update_skill.py install \
+  --source ielts-skills/skills/ielts-buddy \
+  --target "$HOME/.claude/skills/ielts-buddy"
 claude mcp add --scope user --transport http ielts-buddy "https://ieltsbuddy.igocn.cn/mcp"
 claude mcp login ielts-buddy
 ```
+
+## Update
+
+Check at most once every 24 hours unless the user explicitly asks to refresh:
+
+```sh
+python3 <installed-skill>/scripts/update_skill.py check
+```
+
+When `updateAvailable=true`, summarize the version change and ask for confirmation. After confirmation:
+
+```sh
+python3 <installed-skill>/scripts/update_skill.py apply
+```
+
+Never run `apply` automatically. The updater accepts only stable semantic versions, downloads over HTTPS, verifies the service-provided SHA-256, validates the package, and atomically replaces the Skill. Learning data remains under `~/.ielts-buddy`.
+
+If `supported=false`, pause remote write operations until the Skill is updated. If `packageReady=false`, do not bypass the updater or install from `main`; explain that the stable release package is not available yet.
 
 ## Other Clients
 
