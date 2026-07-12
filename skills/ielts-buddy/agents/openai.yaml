@@ -1,0 +1,11 @@
+interface:
+  display_name: "IELTS Buddy"
+  short_description: "Use IELTS Buddy data, practice, planning, and learner tools"
+  default_prompt: "Use $ielts-buddy to find IELTS practice material and start a focused study session."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "ielts-buddy"
+      description: "IELTS Buddy question bank, practice, preparation, learner profile, and planning service"
+      transport: "streamable_http"
+      url: "https://ieltsbuddy.igocn.cn/mcp"

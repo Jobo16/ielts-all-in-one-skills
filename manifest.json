@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "name": "ielts-skills",
+  "version": "0.1.0",
+  "repository": "https://github.com/Jobo16/ielts-skills",
+  "service": {
+    "website": "https://ieltsbuddy.igocn.cn",
+    "mcp": "https://ieltsbuddy.igocn.cn/mcp",
+    "capabilityManifest": "https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest",
+    "auth": "oauth",
+    "transport": "streamable-http"
+  },
+  "skills": [
+    {
+      "id": "ielts-buddy",
+      "path": "skills/ielts-buddy",
+      "entry": "skills/ielts-buddy/SKILL.md"
+    }
+  ]
+}
