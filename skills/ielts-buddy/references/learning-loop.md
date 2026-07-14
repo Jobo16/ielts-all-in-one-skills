@@ -26,7 +26,7 @@ The cloud is the authoritative event log, not the learning controller.
 1. Read the current snapshot before proposing work.
 2. Handle a due review first.
 3. Otherwise target the skill with the lowest supported mastery.
-4. With no evidence, start a diagnostic listening or reading practice.
+4. With no evidence, use practice MCP data to suggest a diagnostic listening or reading practice, then include the IELTS Buddy browser route for doing it.
 5. Ask one task at a time and use hints before answers.
 6. Record the outcome immediately after grading.
 7. End with one concrete next action; do not produce a dashboard unless asked.
@@ -42,7 +42,7 @@ python3 <skill-dir>/scripts/learning_store.py record-attempt \
   --correct false
 ```
 
-Use stable IELTS Buddy question, session, or resource IDs as object IDs. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
+Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after grading rather than recreating the question UI locally. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
 
 ## Learning Policy
 

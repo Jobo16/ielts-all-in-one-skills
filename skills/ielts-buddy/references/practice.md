@@ -1,26 +1,32 @@
 # Practice
 
-Use these tools for IELTS Buddy question-bank and practice sessions:
+IELTS question answering is browser-first, not browser-only. Use MCP for question-bank data, session metadata, and recent activity when available; always include a browser link so the learner can do the interactive work in IELTS Buddy.
 
-- `ielts_practice_search_parts`: search listening, reading, speaking, or writing parts.
-- `ielts_practice_start_session`: create a practice session from a part or source topic.
-- `ielts_practice_read_session`: read an owned practice or mock session.
-- `ielts_practice_submit_session`: submit answers and persist grading results.
-- `ielts_practice_recent_activity`: read recent practice activity.
+Default route:
 
-## Find And Start
+```text
+https://ieltsbuddy.igocn.cn/practice
+```
 
-1. Ask for the subject or infer it only when the user's request is explicit.
-2. Search before starting a session unless the user already supplied a valid part ID or source topic ID.
-3. Present a compact choice when several parts match.
-4. Start the selected part and return the session ID and next action.
+## Data And Link Flow
 
-## Read And Submit
+1. If the user asks to 刷题, 做练习, 开始阅读/听力/口语/写作练习, or continue a practice session, first decide whether data would help them choose or resume work.
+2. When MCP is configured, use `ielts_practice_list_taxonomy`, `ielts_practice_search_parts`, `ielts_practice_read_part`, or `ielts_practice_recent_activity` to return a compact data summary: subject, part title, difficulty, tags, available count, recent status, or next launch input.
+3. Include the stable practice URL or the launch URL/session route returned by `ielts_practice_start_session`.
+4. Do not force the browser if a data answer is enough, such as “what should I practice next?” or “show me available reading parts.” Do not force local execution for timed answering, audio playback, or a full answer sheet.
+5. If MCP is unavailable, say the data interface requires the IELTS Buddy MCP connection and still provide the browser route.
+6. If the current client can open browser links and the user asked to open it, open the URL. Otherwise return the link.
 
-1. Read the session before modifying it.
-2. Preserve each answer's `slotKey`; do not infer missing slot keys.
-3. Confirm the user intends to submit when submission will finalize or grade the attempt.
-4. Submit only the answers provided by the user.
-5. Verify the returned session status, score, and grading result before reporting completion.
+## MCP Interfaces
 
-Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After grading, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.
+Use these as the data interface before or alongside the browser link:
+
+- `ielts_practice_list_taxonomy`: list subjects, question types, filters, tags, difficulty values, and availability counts.
+- `ielts_practice_search_parts`: search available parts before suggesting what to open.
+- `ielts_practice_read_part`: read one part's metadata and non-answer content, then return the browser route or start-session input.
+- `ielts_practice_start_session`: create a cloud practice session and return its browser launch route when available.
+- `ielts_practice_recent_activity`: read recent activity for reflection or planning.
+- `ielts_practice_read_session`: inspect an owned session for review, not to replace the web practice UI.
+- `ielts_practice_submit_session`: use only when the user explicitly supplied answers and asked the Agent to submit through MCP; otherwise send the user to the browser practice route.
+
+Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After a graded result, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.

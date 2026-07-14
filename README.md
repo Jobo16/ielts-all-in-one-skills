@@ -8,7 +8,7 @@ This repository contains a portable IELTS learning Skill and a zero-dependency l
 
 | Skill | Purpose |
 | --- | --- |
-| [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy and generate polished, teacher-style Task 1 and Task 2 review DOCX files locally. |
+| [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy, read course-route data, provide data plus links for browser-first tools, and generate polished Task 1, Task 2, and Reading lexicon DOCX files locally. |
 
 ## Install
 
@@ -58,13 +58,15 @@ python3 <installed-skill>/scripts/update_skill.py apply
 
 - Current IELTS preparation guides and prediction-hit records.
 - Listening, reading, speaking, and writing question-bank search.
-- Practice session creation, reading, answer submission, and activity history.
+- Data plus browser links for course routes, practice, mock tests, listening dictation, and vocabulary practice.
+- MCP-backed practice discovery, session launch, activity history, and supported browser-first tool data when configured.
 - Cloud-backed learner events, explainable mastery, weak-area selection, and spaced review.
 - A local mirror and offline outbox for uninterrupted learning.
 - Learner profiles, footprints, weak points, and recent activity.
 - Exam-prep planning, next actions, and scheduled study tasks.
 - Teacher-style IELTS Writing Task 1 and Task 2 review with anchored comments, rewrites, scores, feedback, a model answer, and validated DOCX output.
-- IELTS Buddy web experiences for courses, mock tests, practice, and learning tools.
+- IELTS Reading passage lexicon extraction with anchored phrase comments, bilingual learner notes, examples, review prompts, and validated DOCX output.
+- IELTS Buddy web experiences for courses, mock tests, practice, and learning tools through stable deep links.
 
 The live capability contract is published at:
 

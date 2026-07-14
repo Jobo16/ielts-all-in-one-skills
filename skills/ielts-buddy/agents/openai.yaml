@@ -1,7 +1,7 @@
 interface:
   display_name: "IELTS Buddy"
-  short_description: "Run cloud-backed IELTS learning with an offline local mirror"
-  default_prompt: "Use $ielts-buddy to read my learning state and choose one focused IELTS activity."
+  short_description: "Use IELTS data, course routes, local word cards, and DOCX workflows"
+  default_prompt: "Use $ielts-buddy to read my IELTS course route, prepare a focused activity, or run a local vocabulary-card session."
 dependencies:
   tools:
     - type: "mcp"
