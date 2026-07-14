@@ -1,10 +1,10 @@
-# Local-First Learning Loop
+# Cloud-Backed Learning Loop
 
-The local Agent and the IELTS Buddy web Agent follow the same loop. The storage adapter differs; the learning policy does not.
+The local Agent and the IELTS Buddy web Agent follow the same loop. Authenticated cloud events are the durable learner record. A local Agent keeps a SQLite mirror for fast reads and offline work; the learning policy remains in the Agent.
 
 ## Storage Adapter
 
-When a local filesystem and Python 3 are available, use the bundled zero-dependency store:
+When a local filesystem and Python 3 are available, use the bundled zero-dependency mirror:
 
 ```sh
 python3 <skill-dir>/scripts/learning_store.py init
@@ -12,14 +12,14 @@ python3 <skill-dir>/scripts/learning_store.py snapshot
 python3 <skill-dir>/scripts/learning_store.py next
 ```
 
-The default database is `~/.ielts-buddy/learning.db`. Set `IELTS_BUDDY_HOME` to move it. Do not edit the SQLite database directly.
+The default database is `~/.ielts-buddy/learning.db`. Set `IELTS_BUDDY_HOME` to move it. Do not edit the SQLite database directly. Pull cloud events before reading a snapshot whenever the MCP connection is available.
 
 When no local filesystem is available, use cloud events directly:
 
 - `ielts_learning_pull_events`: read events after a cursor.
 - `ielts_learning_push_events`: append events idempotently.
 
-The cloud is a synchronized event copy, not the learning controller.
+The cloud is the authoritative event log, not the learning controller.
 
 ## Session Loop
 
@@ -42,15 +42,7 @@ python3 <skill-dir>/scripts/learning_store.py record-attempt \
   --correct false
 ```
 
-Use stable IELTS Buddy question, session, plan, or resource IDs as object IDs. For plans and other state changes, use `record-event` with a complete JSON payload:
-
-```sh
-python3 <skill-dir>/scripts/learning_store.py record-event \
-  --type plan.updated \
-  --object-type plan \
-  --object-id <plan-id> \
-  --payload-json '<complete-plan-json>'
-```
+Use stable IELTS Buddy question, session, or resource IDs as object IDs. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
 
 ## Learning Policy
 
@@ -66,18 +58,17 @@ Selection order:
 
 This V1 intentionally uses an explainable model. Do not run BKT, IRT, FSRS parameter optimization, or a separate server-side recommender without sufficient real learner history.
 
-## Cloud Sync
+## Default Write Flow
 
-For local-to-cloud sync:
+For an authenticated local Agent:
 
-1. Run `outbox --limit 200`.
-2. Send the returned `events` unchanged to `ielts_learning_push_events`.
-3. After a successful response, run `ack` with every event ID from that batch.
-4. Read the local `cloudCursor` from `snapshot`.
-5. Call `ielts_learning_pull_events` with that cursor until `hasMore=false`.
-6. Save each response to a temporary JSON file or pipe it to `import --input -`.
+1. Before deriving state, read the local `cloudCursor`, call `ielts_learning_pull_events` until `hasMore=false`, and import each response.
+2. Record a new event in the local mirror so an interrupted request cannot lose it.
+3. At the end of the current grading operation, run `outbox --limit 200` and send the returned `events` unchanged to `ielts_learning_push_events`.
+4. After a successful response, run `ack` with every `acknowledgedEventId` returned by the server.
+5. Pull again before the next state-dependent decision so the local mirror receives the server cursor and events from other devices.
 
-Never block a learning session because cloud sync is unavailable. Never merge by timestamps or overwrite events; event IDs make append and import idempotent.
+If authentication or connectivity is unavailable, keep events in the outbox and continue locally. Upload them at the next successful connection. Never merge by timestamps or overwrite events: `eventId` makes writes idempotent, and the server cursor defines the shared event order.
 
 ## Model Basis
 

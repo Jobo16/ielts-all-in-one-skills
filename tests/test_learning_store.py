@@ -62,14 +62,15 @@ class LearningStoreTest(unittest.TestCase):
     def test_remote_import_is_idempotent(self):
         self.run_cli("init")
         event = {
+            "cursor": 9,
             "eventId": "7b1da35e-b89f-4f69-a010-4716dce3ecb6",
             "deviceId": "web-agent",
-            "eventType": "plan.updated",
+            "eventType": "practice.attempted",
             "subjectCode": "listening",
-            "objectType": "plan",
-            "objectId": "plan-1",
-            "skillCodes": [],
-            "payload": {"goal": "Band 7"},
+            "objectType": "question",
+            "objectId": "q-remote",
+            "skillCodes": ["listening.detail"],
+            "payload": {"correct": True},
             "schemaVersion": 1,
             "occurredAt": "2026-07-12T10:00:00Z",
         }
@@ -81,7 +82,41 @@ class LearningStoreTest(unittest.TestCase):
         self.assertEqual(second["duplicates"], 1)
         state = self.run_cli("snapshot")
         self.assertEqual(state["cloudCursor"], 9)
-        self.assertEqual(state["plans"][0]["plan"]["goal"], "Band 7")
+        self.assertEqual(state["eventCount"], 1)
+
+    def test_cloud_cursor_order_wins_over_client_timestamps(self):
+        self.run_cli("init")
+        events = [
+            {
+                "cursor": 4,
+                "eventId": "d6e78f54-5910-44a1-a7cd-abba7c808f4c",
+                "deviceId": "agent-a",
+                "eventType": "practice.attempted",
+                "objectType": "question",
+                "objectId": "q-1",
+                "skillCodes": ["reading.detail"],
+                "payload": {"correct": False},
+                "schemaVersion": 1,
+                "occurredAt": "2026-07-12T12:00:00Z",
+            },
+            {
+                "cursor": 5,
+                "eventId": "7af19fd1-3b82-454d-a262-f6df89a02d08",
+                "deviceId": "agent-b",
+                "eventType": "practice.attempted",
+                "objectType": "question",
+                "objectId": "q-1",
+                "skillCodes": ["reading.detail"],
+                "payload": {"correct": True},
+                "schemaVersion": 1,
+                "occurredAt": "2026-07-12T10:00:00Z",
+            },
+        ]
+        payload = Path(self.temp.name) / "ordered-events.json"
+        payload.write_text(json.dumps({"data": {"events": events, "nextCursor": 5}}))
+        self.run_cli("import", "--input", str(payload))
+        state = self.run_cli("snapshot")
+        self.assertEqual(state["mastery"][0]["evidenceCount"], 2)
 
 
 if __name__ == "__main__":

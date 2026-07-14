@@ -1,11 +1,11 @@
 interface:
   display_name: "IELTS Buddy"
-  short_description: "Run local-first IELTS learning with optional cloud sync"
+  short_description: "Run cloud-backed IELTS learning with an offline local mirror"
   default_prompt: "Use $ielts-buddy to read my learning state and choose one focused IELTS activity."
 dependencies:
   tools:
     - type: "mcp"
       value: "ielts-buddy"
-      description: "IELTS Buddy content, grading, preparation, and optional learning-event sync service"
+      description: "IELTS Buddy content, grading, preparation, and learning-event service"
       transport: "streamable_http"
       url: "https://ieltsbuddy.igocn.cn/mcp"

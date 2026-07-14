@@ -23,4 +23,4 @@ Use these tools for IELTS Buddy question-bank and practice sessions:
 4. Submit only the answers provided by the user.
 5. Verify the returned session status, score, and grading result before reporting completion.
 
-Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After grading, record each meaningful outcome through [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.
+Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After grading, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.

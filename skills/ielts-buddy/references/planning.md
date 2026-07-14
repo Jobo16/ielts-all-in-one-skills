@@ -12,10 +12,14 @@ Use `ielts_learner_read_profile` to read skill profiles, footprints, recent acti
 
 Inspect first. Ask only for planning fields still missing after inspection.
 
-For an Agent-owned working plan, store the complete current plan as a `plan.updated` learning event with `objectType=plan` and a stable `objectId`. Local Agents write it through `learning_store.py`; web-only Agents push the same event through `ielts_learning_push_events`. Append another event for each revision instead of overwriting history.
+## Study Plans
 
-## Scheduled Tasks
+All persistent learning plans use the server-side `ielts_study_plans_*` capabilities. Web and local Agents operate the same records, and the website's Scheduled view is a read-only projection of those records.
 
-Scheduled-task and structured-plan operations evolve independently from the Skill release. Inspect the live capability manifest and the connected MCP tool list before choosing an operation. Use the current `ielts_scheduled_tasks_*` or `ielts_study_plans_*` tool exposed by the server instead of assuming a tool exists from its name here.
+- Read with `ielts_study_plans_list`, `ielts_study_plans_get`, and `ielts_study_plans_next_actions`.
+- Create by calling `ielts_study_plans_draft`, showing the draft, and calling `ielts_study_plans_create` only after explicit confirmation.
+- Before changing, rescheduling, or deleting a plan, read the current revision and show a concise change summary. Write only after explicit confirmation.
+- A user statement that they completed a task is sufficient intent to call `ielts_study_plans_update_task`; read the plan again to verify the persisted status.
+- Store completed learning activity as learning events. Never store a plan as a `plan.updated` event.
 
-Keep recurring AI workflows separate from Agent-owned learning plans. Use server-side structured plans only when the user explicitly wants a shared website plan. State the trigger time and timezone clearly before creating or changing a schedule. Confirm deletion and verify every persisted result.
+Thread-local working steps may guide the current conversation, but they are not persistent study plans. Do not create a separate local plan or scheduled AI workflow.

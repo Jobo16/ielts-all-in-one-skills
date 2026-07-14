@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local-first IELTS learning event store and explainable learning model."""
+"""Local mirror for cloud-backed IELTS learning events and learning policy."""
 
 from __future__ import annotations
 
@@ -65,6 +65,7 @@ def open_store(path: Path) -> sqlite3.Connection:
           schema_version INTEGER NOT NULL DEFAULT 1,
           occurred_at TEXT NOT NULL,
           synced INTEGER NOT NULL DEFAULT 0,
+          remote_cursor INTEGER,
           created_at TEXT NOT NULL
         );
         CREATE INDEX IF NOT EXISTS idx_local_learning_events_occurred
@@ -95,12 +96,14 @@ def metadata(connection: sqlite3.Connection, key: str) -> str:
 
 
 def record_event(connection: sqlite3.Connection, event: dict[str, Any], synced: bool = False) -> bool:
+    remote_cursor = event.get("cursor")
     cursor = connection.execute(
         """
         INSERT OR IGNORE INTO learning_events (
           event_id, device_id, event_type, subject_code, object_type, object_id,
-          skill_codes_json, payload_json, schema_version, occurred_at, synced, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          skill_codes_json, payload_json, schema_version, occurred_at, synced,
+          remote_cursor, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             event["eventId"],
@@ -114,11 +117,22 @@ def record_event(connection: sqlite3.Connection, event: dict[str, Any], synced: 
             int(event.get("schemaVersion", SCHEMA_VERSION)),
             iso_datetime(event.get("occurredAt")),
             1 if synced else 0,
+            int(remote_cursor) if remote_cursor is not None else None,
             iso_datetime(),
         ),
     )
+    inserted = cursor.rowcount == 1
+    if not inserted and synced:
+        connection.execute(
+            """
+            UPDATE learning_events
+            SET synced = 1, remote_cursor = COALESCE(?, remote_cursor)
+            WHERE event_id = ?
+            """,
+            (int(remote_cursor) if remote_cursor is not None else None, event["eventId"]),
+        )
     connection.commit()
-    return cursor.rowcount == 1
+    return inserted
 
 
 def new_event(connection: sqlite3.Connection, args: argparse.Namespace, payload: dict[str, Any]) -> dict[str, Any]:
@@ -141,7 +155,10 @@ def load_events(connection: sqlite3.Connection, subject: str | None = None) -> l
         """
         SELECT * FROM learning_events
         WHERE (? IS NULL OR subject_code = ?)
-        ORDER BY occurred_at ASC, local_seq ASC
+        ORDER BY
+          CASE WHEN remote_cursor IS NULL THEN 1 ELSE 0 END ASC,
+          remote_cursor ASC,
+          local_seq ASC
         """,
         (subject, subject),
     ).fetchall()
@@ -238,18 +255,6 @@ def snapshot(connection: sqlite3.Connection, subject: str | None = None) -> dict
     events = load_events(connection, subject)
     reviews = review_snapshot(events)
     mastery = mastery_snapshot(events)
-    plans: dict[str, dict[str, Any]] = {}
-    for event in events:
-        if event.get("objectType") != "plan" or not event.get("objectId"):
-            continue
-        if event["eventType"] == "plan.deleted":
-            plans.pop(event["objectId"], None)
-        elif event["eventType"] in ("plan.created", "plan.updated"):
-            plans[event["objectId"]] = {
-                "planId": event["objectId"],
-                "updatedAt": event["occurredAt"],
-                "plan": event["payload"],
-            }
     return {
         "generatedAt": iso_datetime(),
         "cloudCursor": int(metadata(connection, "cloud_cursor")),
@@ -257,7 +262,6 @@ def snapshot(connection: sqlite3.Connection, subject: str | None = None) -> dict
         "dueReviews": [item for item in reviews if item["due"]],
         "upcomingReviews": [item for item in reviews if not item["due"]][:20],
         "mastery": mastery,
-        "plans": sorted(plans.values(), key=lambda item: item["updatedAt"], reverse=True),
     }
 
 
