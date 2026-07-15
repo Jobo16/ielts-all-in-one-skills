@@ -1,6 +1,6 @@
 ---
 name: ielts-task2-review
-description: Review IELTS Writing Task 2 essays in a specific teacher's style and deliver a polished, validated Word DOCX with real anchored comments, Band 7.5 rewrites, scores, focused feedback, and a Band 8 model essay. Use for Task 2 correction, teacher-style marking, reviewed DOCX output, comments, model essays, or web review hand-off. Supports pasted prompt and essay text or DOCX input.
+description: Review IELTS Writing Task 2 essays locally in a specific teacher's style and deliver a polished, validated Word DOCX with real anchored comments, Band 7.5 rewrites, scores, focused feedback, and a Band 8 model essay. Use for Task 2 correction, teacher-style marking, reviewed DOCX output, comments, model essays, or data-only result hand-off. Supports pasted prompt and essay text or DOCX input.
 ---
 
 # IELTS Task 2 Review
@@ -24,11 +24,13 @@ Deliver a validated reviewed `.docx` by default. The DOCX is the primary local A
 5. Return the absolute path to the final reviewed DOCX. Do not stop after presenting review text or JSON.
 6. If validation fails, fix the review plan or document and rerun validation before delivery.
 
-## IELTS Buddy Web Hand-off
+## IELTS Buddy Data Hand-off
 
-When IELTS Buddy MCP tools are available and the user also wants the interactive web version, call `ielts_writing_import_submission` with the prompt, essay, and target band. Return the browser result URL alongside the local reviewed DOCX. The web hand-off must not block DOCX creation.
+When IELTS Buddy MCP tools are available and the user wants the result saved, first finish the local review and validated DOCX. Then inspect the available capability description.
 
-Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_submit_revision` when the user rewrites the essay. Never overwrite an earlier version or the source DOCX.
+Only call a data-only writing save/import tool if it persists caller-provided data without running server-side review. The payload should contain the prompt, essay, target band, local score summary, local feedback summary, and reviewed DOCX metadata or link when available.
+
+Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `workflows/writing-revision-loop/SKILL.md` locally and persist only caller-provided revision results.
 
 ## Workflow
 

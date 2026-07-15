@@ -6,6 +6,6 @@ dependencies:
   tools:
     - type: "mcp"
       value: "ielts-buddy"
-      description: "IELTS Buddy 题库、批改、备考信息和学习记录服务"
+      description: "IELTS Buddy 题库、课程、词汇、进度和学习记录数据服务"
       transport: "streamable_http"
       url: "https://ieltsbuddy.igocn.cn/mcp"

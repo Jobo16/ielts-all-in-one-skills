@@ -21,6 +21,7 @@ Use:
 - the user's target band and part number.
 
 If audio or ASR is unavailable, run typed speaking practice. Do not pretend to assess pronunciation from text.
+If the user asks to create or weave topic material before answering, use `workflows/speaking-topic-builder/SKILL.md` first. Do not ask IELTS Buddy to auto-match questions.
 
 ## Practice Flow
 
@@ -61,6 +62,10 @@ Deliver a validated Speaking Report `.docx` by default for a full Part 2 answer,
 3. Validate it with `scripts/validate_speaking_report_docx.py`.
 4. Return the absolute path to the final DOCX.
 5. If validation fails, fix the plan and rerun generation plus validation.
+
+## IELTS Buddy Data Hand-off
+
+The local Agent owns speaking scoring, feedback, natural rewrites, chunks, and next questions. Use MCP only to read topic/material data or save caller-provided summaries and progress. Do not call a tool that asks the server to generate speaking feedback or match questions.
 
 ## Bundled Resources
 

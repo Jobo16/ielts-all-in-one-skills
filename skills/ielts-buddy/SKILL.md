@@ -36,6 +36,7 @@ Disclose that MCP-backed features connect to the external IELTS Buddy service. W
 | Extend IELTS Buddy from external Skills, decide what can be copied, or inspect source boundaries | [references/external-skill-intake.md](references/external-skill-intake.md) |
 | Choose or design visible DOCX/report workflows | [references/visual-workflow-catalog.md](references/visual-workflow-catalog.md) |
 | Recent IELTS information, preparation guides, or published prep records | [references/prep-search.md](references/prep-search.md) |
+| Replace hosted agent-runtime work with local Agent execution, or decide whether an MCP call is data-only | [references/local-agent-runtime.md](references/local-agent-runtime.md) |
 | Read question-bank practice data and provide browser launch links | [references/practice.md](references/practice.md) |
 | Read the IELTS full-course route, route progress, or next course recommendation | [references/course-route.md](references/course-route.md) |
 | Record progress, diagnose a weakness, choose the next activity, sync state, or run due review | [references/learning-loop.md](references/learning-loop.md) |
@@ -47,12 +48,13 @@ Disclose that MCP-backed features connect to the external IELTS Buddy service. W
 | Review IELTS Reading attempts with evidence, paraphrases, distractors, and error types | [Reading review workflow](workflows/reading-review/SKILL.md) |
 | Review Listening or dictation errors after browser practice | [Listening error review workflow](workflows/listening-error-review/SKILL.md) |
 | Coach IELTS Speaking from typed answers, transcripts, or topic data | [Speaking coach workflow](workflows/speaking-coach/SKILL.md) |
+| Build IELTS Speaking topic-weaving material from local reasoning and exact question links | [Speaking topic builder](workflows/speaking-topic-builder/SKILL.md) |
 | Review IELTS Writing Task 1 or Task 2 and generate a teacher-style DOCX | [Task 1 workflow](workflows/ielts-task1-review/SKILL.md) or [Task 2 workflow](workflows/ielts-task2-review/SKILL.md) |
 | Check revised IELTS Writing against earlier comments and decide the next rewrite | [Writing revision loop](workflows/writing-revision-loop/SKILL.md) |
 | Extract IELTS Reading passage vocabulary and generate an annotated lexicon DOCX | [Reading lexicon workflow](workflows/ielts-reading-lexicon/SKILL.md) |
 | Read browser-first capability data and provide deep links | [references/web-workspace.md](references/web-workspace.md) |
 
-The live capability manifest is authoritative when tool names or inputs differ from these references:
+The live capability manifest is authoritative when tool names or inputs differ from these references, but it does not override the local-agent-runtime boundary in `references/local-agent-runtime.md`.
 
 ```text
 https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
@@ -61,7 +63,7 @@ https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
 ## Operating Rules
 
 1. If the request depends on IELTS Buddy data and its MCP server is unavailable, pause the data workflow, read `references/setup.md`, and give the exact MCP configuration or OAuth step for the user's current client. Still provide stable browser links when a link can help the user continue. Do not silently replace IELTS Buddy data with unrelated web search or another service.
-2. Use IELTS Buddy MCP results as the source of truth for remote content, grading, and authenticated learning events. Keep unacknowledged local events until they reach the cloud; use local-only mode only while authentication or connectivity is unavailable.
+2. Use IELTS Buddy MCP results as the source of truth for remote content, objective answer-key results, vocabulary/course/progress data, and authenticated learning events. Teaching judgment, open-ended scoring, writing or speaking feedback, plan review, material matching, and visible DOCX/report generation belong to the local Agent. Keep unacknowledged local events until they reach the cloud; use local-only mode only while authentication or connectivity is unavailable.
 3. Prefer a read before a related write so the user can see the current state and the intended target.
 4. Confirm destructive or irreversible intent before deleting a plan or vocabulary entry, submitting answers, or replacing meaningful saved state.
 5. After every write, verify the returned session, plan, task, or vocabulary state. Do not report success from an attempted call alone.
@@ -73,7 +75,7 @@ https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
 11. Retrieve before reveal. Ask for another attempt or give a hint before exposing a stored answer.
 12. Record factual outcomes after practice or plan changes. Do not claim mastery from one answer or from an immediate retry.
 13. Do not ask the server to choose the next activity. Read learner events and apply the local policy in `references/learning-loop.md`.
-14. For writing review and Reading lexicon workflows, deliver the validated local DOCX first. Use IELTS Buddy web or vocabulary hand-off only when requested and available; never let it block the local document.
+14. For writing review, speaking coaching, plan review, topic weaving, and Reading lexicon workflows, deliver the validated local artifact first. Use IELTS Buddy web or data hand-off only when requested and available; never let it block the local document.
 15. Treat imported external Skills as source material, not product boundaries. Copy only license-compatible workflow logic, then rewrite it around IELTS Buddy data, local teaching policy, and visible IELTS outputs.
 16. Read only files the user provides or explicitly places in scope. Local workflows may create DOCX reports and update the local learning mirror under `~/.ielts-buddy`; do not inspect unrelated local directories.
 

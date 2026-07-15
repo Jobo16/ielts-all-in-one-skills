@@ -17,6 +17,14 @@ https://ieltsbuddy.igocn.cn/practice
 5. If MCP is unavailable, say the data interface requires the IELTS Buddy MCP connection and still provide the browser route.
 6. If the current client can open browser links and the user asked to open it, open the URL. Otherwise return the link.
 
+## Local Review Boundary
+
+Use `references/local-agent-runtime.md` for any practice result that requires teaching judgment.
+
+- Reading/listening objective questions: use answer keys or returned graded results as data, then explain errors locally with `workflows/reading-review/SKILL.md` or `workflows/listening-error-review/SKILL.md`.
+- Writing/speaking open-ended answers: do not submit through MCP for server-side feedback. Use `workflows/ielts-task1-review/SKILL.md`, `workflows/ielts-task2-review/SKILL.md`, `workflows/writing-revision-loop/SKILL.md`, or `workflows/speaking-coach/SKILL.md`.
+- If the learner gives answers in chat, the Agent may review them locally. Only write back caller-provided results, scores, summaries, and events.
+
 ## MCP Interfaces
 
 Use these as the data interface before or alongside the browser link:
@@ -27,6 +35,6 @@ Use these as the data interface before or alongside the browser link:
 - `ielts_practice_start_session`: create a cloud practice session and return its browser launch route when available.
 - `ielts_practice_recent_activity`: read recent activity for reflection or planning.
 - `ielts_practice_read_session`: inspect an owned session for review, not to replace the web practice UI.
-- `ielts_practice_submit_session`: use only when the user explicitly supplied answers and asked the Agent to submit through MCP; otherwise send the user to the browser practice route.
+- `ielts_practice_submit_session`: use only for objective reading/listening answer-key grading when the user explicitly supplied answers and asked the Agent to submit through MCP. Do not use it to trigger writing or speaking feedback.
 
-Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After a graded result, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.
+Use recent activity and learner events to identify patterns, but do not claim a weakness from one isolated answer. After an objective graded result or local open-ended review, record each meaningful outcome and complete the default cloud write flow in [learning-loop.md](learning-loop.md). The Agent owns remediation and review timing; IELTS Buddy does not create a separate adaptive session.

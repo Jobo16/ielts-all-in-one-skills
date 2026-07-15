@@ -28,7 +28,7 @@ The cloud is the authoritative event log, not the learning controller.
 3. Otherwise target the skill with the lowest supported mastery.
 4. With no evidence, use practice MCP data to suggest a diagnostic listening or reading practice, then include the IELTS Buddy browser route for doing it.
 5. Ask one task at a time and use hints before answers.
-6. Record the outcome immediately after grading.
+6. Record the outcome immediately after objective grading or local Agent review.
 7. End with one concrete next action; do not produce a dashboard unless asked.
 
 For local objective attempts:
@@ -42,7 +42,7 @@ python3 <skill-dir>/scripts/learning_store.py record-attempt \
   --correct false
 ```
 
-Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after grading rather than recreating the question UI locally. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
+Use stable IELTS Buddy question, session, or resource IDs as object IDs. Practice data can be read through MCP, but timed answering, listening playback, and full question interaction remain browser-first; record outcomes after objective grading or local Agent review rather than recreating the question UI locally. Persistent plans are managed only through `ielts_study_plans_*` and must not be copied into the learning-event store.
 
 ## Learning Policy
 
@@ -64,7 +64,7 @@ For an authenticated local Agent:
 
 1. Before deriving state, read the local `cloudCursor`, call `ielts_learning_pull_events` until `hasMore=false`, and import each response.
 2. Record a new event in the local mirror so an interrupted request cannot lose it.
-3. At the end of the current grading operation, run `outbox --limit 200` and send the returned `events` unchanged to `ielts_learning_push_events`.
+3. At the end of the current objective grading or local review operation, run `outbox --limit 200` and send the returned `events` unchanged to `ielts_learning_push_events`.
 4. After a successful response, run `ack` with every `acknowledgedEventId` returned by the server.
 5. Pull again before the next state-dependent decision so the local mirror receives the server cursor and events from other devices.
 

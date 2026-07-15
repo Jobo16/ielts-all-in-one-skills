@@ -26,7 +26,7 @@ Read only the data needed for the current session:
 4. With no evidence, run a short diagnostic: one listening or reading practice route plus one writing or speaking baseline prompt.
 5. Give one task at a time.
 6. Use hint-before-answer for stored answers.
-7. Record the outcome after grading.
+7. Record the outcome after objective grading or local Agent review.
 8. End with exactly one next action unless the user asks for a full plan.
 
 ## Adaptive Mix
