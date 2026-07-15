@@ -150,73 +150,73 @@ def item_rows(plan: dict[str, Any]) -> list[list[Any]]:
 def detail_block(item: dict[str, Any]) -> list[str]:
     q = normalize_spaces(item.get("question_number", item.get("q", "")))
     question = normalize_spaces(item.get("question", ""))
-    title = f"Q{q}: {question}" if q else question or "Reading item"
+    title = f"Q{q}: {question}" if q else question or "阅读题目"
     parts = [heading(title, 2)]
     if item.get("evidence"):
-        parts.append(text_paragraph("Evidence", bold=True))
+        parts.append(text_paragraph("证据", bold=True))
         parts.append(text_paragraph(item["evidence"]))
     if item.get("paraphrase_bridge"):
-        parts.append(text_paragraph("Paraphrase bridge", bold=True))
+        parts.append(text_paragraph("同义替换桥", bold=True))
         parts.append(text_paragraph(item["paraphrase_bridge"]))
     if item.get("trap"):
-        parts.append(text_paragraph("Trap / distractor", bold=True))
+        parts.append(text_paragraph("陷阱/干扰项", bold=True))
         parts.append(text_paragraph(item["trap"]))
     if item.get("why_correct"):
-        parts.append(text_paragraph("Why the correct answer works", bold=True))
+        parts.append(text_paragraph("正确答案为什么成立", bold=True))
         parts.append(text_paragraph(item["why_correct"]))
     if item.get("micro_drill"):
-        parts.append(text_paragraph("Micro-drill", bold=True))
+        parts.append(text_paragraph("微训练", bold=True))
         parts.append(text_paragraph(item["micro_drill"]))
     return parts
 
 
 def document_xml(plan: dict[str, Any]) -> str:
     body: list[str] = []
-    source_title = normalize_spaces(plan.get("source_title", "IELTS Reading"))
+    source_title = normalize_spaces(plan.get("source_title", "雅思阅读"))
     passage_title = normalize_spaces(plan.get("passage_title", ""))
     summary = normalize_spaces(plan.get("summary", ""))
     items = list_of_dicts(plan.get("items", []))
 
-    body.append(heading("IELTS Reading Evidence Map", 1))
-    body.append(text_paragraph(f"Source: {source_title}"))
+    body.append(heading("雅思阅读证据图", 1))
+    body.append(text_paragraph(f"来源：{source_title}"))
     if passage_title:
-        body.append(text_paragraph(f"Passage: {passage_title}"))
+        body.append(text_paragraph(f"文章：{passage_title}"))
     if summary:
         body.append(text_paragraph(summary))
-    body.append(text_paragraph(f"Reviewed items: {len(items)}", bold=True))
+    body.append(text_paragraph(f"复盘题目数：{len(items)}", bold=True))
 
     rows = item_rows(plan)
     if not rows:
-        rows = [["", "", "", "", "", "No review items supplied."]]
-    body.append(heading("Answer Evidence Map", 2))
+        rows = [["", "", "", "", "", "没有提供复盘题目。"]]
+    body.append(heading("答案证据图", 2))
     body.append(
         table_xml(
-            ["Q", "Type", "Your answer", "Correct", "Error type", "Evidence"],
+            ["题号", "题型", "你的答案", "正确答案", "错误类型", "证据"],
             rows,
             [600, 1500, 1300, 1300, 1700, 2960],
         )
     )
 
     body.append(page_break())
-    body.append(heading("Item Analysis", 1))
+    body.append(heading("逐题分析", 1))
     for item in items:
         body.extend(detail_block(item))
 
     drills = list_of_strings(plan.get("review_prompts", []))
     if drills:
         body.append(page_break())
-        body.append(heading("Review Prompts", 1))
+        body.append(heading("复习提示", 1))
         for idx, drill in enumerate(drills, start=1):
             body.append(text_paragraph(f"{idx}. {drill}"))
 
     vocabulary = list_of_dicts(plan.get("vocabulary", []))
     if vocabulary:
-        body.append(heading("Useful Vocabulary", 2))
+        body.append(heading("实用词汇", 2))
         vocab_rows = [
             [item.get("phrase", ""), item.get("meaning", ""), item.get("source_sentence", "")]
             for item in vocabulary
         ]
-        body.append(table_xml(["Phrase", "Meaning", "Source"], vocab_rows, [2200, 2800, 4360]))
+        body.append(table_xml(["词组", "含义", "来源句"], vocab_rows, [2200, 2800, 4360]))
 
     body.append("<w:sectPr><w:pgSz w:w=\"12240\" w:h=\"15840\"/><w:pgMar w:top=\"1440\" w:right=\"1440\" w:bottom=\"1440\" w:left=\"1440\"/></w:sectPr>")
     return (
@@ -279,7 +279,7 @@ def core_xml() -> str:
  xmlns:dcterms="http://purl.org/dc/terms/"
  xmlns:dcmitype="http://purl.org/dc/dcmitype/"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>IELTS Reading Evidence Map</dc:title>
+  <dc:title>雅思阅读证据图</dc:title>
   <dc:creator>reading-review</dc:creator>
   <dcterms:created xsi:type="dcterms:W3CDTF">{now}</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">{now}</dcterms:modified>
@@ -326,4 +326,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

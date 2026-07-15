@@ -24,7 +24,7 @@ Use this structure for every reviewed IELTS Task 2 document.
    - Overall
    - Each score may be a whole or half band; do not round criterion estimates to integers.
    - One or a few short evidence-based scoring notes.
-4. `To Reach Band 7.5 / 8.0`
+4. `冲刺 Band 7.5 / 8.0`
    - This is the only visible section title retained after the essay review.
    - Concise focus list.
    - Mention blockers preventing stable Band 7.5 first.
@@ -74,7 +74,7 @@ Use this structure for every reviewed IELTS Task 2 document.
 - For DOCX input, comments must be placed in the copied original essay paragraphs, not in newly appended duplicate essay text.
 - Do not anchor comments to prompt text, outline bullets, score sections, model essays, or other non-essay paragraphs.
 - If a non-empty `target` cannot be found inside the matched essay paragraph, fix the review plan instead of falling back to the whole paragraph.
-- Use English.
+- Use concise Simplified Chinese. Keep quoted English targets and corrected English phrases unchanged.
 - Keep comments short and teacher-like.
 - If a comment applies to a whole sentence because the issue is logic or task response, anchor it to the most problematic phrase or the first key phrase.
 
@@ -93,5 +93,5 @@ Use this structure for every reviewed IELTS Task 2 document.
 - Preserve the copied DOCX's original `word/document.xml` root namespace declarations and `mc:Ignorable` prefix list.
 - Do not add big visible section headings such as `Task`, `Reviewed Essay`, `Score`, or `Model Essay`.
 - Insert a page break before the score and feedback page.
-- Keep the score lines and `To Reach Band 7.5 / 8.0` together after that page break.
+- Keep the score lines and `冲刺 Band 7.5 / 8.0` together after that page break.
 - Insert another page break before the model essay.

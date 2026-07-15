@@ -209,12 +209,12 @@ def document_xml(plan: dict[str, Any], include_visual_facts: bool = False) -> tu
     body.append(page_break())
     scores = plan.get("scores", {})
     if isinstance(scores, dict):
-        for key in ["Task Achievement", "Coherence & Cohesion", "Lexical Resource", "Grammatical Range & Accuracy", "Overall"]:
+        for key in ["任务完成度 Task Achievement", "连贯与衔接 Coherence & Cohesion", "词汇资源 Lexical Resource", "语法多样性与准确性 Grammatical Range & Accuracy", "总分参考 Overall"]:
             if key in scores:
                 body.append(paragraph_xml([run_xml(f"{key}: ", bold=True), run_xml(str(scores[key]))]))
     for item in plan.get("score_explanation", []):
         body.append(paragraph_xml([run_xml(str(item))]))
-    body.append(heading("To Reach Band 7.5 / 8.0", 2))
+    body.append(heading("冲刺 Band 7.5 / 8.0", 2))
     for item in plan.get("focus_feedback", []):
         body.append(paragraph_xml([run_xml(str(item))]))
     body.append(page_break())
@@ -498,12 +498,12 @@ def review_tail_body_xml(plan: dict[str, Any], include_visual_facts: bool = Fals
     body.append(page_break())
     scores = plan.get("scores", {})
     if isinstance(scores, dict):
-        for key in ["Task Achievement", "Coherence & Cohesion", "Lexical Resource", "Grammatical Range & Accuracy", "Overall"]:
+        for key in ["任务完成度 Task Achievement", "连贯与衔接 Coherence & Cohesion", "词汇资源 Lexical Resource", "语法多样性与准确性 Grammatical Range & Accuracy", "总分参考 Overall"]:
             if key in scores:
                 body.append(paragraph_xml([run_xml(f"{key}: ", bold=True), run_xml(str(scores[key]))]))
     for item in plan.get("score_explanation", []):
         body.append(paragraph_xml([run_xml(str(item))]))
-    body.append(heading("To Reach Band 7.5 / 8.0", 2))
+    body.append(heading("冲刺 Band 7.5 / 8.0", 2))
     for item in plan.get("focus_feedback", []):
         body.append(paragraph_xml([run_xml(str(item))]))
     body.append(page_break())

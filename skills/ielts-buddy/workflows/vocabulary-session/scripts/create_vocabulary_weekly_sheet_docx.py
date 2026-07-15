@@ -32,20 +32,20 @@ def default_output(plan_path: Path) -> Path:
 
 
 def create(plan: dict[str, Any], output: Path) -> None:
-    doc = SimpleDocx("IELTS Vocabulary Weekly Sheet", "vocabulary-session")
-    doc.heading("IELTS Vocabulary Weekly Sheet", 1)
-    doc.paragraph(f"Week: {normalize_spaces(plan.get('week_title', 'Current week'))}")
-    doc.paragraph(f"Wordbook: {normalize_spaces(plan.get('wordbook', 'IELTS Vocabulary'))}")
+    doc = SimpleDocx("雅思词汇周复习表", "vocabulary-session")
+    doc.heading("雅思词汇周复习表", 1)
+    doc.paragraph(f"周次：{normalize_spaces(plan.get('week_title', '本周'))}")
+    doc.paragraph(f"词书：{normalize_spaces(plan.get('wordbook', '雅思词汇'))}")
     if plan.get("summary"):
         doc.paragraph(plan["summary"])
 
     stats = plan.get("stats", {})
     if isinstance(stats, dict) and stats:
-        doc.heading("Progress Snapshot", 2)
-        doc.table(["Metric", "Value"], [[key, value] for key, value in stats.items()], [3600, 5760])
+        doc.heading("进度概览", 2)
+        doc.table(["指标", "数值"], [[key, value] for key, value in stats.items()], [3600, 5760])
 
     words = dicts(plan.get("words", []))
-    doc.heading("Word Review Table", 2)
+    doc.heading("单词复习表", 2)
     rows = [
         [
             item.get("phrase", ""),
@@ -56,24 +56,24 @@ def create(plan: dict[str, Any], output: Path) -> None:
             item.get("example", ""),
         ]
         for item in words
-    ] or [["", "", "", "", "", "No words supplied."]]
-    doc.table(["Phrase", "Meaning", "State", "Last", "Next review", "Example"], rows, [1700, 1900, 1100, 900, 1500, 2260])
+    ] or [["", "", "", "", "", "没有提供单词。"]]
+    doc.table(["词组", "含义", "状态", "上次", "下次复习", "例句"], rows, [1700, 1900, 1100, 900, 1500, 2260])
 
     weak = dicts(plan.get("weak_words", []))
     due = dicts(plan.get("due_reviews", []))
     if weak or due:
         doc.page_break()
     if weak:
-        doc.heading("Weak Words", 1)
+        doc.heading("薄弱词", 1)
         doc.table(
-            ["Phrase", "Problem", "Fix"],
+            ["词组", "问题", "修正方式"],
             [[item.get("phrase", ""), item.get("problem", ""), item.get("fix", "")] for item in weak],
             [2200, 3360, 3800],
         )
     if due:
-        doc.heading("Next Due Reviews", 1)
+        doc.heading("下一批待复习", 1)
         doc.table(
-            ["Phrase", "Due", "Mode"],
+            ["词组", "到期时间", "模式"],
             [[item.get("phrase", ""), item.get("due_at", ""), item.get("mode", "")] for item in due],
             [3200, 2600, 3560],
         )
@@ -81,7 +81,7 @@ def create(plan: dict[str, Any], output: Path) -> None:
     prompts = strings(plan.get("practice_prompts", []))
     if prompts:
         doc.page_break()
-        doc.heading("Practice Prompts", 1)
+        doc.heading("练习提示", 1)
         for idx, item in enumerate(prompts, start=1):
             doc.paragraph(f"{idx}. {item}")
     doc.save(output)
@@ -103,4 +103,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

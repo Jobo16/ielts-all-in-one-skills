@@ -5,6 +5,8 @@ description: Coach IELTS Speaking from typed answers, transcripts, or IELTS Budd
 
 # Speaking Coach
 
+Default learner-facing coaching language is Simplified Chinese. Keep the learner's answer, corrected English sentences, natural versions, reusable chunks, and IELTS criterion names in English where needed.
+
 ## Core Rule
 
 Speaking feedback should protect fluency. Correct the problems that affect IELTS performance, not every minor slip.
@@ -40,12 +42,12 @@ If audio or ASR is unavailable, run typed speaking practice. Do not pretend to a
 Use a short structure:
 
 ```text
-Score estimate: <band or range>
-Strong: <one concrete point>
-Fix first: <one or two issues>
-Natural version: <rewritten answer or sentence>
-Reusable chunks: <chunks>
-Next question: <question>
+分数参考: <band or range>
+优点: <one concrete point>
+先改: <one or two issues>
+自然表达版本: <rewritten answer or sentence>
+可复用表达: <chunks>
+下一题: <question>
 ```
 
 Keep corrections to the top 3. Track recurring patterns across the session.
@@ -72,22 +74,22 @@ Deliver a validated Speaking Report `.docx` by default for a full Part 2 answer,
   "session_title": "Part 2: Describe a useful website",
   "part": "Part 2",
   "band_estimate": "6.5",
-  "overall_feedback": "The answer is clear, but examples need more development.",
+  "overall_feedback": "回答很清楚，但例子需要展开到结果或影响。",
   "criterion_scores": {
-    "Fluency and Coherence": {"score": "6.5", "note": "Mostly clear but some repetition."},
-    "Lexical Resource": {"score": "7", "note": "Good topic vocabulary."}
+    "流利度与连贯性 Fluency and Coherence": {"score": "6.5", "note": "整体清楚，但有少量重复。"},
+    "词汇资源 Lexical Resource": {"score": "7", "note": "话题词汇比较到位。"}
   },
   "answers": [
     {
       "question": "Describe a useful website.",
       "answer": "I often use a website for learning English...",
-      "feedback": "The topic is relevant, but the second example is underdeveloped.",
+      "feedback": "内容切题，但第二个例子没有展开到具体结果。",
       "natural_version": "I use this website almost every day because it gives me short, practical exercises.",
       "reusable_chunks": ["almost every day", "short, practical exercises"],
-      "focus": "Extend one example with a result."
+      "focus": "把一个例子补到结果或影响。"
     }
   ],
-  "recurring_patterns": ["Examples stop before the result."],
+  "recurring_patterns": ["例子经常停在过程，没有说结果。"],
   "next_questions": ["How has this website changed your study habits?"]
 }
 ```

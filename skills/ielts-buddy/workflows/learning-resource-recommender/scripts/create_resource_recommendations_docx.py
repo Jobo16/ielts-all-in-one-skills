@@ -32,17 +32,17 @@ def default_output(plan_path: Path) -> Path:
 
 
 def create(plan: dict[str, Any], output: Path) -> None:
-    doc = SimpleDocx("IELTS Resource Recommendations", "learning-resource-recommender")
-    doc.heading("IELTS Resource Recommendations", 1)
-    doc.paragraph(f"Goal: {normalize_spaces(plan.get('learner_goal', 'IELTS self-study'))}")
-    doc.paragraph(f"Focus: {normalize_spaces(plan.get('focus', ''))}")
-    doc.paragraph(f"Level: {normalize_spaces(plan.get('level', ''))}")
-    doc.paragraph(f"Time budget: {normalize_spaces(plan.get('time_budget', ''))}")
+    doc = SimpleDocx("雅思学习资源推荐", "learning-resource-recommender")
+    doc.heading("雅思学习资源推荐", 1)
+    doc.paragraph(f"目标：{normalize_spaces(plan.get('learner_goal', '雅思自学'))}")
+    doc.paragraph(f"重点：{normalize_spaces(plan.get('focus', ''))}")
+    doc.paragraph(f"水平：{normalize_spaces(plan.get('level', ''))}")
+    doc.paragraph(f"时间预算：{normalize_spaces(plan.get('time_budget', ''))}")
     if plan.get("rationale"):
         doc.paragraph(plan["rationale"])
 
     recommendations = dicts(plan.get("recommendations", []))
-    doc.heading("Recommended Resources", 2)
+    doc.heading("推荐资源", 2)
     rows = [
         [
             item.get("rank", ""),
@@ -52,24 +52,24 @@ def create(plan: dict[str, Any], output: Path) -> None:
             item.get("url", ""),
         ]
         for item in recommendations
-    ] or [["", "", "", "No resources supplied.", ""]]
-    doc.table(["Rank", "Resource", "Category", "Why it fits", "URL"], rows, [700, 2100, 1800, 3000, 1760])
+    ] or [["", "", "", "没有提供资源。", ""]]
+    doc.table(["排序", "资源", "分类", "适合原因", "URL"], rows, [700, 2100, 1800, 3000, 1760])
 
     doc.page_break()
-    doc.heading("How To Use Them", 1)
+    doc.heading("使用方法", 1)
     for item in recommendations:
-        doc.heading(f"{item.get('rank', '')}. {normalize_spaces(item.get('title', 'Resource'))}", 2)
+        doc.heading(f"{item.get('rank', '')}. {normalize_spaces(item.get('title', '资源'))}", 2)
         if item.get("how_to_use"):
-            doc.paragraph("How to use", bold=True)
+            doc.paragraph("怎么用", bold=True)
             doc.paragraph(item["how_to_use"])
         if item.get("bring_back"):
-            doc.paragraph("Bring back to the Agent", bold=True)
+            doc.paragraph("带回给 Agent", bold=True)
             doc.paragraph(item["bring_back"])
 
     weekly_plan = strings(plan.get("weekly_plan", []))
     if weekly_plan:
         doc.page_break()
-        doc.heading("Weekly Plan", 1)
+        doc.heading("一周计划", 1)
         for idx, item in enumerate(weekly_plan, start=1):
             doc.paragraph(f"{idx}. {item}")
     doc.save(output)
@@ -91,4 +91,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

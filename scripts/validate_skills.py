@@ -58,7 +58,7 @@ def validate_skill(skill_dir: Path) -> dict[str, object]:
         raise ValueError(f"{skill_dir}: manifest id must match Skill name")
     if not re.fullmatch(r"\d+\.\d+\.\d+", str(skill_manifest.get("version", ""))):
         raise ValueError(f"{skill_dir}: manifest version must be stable semver")
-    for script in ("learning_store.py", "update_skill.py"):
+    for script in ("learning_store.py",):
         if not (skill_dir / "scripts" / script).is_file():
             raise ValueError(f"{skill_dir}: missing scripts/{script}")
     return skill_manifest

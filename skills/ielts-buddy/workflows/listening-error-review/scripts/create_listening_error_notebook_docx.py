@@ -32,11 +32,11 @@ def default_output(plan_path: Path) -> Path:
 
 
 def create(plan: dict[str, Any], output: Path) -> None:
-    doc = SimpleDocx("IELTS Listening Error Notebook", "listening-error-review")
-    doc.heading("IELTS Listening Error Notebook", 1)
-    doc.paragraph(f"Source: {normalize_spaces(plan.get('source_title', 'IELTS Listening'))}")
+    doc = SimpleDocx("雅思听力错题本", "listening-error-review")
+    doc.heading("雅思听力错题本", 1)
+    doc.paragraph(f"来源：{normalize_spaces(plan.get('source_title', '雅思听力'))}")
     if plan.get("section_title"):
-        doc.paragraph(f"Section: {normalize_spaces(plan['section_title'])}")
+        doc.paragraph(f"部分：{normalize_spaces(plan['section_title'])}")
     if plan.get("summary"):
         doc.paragraph(plan["summary"])
 
@@ -51,20 +51,20 @@ def create(plan: dict[str, Any], output: Path) -> None:
             item.get("micro_drill", ""),
         ]
         for item in items
-    ] or [["", "", "", "", "", "No listening errors supplied."]]
-    doc.heading("Error Map", 2)
-    doc.table(["Q", "Your answer", "Correct", "Error type", "Replay target", "Micro-drill"], rows, [600, 1500, 1500, 1700, 2100, 1960])
+    ] or [["", "", "", "", "", "没有提供听力错题。"]]
+    doc.heading("错题地图", 2)
+    doc.table(["题号", "你的答案", "正确答案", "错误类型", "重听重点", "微训练"], rows, [600, 1500, 1500, 1700, 2100, 1960])
 
     doc.page_break()
-    doc.heading("Item Analysis", 1)
+    doc.heading("逐题分析", 1)
     for item in items:
         q = normalize_spaces(item.get("question_number", item.get("q", "")))
         doc.heading(f"Q{q}: {normalize_spaces(item.get('correct_answer', 'Listening item'))}", 2)
         for label, key in [
-            ("Transcript / cue", "transcript"),
-            ("Why it was missed", "cause"),
-            ("Replay target", "replay_target"),
-            ("Micro-drill", "micro_drill"),
+            ("原文/提示", "transcript"),
+            ("为什么错", "cause"),
+            ("重听重点", "replay_target"),
+            ("微训练", "micro_drill"),
         ]:
             if item.get(key):
                 doc.paragraph(label, bold=True)
@@ -73,15 +73,15 @@ def create(plan: dict[str, Any], output: Path) -> None:
     review_plan = strings(plan.get("review_plan", []))
     if review_plan:
         doc.page_break()
-        doc.heading("Review Plan", 1)
+        doc.heading("复习计划", 1)
         for idx, item in enumerate(review_plan, start=1):
             doc.paragraph(f"{idx}. {item}")
 
     vocabulary = dicts(plan.get("vocabulary", []))
     if vocabulary:
-        doc.heading("Useful Vocabulary", 2)
+        doc.heading("实用词汇", 2)
         doc.table(
-            ["Phrase", "Meaning", "Source"],
+            ["词组", "含义", "来源句"],
             [[item.get("phrase", ""), item.get("meaning", ""), item.get("source_sentence", "")] for item in vocabulary],
             [2200, 2600, 4560],
         )
@@ -89,7 +89,7 @@ def create(plan: dict[str, Any], output: Path) -> None:
     if items:
         text = " ".join(str(item.get("transcript", "")) for item in items)
         if text:
-            doc.paragraph(f"Transcript word count in reviewed snippets: {word_count(text)}", italic=True)
+            doc.paragraph(f"已复盘文本片段词数：{word_count(text)}", italic=True)
     doc.save(output)
 
 
@@ -109,4 +109,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

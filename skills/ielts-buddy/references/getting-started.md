@@ -1,6 +1,7 @@
 # Getting Started
 
-Use this guide when the learner asks how to use IELTS Buddy, what the Skill can do, or how to start after installation.
+Use this guide when the learner asks how to use IELTS Buddy, what the Skill can do, or how to start after adding it.
+Answer new Chinese IELTS learners in Simplified Chinese by default.
 
 ## What This Skill Does
 
@@ -20,11 +21,11 @@ If the user is new, ask for only one missing choice: target band, exam date, wea
 
 Offer these prompts directly:
 
-1. `Use $ielts-buddy to show me what I can do next for IELTS self-study.`
-2. `Use $ielts-buddy to make a 7-day IELTS plan for Band 7.0.`
-3. `Use $ielts-buddy to give me 10 vocabulary cards for today and avoid words I already studied.`
-4. `Use $ielts-buddy to recommend listening resources for B1-B2 IELTS learners.`
-5. `Use $ielts-buddy to explain which features need the web app and which work locally.`
+1. `使用 $ielts-buddy 看看我接下来雅思自学该做什么。`
+2. `使用 $ielts-buddy 给我做一个冲 Band 7.0 的 7 天雅思计划。`
+3. `使用 $ielts-buddy 给我今天 10 个单词卡，不要重复我已经学过的词。`
+4. `使用 $ielts-buddy 推荐适合 B1-B2 雅思学习者的听力资源。`
+5. `使用 $ielts-buddy 说明哪些功能需要网页，哪些可以本地完成。`
 
 ## Quick Wins
 

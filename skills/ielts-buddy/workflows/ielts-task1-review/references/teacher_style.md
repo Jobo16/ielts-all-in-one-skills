@@ -5,20 +5,20 @@ Use this guide after inspecting the visual prompt and before writing comments.
 ## Overall Marking Personality
 
 - Be short, direct, and practical.
-- Use English comments.
+- Use concise Simplified Chinese comments. Keep quoted targets, corrected phrases, and rewrites in English when they are the learning object.
 - Anchor comments to specific words or phrases.
 - Prioritize Task Achievement issues before style polishing.
 - Keep rewrites at a stable Band 7.5 standard: concise, formal, accurate, and comparison-driven.
 
 ## Common Task 1 Comment Types
 
-- Visual type: `Specify type: bar chart`, `line graph`, `table`, `process diagram`.
-- Data type: `mention proportions`, `use percentage`, `figure`, `category`.
-- Grammar: `Missing article`, `Plural`, `Grammar - every city`, `Use comma`.
-- Formality: `particularly (formal)`, `purchased (formal)`, `slightly informal`.
-- Repetition: `slightly repetitive`, `Repetitive phrasing`, `could be replaced with brackets`.
-- Overview: `This is stated in overview`, `I would recommend deleting this sentence`.
-- Comparison: `Consider using "that of"`, `respectively`, `twice as high as`.
+- Visual type: `图表类型要写具体：bar chart`, `line graph`, `table`, `process diagram`.
+- Data type: `要说明是比例`, `用 percentage`, `这里说 figure/category 更自然`.
+- Grammar: `缺冠词`, `名词复数`, `主谓不一致`, `这里加逗号`.
+- Formality: `particularly 更正式`, `purchased 更正式`, `稍微口语`.
+- Repetition: `有点重复`, `表达重复`, `可以用括号压缩`.
+- Overview: `这句已经在总览里说过`, `建议删掉这句`.
+- Comparison: `可以用 "that of"`, `respectively`, `twice as high as`.
 
 ## Rewrite Habits
 
@@ -42,10 +42,10 @@ Give a short score section first, then a concise focus list.
 Typical focus areas:
 
 ```text
-Eliminate small grammar errors: articles and plural forms.
-Avoid repetition: use figure, share, category, group.
-Use stronger comparison structures: that of, respectively, twice as high as.
-Be concise: do not repeat overview ideas.
+减少小语法错误：冠词、复数、主谓一致。
+减少重复：用 figure、share、category、group 替换重复名词。
+加强比较结构：that of、respectively、twice as high as。
+更简洁：不要重复总览里已经说过的内容。
 ```
 
 ## Model Answer Style

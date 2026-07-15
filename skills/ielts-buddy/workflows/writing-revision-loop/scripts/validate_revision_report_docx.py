@@ -49,13 +49,13 @@ def main() -> None:
 
     all_text = text_of(doc)
     for marker in [
-        "IELTS Writing Revision Report",
-        "Fix Check",
-        "Status",
-        "Original issue",
-        "Teacher note",
-        "Revised Answer",
-        "Next Rewrite Target",
+        "雅思写作二改报告",
+        "修改检查",
+        "状态",
+        "原问题",
+        "教师备注",
+        "修改后答案",
+        "下一轮改写目标",
     ]:
         if marker not in all_text:
             raise SystemExit(f"Missing required revision report text: {marker}")
@@ -95,4 +95,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -11,11 +11,11 @@
       "comments": [
         {
           "target": "graph",
-          "text": "Specify type: bar chart"
+          "text": "图表类型要写具体：bar chart"
         },
         {
           "target": "learning habits",
-          "text": "Be more specific"
+          "text": "这里要更具体"
         }
       ],
       "rewrite": "The bar chart illustrates the proportions of students at three language schools who mainly used four different study methods in 2025."
@@ -25,7 +25,7 @@
       "comments": [
         {
           "target": "not very popular",
-          "text": "Use more precise data language"
+          "text": "用更精确的数据表达"
         }
       ],
       "rewrite": "Overall, online videos were the most popular method in every school, whereas speaking clubs accounted for the smallest shares."
@@ -35,30 +35,30 @@
       "comments": [
         {
           "target": "the latter",
-          "text": "Use comma or restructure"
+          "text": "加逗号或重组句子"
         },
         {
           "target": "barely",
-          "text": "slightly informal"
+          "text": "稍微口语"
         }
       ],
       "rewrite": "The figures for printed textbooks in School B and School C were lower, at approximately 25% and just under 20%, respectively."
     }
   ],
   "scores": {
-    "Task Achievement": "6.5",
-    "Coherence & Cohesion": "7",
-    "Lexical Resource": "6.5",
-    "Grammatical Range & Accuracy": "6.5",
-    "Overall": "6.5"
+    "任务完成度 Task Achievement": "6.5",
+    "连贯与衔接 Coherence & Cohesion": "7",
+    "词汇资源 Lexical Resource": "6.5",
+    "语法多样性与准确性 Grammatical Range & Accuracy": "6.5",
+    "总分参考 Overall": "6.5"
   },
   "score_explanation": [
-    "The main trends are clear, but some wording is general and a few data descriptions need to be more precise.",
-    "Small grammar errors with articles and comparison structures prevent a secure Band 7."
+    "主要趋势清楚，但部分表达偏泛，少数数据描述还需要更精确。",
+    "冠词和比较结构上的小错误会影响稳定 Band 7。"
   ],
   "focus_feedback": [
-    "To reach a secure Band 7.5, eliminate small article and plural errors and keep comparisons concise.",
-    "To move toward 8.0, select only the most important data and use flexible comparison structures such as respectively and that of."
+    "要稳定到 Band 7.5，先减少冠词、复数等小语法错误，并保持比较表达简洁。",
+    "要继续冲 8.0，重点筛选最重要的数据，并灵活使用 respectively、that of 等比较结构。"
   ],
   "model_answer": [
     "The bar chart compares the proportions of students at three language schools who mainly used online videos, mobile vocabulary apps, printed textbooks, or speaking clubs in 2025.",

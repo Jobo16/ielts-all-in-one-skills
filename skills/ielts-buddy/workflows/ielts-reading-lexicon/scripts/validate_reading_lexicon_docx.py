@@ -110,7 +110,7 @@ def main() -> None:
         comments = ET.fromstring(comments_xml) if comments_xml else None
 
     output_text = text_of(doc)
-    for marker in ["IELTS Reading Lexicon", "Core Terms", "Usage Notes", "Review Prompts"]:
+    for marker in ["雅思阅读词汇手册", "核心词汇", "用法说明", "复习提示"]:
         if marker not in output_text:
             raise SystemExit(f"Missing required lexicon section: {marker}")
 

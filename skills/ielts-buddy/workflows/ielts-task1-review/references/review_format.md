@@ -26,7 +26,7 @@ Use this structure for every reviewed IELTS Academic Task 1 document.
    - Grammatical Range & Accuracy
    - Overall
    - Each score may be a whole or half band; do not round criterion estimates to integers.
-5. `To Reach Band 7.5 / 8.0`
+5. `冲刺 Band 7.5 / 8.0`
    - This is the only visible section title retained after the answer review.
    - Keep this on the same page as the score lines.
    - Mention blockers preventing stable Band 7.5 first.
@@ -60,7 +60,7 @@ Use this structure for every reviewed IELTS Academic Task 1 document.
 - For DOCX input, comments must be placed in the copied original answer paragraphs, not in newly appended duplicate answer text.
 - Do not anchor comments to prompt text, image captions, score sections, model answers, or other non-answer paragraphs.
 - If a non-empty `target` cannot be found inside the matched answer paragraph, fix the review plan instead of falling back to the whole paragraph.
-- Use English.
+- Use concise Simplified Chinese. Keep quoted English targets and corrected English phrases unchanged.
 - Mark Task Achievement problems early: wrong chart type, wrong units, missing overview, inaccurate values, or poor key feature selection.
 
 ## Font And Pagination Rules
@@ -70,7 +70,7 @@ Use this structure for every reviewed IELTS Academic Task 1 document.
 - Do not include `Visual Facts` in the reviewed DOCX unless specifically requested.
 - Do not add big visible section headings such as `Task`, `Reviewed Answer`, `Score`, or `Model Answer`.
 - Insert a page break before the score and feedback page.
-- Keep the score lines and `To Reach Band 7.5 / 8.0` together.
+- Keep the score lines and `冲刺 Band 7.5 / 8.0` together.
 - Insert another page break before the model answer.
 
 ## Cleanup Rules

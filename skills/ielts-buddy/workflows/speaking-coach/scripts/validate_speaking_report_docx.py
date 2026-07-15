@@ -44,7 +44,7 @@ def main() -> None:
         doc_xml = zf.read("word/document.xml").decode("utf-8")
         doc = ET.fromstring(doc_xml)
     text = text_of(doc)
-    for marker in ["IELTS Speaking Report", "Band estimate", "Answer Review", "Natural version", "Reusable chunks"]:
+    for marker in ["雅思口语反馈报告", "分数参考", "回答复盘", "自然表达版本", "可复用表达"]:
         if marker not in text:
             raise SystemExit(f"Missing required text: {marker}")
     if FONT not in doc_xml:
@@ -65,4 +65,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

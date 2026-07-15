@@ -160,55 +160,55 @@ def new_issue_rows(plan: dict[str, Any]) -> list[list[str]]:
 
 def document_xml(plan: dict[str, Any]) -> str:
     body: list[str] = []
-    task_type = normalize_spaces(plan.get("task_type", "IELTS Writing"))
+    task_type = normalize_spaces(plan.get("task_type", "雅思写作"))
     prompt = normalize_spaces(plan.get("prompt", ""))
     original_band = normalize_spaces(plan.get("original_band", ""))
     revised_band = normalize_spaces(plan.get("revised_band", ""))
 
-    body.append(heading("IELTS Writing Revision Report", 1))
-    body.append(text_paragraph(f"Task: {task_type}"))
+    body.append(heading("雅思写作二改报告", 1))
+    body.append(text_paragraph(f"任务：{task_type}"))
     if prompt:
-        body.append(text_paragraph(f"Prompt: {prompt}"))
+        body.append(text_paragraph(f"题目：{prompt}"))
     if original_band or revised_band:
-        body.append(text_paragraph(f"Band movement: {original_band or 'N/A'} → {revised_band or 'N/A'}", bold=True))
+        body.append(text_paragraph(f"分数变化参考：{original_band or 'N/A'} → {revised_band or 'N/A'}", bold=True))
     judgement = normalize_spaces(plan.get("overall_judgement", ""))
     if judgement:
         body.append(text_paragraph(judgement))
 
-    body.append(heading("Fix Check", 2))
+    body.append(heading("修改检查", 2))
     rows = fix_rows(plan)
     if not rows:
-        rows = [["Unspecified", "No original issue supplied", "", "Add fix-check items before final delivery."]]
-    body.append(table_xml(["Status", "Original issue", "Evidence", "Teacher note"], rows, [1500, 2600, 2600, 2660]))
+        rows = [["未指定", "没有提供原问题", "", "交付前补充修改检查项。"]]
+    body.append(table_xml(["状态", "原问题", "证据", "教师备注"], rows, [1500, 2600, 2600, 2660]))
 
     score_movement = score_rows(plan.get("criterion_scores", {}))
     if score_movement:
-        body.append(heading("Score Movement", 2))
-        body.append(table_xml(["Criterion", "Before", "After", "Reason"], score_movement, [2400, 1200, 1200, 4560]))
+        body.append(heading("分数变化参考", 2))
+        body.append(table_xml(["维度", "修改前", "修改后", "原因"], score_movement, [2400, 1200, 1200, 4560]))
 
     issues = new_issue_rows(plan)
     if issues:
-        body.append(heading("New Issues", 2))
-        body.append(table_xml(["Issue", "Evidence", "Fix"], issues, [2400, 3360, 3600]))
+        body.append(heading("新问题", 2))
+        body.append(table_xml(["问题", "证据", "修改建议"], issues, [2400, 3360, 3600]))
 
     body.append(page_break())
-    body.append(heading("Revised Answer", 2))
+    body.append(heading("修改后答案", 2))
     revised = list_of_strings(plan.get("revised_essay", []))
     if revised:
         for paragraph in revised:
             body.append(text_paragraph(paragraph))
         body.append(text_paragraph(f"({word_count(' '.join(revised))} words)", italic=True))
     else:
-        body.append(text_paragraph("No revised answer supplied."))
+        body.append(text_paragraph("未提供修改后答案。"))
 
     body.append(page_break())
-    body.append(heading("Next Rewrite Target", 2))
+    body.append(heading("下一轮改写目标", 2))
     target = normalize_spaces(plan.get("next_rewrite_target", ""))
-    body.append(text_paragraph(target or "Revise one paragraph using the unresolved fix-check items above.", bold=True))
+    body.append(text_paragraph(target or "根据上方未解决的修改项，重写一个段落。", bold=True))
 
     drills = list_of_strings(plan.get("micro_drills", []))
     if drills:
-        body.append(heading("Micro Drills", 2))
+        body.append(heading("微训练", 2))
         for idx, drill in enumerate(drills, start=1):
             body.append(text_paragraph(f"{idx}. {drill}"))
 
@@ -273,7 +273,7 @@ def core_xml() -> str:
  xmlns:dcterms="http://purl.org/dc/terms/"
  xmlns:dcmitype="http://purl.org/dc/dcmitype/"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>IELTS Writing Revision Report</dc:title>
+  <dc:title>雅思写作二改报告</dc:title>
   <dc:creator>writing-revision-loop</dc:creator>
   <dcterms:created xsi:type="dcterms:W3CDTF">{now}</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">{now}</dcterms:modified>
@@ -321,4 +321,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

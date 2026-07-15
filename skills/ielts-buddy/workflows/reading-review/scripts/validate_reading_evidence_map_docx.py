@@ -49,13 +49,13 @@ def main() -> None:
 
     all_text = text_of(doc)
     for marker in [
-        "IELTS Reading Evidence Map",
-        "Answer Evidence Map",
-        "Item Analysis",
-        "Evidence",
-        "Paraphrase bridge",
-        "Trap / distractor",
-        "Error type",
+        "雅思阅读证据图",
+        "答案证据图",
+        "逐题分析",
+        "证据",
+        "同义替换桥",
+        "陷阱/干扰项",
+        "错误类型",
     ]:
         if marker not in all_text:
             raise SystemExit(f"Missing required evidence-map text: {marker}")
@@ -92,4 +92,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

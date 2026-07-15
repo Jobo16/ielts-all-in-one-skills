@@ -49,14 +49,14 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
    - Use sentence-level units when problems are local.
    - Use paragraph-level units when logic, task response, or coherence needs bigger repair.
 5. Add teacher-style comments.
-   - Comments must be short, English, practical, and anchored to specific words or phrases.
+   - Comments must be short, Simplified Chinese, practical, and anchored to specific English words or phrases.
    - A non-empty comment target must match text inside the selected student essay paragraph; do not fall back to prompt, outline, or the whole wrong paragraph.
-   - Prefer concrete notes: `informal`, `repetition`, `unnatural`, `could be more concise`, `Careful with articles`, `Off-topic`, `This is vague`.
+   - Prefer concrete notes: `偏口语`, `重复`, `不自然`, `可以更简洁`, `注意冠词`, `偏题`, `这里太笼统`.
 6. Add italic rewrites after the relevant original unit.
    - Rewrites should be concise, formal, natural, and at a stable Band 7.5 standard.
    - Keep rewrites close to the student's intended meaning; avoid making local fixes sound like an over-polished Band 9 sample.
 7. Score the student's original essay strictly using `references/scoring_guide.md`.
-   - Score Task Response, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy, and estimated overall band.
+   - Score with bilingual learner-facing labels: 任务回应 Task Response, 连贯与衔接 Coherence & Cohesion, 词汇资源 Lexical Resource, 语法多样性与准确性 Grammatical Range & Accuracy, and 总分参考 Overall.
    - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original essay sits between adjacent scoring anchors; do not force criterion scores to integers.
    - Do this before giving improvement advice.
 8. Give concise Band 7.5 / 8.0-oriented feedback.
@@ -86,7 +86,7 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
    - Use `Cyber Esme` as the Word comment author.
    - Do not add big visible section headings such as `Task`, `Reviewed Essay`, `Score`, or `Model Essay`.
    - Preserve the original `word/document.xml` root namespace declarations and `mc:Ignorable`; do not leave undeclared prefixes such as `w14`, `w15`, `w16*`, or `wp14`.
-   - Insert a page break before the score and feedback page; keep the score lines and `To Reach Band 7.5 / 8.0` together; insert another page break before the model essay.
+   - Insert a page break before the score and feedback page; keep the score lines and `冲刺 Band 7.5 / 8.0` together; insert another page break before the model essay.
    - Never overwrite the original essay unless explicitly requested.
 11. Clean up temporary byproducts after a successful review.
    - Delete temporary review plan files such as `review_plan_c17t3.json`.
@@ -100,7 +100,7 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
 - `references/review_format.md`: canonical reviewed document structure.
 - `scripts/extract_task2_input.py`: extract prompt, optional outline, and student essay from a Task 2 DOCX; it also protects against accidental leftover reviewed content.
 - `scripts/create_review_docx.py`: create a reviewed DOCX from a JSON review plan; DOCX input is copied first, comments are anchored into extracted student essay paragraphs, and score/model sections are appended.
-- `scripts/validate_review_docx.py`: verify comments, italic rewrites, student-essay paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, score lines, retained `To Reach Band 7.5 / 8.0` title, removed old headings, and model essay length/four-paragraph structure.
+- `scripts/validate_review_docx.py`: verify comments, italic rewrites, student-essay paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, score lines, retained `冲刺 Band 7.5 / 8.0` title, removed old headings, and model essay length/four-paragraph structure.
 
 ## JSON Review Plan For DOCX Creation
 
@@ -113,19 +113,19 @@ When using `scripts/create_review_docx.py`, first produce a JSON file with this 
   "review_units": [
     {
       "original": "Student sentence or paragraph.",
-      "comments": [{"target": "specific phrase", "text": "Short teacher-style comment"}],
+      "comments": [{"target": "specific phrase", "text": "中文短批注"}],
       "rewrite": "Italic teacher-style improvement."
     }
   ],
   "scores": {
-    "Task Response": "6.5",
-    "Coherence & Cohesion": "7",
-    "Lexical Resource": "6.5",
-    "Grammatical Range & Accuracy": "6.5",
-    "Overall": "6.5"
+    "任务回应 Task Response": "6.5",
+    "连贯与衔接 Coherence & Cohesion": "7",
+    "词汇资源 Lexical Resource": "6.5",
+    "语法多样性与准确性 Grammatical Range & Accuracy": "6.5",
+    "总分参考 Overall": "6.5"
   },
-  "score_explanation": ["Short evidence-based scoring note."],
-  "focus_feedback": ["Focus on grammar accuracy and natural collocations."],
+  "score_explanation": ["基于原文证据的简短中文评分说明。"],
+  "focus_feedback": ["优先修正语法准确性和自然搭配。"],
   "model_essay": [
     "Paragraph 1: introduction with paraphrase and position.",
     "Paragraph 2: body paragraph 1.",

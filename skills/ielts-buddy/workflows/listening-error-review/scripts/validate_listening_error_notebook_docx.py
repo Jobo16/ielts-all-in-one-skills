@@ -46,7 +46,7 @@ def main() -> None:
         doc_xml = zf.read("word/document.xml").decode("utf-8")
         doc = ET.fromstring(doc_xml)
     text = text_of(doc)
-    for marker in ["IELTS Listening Error Notebook", "Error Map", "Item Analysis", "Replay target", "Micro-drill"]:
+    for marker in ["雅思听力错题本", "错题地图", "逐题分析", "重听重点", "微训练"]:
         if marker not in text:
             raise SystemExit(f"Missing required text: {marker}")
     tables = len(list(doc.iter(qn("tbl"))))
@@ -71,4 +71,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

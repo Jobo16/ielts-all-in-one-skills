@@ -5,6 +5,8 @@ description: Extract high-value IELTS Reading vocabulary from a DOCX reading pas
 
 # IELTS Reading Lexicon
 
+Default learner-facing notes, comments, section titles, and review prompts are Simplified Chinese. Keep extracted phrases, source sentences, and IELTS-style example sentences in English.
+
 ## Core Rule
 
 Treat the source reading passage as the authority. Extract phrases that appear verbatim in the DOCX passage, then explain why they matter for IELTS Reading and academic English. Do not use Markdown as the deliverable.
@@ -65,7 +67,7 @@ Create a JSON file with this shape:
 
 ```json
 {
-  "title": "IELTS Reading Lexicon",
+  "title": "雅思阅读词汇手册",
   "source_title": "The title of the reading passage",
   "passage_paragraph_indices": [1, 2, 3, 4, 5],
   "terms": [
@@ -75,14 +77,14 @@ Create a JSON file with this shape:
       "category": "academic phrase",
       "band_value": "high",
       "meaning": "中文释义，贴合原文语境",
-      "usage": "Short note explaining how it works in the passage.",
-      "expansion": ["related form", "useful collocation"],
+      "usage": "说明它在原句中的作用，以及为什么适合雅思阅读积累。",
+      "expansion": ["相关形式", "可复用搭配"],
       "example": "A natural IELTS-style example sentence.",
       "source_sentence": "The full source sentence containing the phrase."
     }
   ],
   "review_prompts": [
-    "Use one phrase to describe a cause-and-effect relationship in the passage."
+    "用其中一个词组复述原文里的因果关系。"
   ]
 }
 ```

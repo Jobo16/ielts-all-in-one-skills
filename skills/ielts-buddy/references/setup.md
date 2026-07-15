@@ -1,32 +1,30 @@
 # Setup
 
+Use this guide only for configuring the optional IELTS Buddy MCP service after the Skill is already added through the user's host client or SkillHub. This Skill contains runtime guidance and local learning workflow scripts; it does not replace its own package.
+
+## External Service
+
 IELTS Buddy exposes one OAuth-protected streamable HTTP MCP server:
 
 ```text
 https://ieltsbuddy.igocn.cn/mcp
 ```
 
-OAuth discovery and dynamic client registration are supported. Do not request a `client_id`, `client_secret`, access token, or refresh token from the user.
+OAuth discovery and dynamic client registration are supported. Do not request a `client_id`, `client_secret`, access token, refresh token, password, API key, private key, or browser cookie from the user.
 
-## Install The Skill
+## What Requires MCP
 
-Clone the pinned release:
+Use the MCP service for:
 
-```sh
-git clone --depth 1 --branch v0.2.0 https://github.com/Jobo16/ielts-skills.git
-```
+- authenticated learning events and cloud progress;
+- course routes and route progress;
+- question-bank metadata and practice history;
+- vocabulary wordbook progress and review write-back;
+- browser-first links for practice, mock tests, listening playback, and web learning tools.
 
-Install the complete `skills/ielts-buddy` directory with the bundled installer. It records the installed version outside the Skill directory and initializes the local learning database.
+Without MCP, continue with local workflows based on user-provided essays, DOCX files, reading passages, listening transcripts, answers, and study preferences.
 
-## Codex
-
-Install the Skill:
-
-```sh
-python3 ielts-skills/skills/ielts-buddy/scripts/update_skill.py install \
-  --source ielts-skills/skills/ielts-buddy \
-  --target "$HOME/.codex/skills/ielts-buddy"
-```
+## Codex MCP Configuration
 
 Add this to the Codex MCP configuration:
 
@@ -35,43 +33,22 @@ Add this to the Codex MCP configuration:
 url = "https://ieltsbuddy.igocn.cn/mcp"
 ```
 
-Then authenticate:
+Then authenticate through the client:
 
 ```sh
 codex mcp login ielts-buddy
 ```
 
-## Claude Code
+## Claude Code MCP Configuration
 
 ```sh
-python3 ielts-skills/skills/ielts-buddy/scripts/update_skill.py install \
-  --source ielts-skills/skills/ielts-buddy \
-  --target "$HOME/.claude/skills/ielts-buddy"
 claude mcp add --scope user --transport http ielts-buddy "https://ieltsbuddy.igocn.cn/mcp"
 claude mcp login ielts-buddy
 ```
 
-## Update
-
-Check at most once every 24 hours unless the user explicitly asks to refresh:
-
-```sh
-python3 <installed-skill>/scripts/update_skill.py check
-```
-
-When `updateAvailable=true`, summarize the version change and ask for confirmation. After confirmation:
-
-```sh
-python3 <installed-skill>/scripts/update_skill.py apply
-```
-
-Never run `apply` automatically. The updater accepts only stable semantic versions, downloads over HTTPS, verifies the service-provided SHA-256, validates the package, and atomically replaces the Skill. Learning data remains under `~/.ielts-buddy`.
-
-If `supported=false`, pause remote write operations until the Skill is updated. If `packageReady=false`, do not bypass the updater or install from `main`; explain that the stable release package is not available yet.
-
 ## Other Clients
 
-Create an MCP server named `ielts-buddy`, select streamable HTTP, use the URL above, and choose OAuth or browser authorization. Import this Skill as persistent agent guidance when the client supports `SKILL.md`; otherwise use its rules or custom-instruction mechanism.
+Create an MCP server named `ielts-buddy`, select streamable HTTP, use the URL above, and choose OAuth or browser authorization.
 
 ## Troubleshooting
 
@@ -80,4 +57,10 @@ Create an MCP server named `ielts-buddy`, select streamable HTTP, use the URL ab
 - Missing scope: reauthorize so the client can request the capability's current scopes.
 - Web-only capability: open the corresponding route from `web-workspace.md`.
 
-When the user explicitly asks for IELTS Buddy data or an IELTS Buddy action, do not substitute a general web search while setup is incomplete. Explain that the remote step is paused, provide the appropriate setup command, and continue after the MCP connection is available.
+When the user explicitly asks for IELTS Buddy data or an IELTS Buddy action, do not substitute a general web search while setup is incomplete. Explain that the remote step is paused, provide the appropriate MCP configuration or OAuth step, and continue with local workflows when possible.
+
+## Safety Disclosure
+
+This Skill may create local DOCX files and maintain a local SQLite learning mirror under `~/.ielts-buddy` unless the user configures another local data directory. It should read only files the user provides or explicitly places in scope. It must not request or inspect passwords, private keys, API keys, client secrets, access tokens, browser cookies, or unrelated local directories.
+
+本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数参考、批改和学习建议仅供备考学习使用，不等同于官方成绩。

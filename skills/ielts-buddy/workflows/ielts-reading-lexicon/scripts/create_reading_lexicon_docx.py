@@ -325,24 +325,24 @@ def lexicon_body_xml(plan: dict[str, Any], include_initial_break: bool) -> str:
     if include_initial_break:
         body.append(page_break())
 
-    title = term_value(plan, "title") or "IELTS Reading Lexicon"
+    title = term_value(plan, "title") or "雅思阅读词汇手册"
     source_title = term_value(plan, "source_title", "passage_title")
     body.append(paragraph_xml([run_xml(title, bold=True, color="1F4E79", size=36)], style="Title"))
     if source_title:
         body.append(paragraph_xml([run_xml(source_title, italic=True, color="555555")]))
-    body.append(paragraph_xml([run_xml(f"{len(terms)} high-value passage items", bold=True)]))
+    body.append(paragraph_xml([run_xml(f"{len(terms)} 个高价值篇章词组", bold=True)]))
 
-    rows = [["Phrase", "Meaning", "Why It Matters"]]
+    rows = [["词组", "含义", "为什么重要"]]
     for term in terms:
         rows.append([
             phrase_of(term),
             short_text(term_value(term, "meaning", "meaning_zh", "definition"), 120),
             short_text(term_value(term, "usage", "note", "why"), 140),
         ])
-    body.append(heading("Core Terms", 2))
+    body.append(heading("核心词汇", 2))
     body.append(table_xml(rows))
 
-    body.append(heading("Usage Notes", 2))
+    body.append(heading("用法说明", 2))
     for index, term in enumerate(terms, start=1):
         phrase = phrase_of(term)
         part = term_value(term, "part_of_speech", "pos")
@@ -352,22 +352,22 @@ def lexicon_body_xml(plan: dict[str, Any], include_initial_break: bool) -> str:
         body.append(paragraph_xml([run_xml(f"{index}. {phrase}", bold=True, color="1F4E79"), run_xml(f" ({meta})" if meta else "", italic=True)], keep_next=True))
         meaning = term_value(term, "meaning", "meaning_zh", "definition")
         if meaning:
-            body.append(paragraph_xml([run_xml("Meaning: ", bold=True), run_xml(meaning)]))
+            body.append(paragraph_xml([run_xml("含义：", bold=True), run_xml(meaning)]))
         usage = term_value(term, "usage", "note", "why")
         if usage:
-            body.append(paragraph_xml([run_xml("Usage: ", bold=True), run_xml(usage)]))
+            body.append(paragraph_xml([run_xml("用法：", bold=True), run_xml(usage)]))
         expansion = expansion_text(term)
         if expansion:
-            body.append(paragraph_xml([run_xml("Expansion: ", bold=True), run_xml(expansion)]))
+            body.append(paragraph_xml([run_xml("拓展：", bold=True), run_xml(expansion)]))
         example = term_value(term, "example")
         if example:
-            body.append(paragraph_xml([run_xml("Example: ", bold=True), run_xml(example, italic=True)]))
+            body.append(paragraph_xml([run_xml("例句：", bold=True), run_xml(example, italic=True)]))
         source = term_value(term, "source_sentence", "source")
         if source:
-            body.append(paragraph_xml([run_xml("Source: ", bold=True), run_xml(short_text(source, 260), color="555555")]))
+            body.append(paragraph_xml([run_xml("来源：", bold=True), run_xml(short_text(source, 260), color="555555")]))
 
     body.append(page_break())
-    body.append(heading("Review Prompts", 2))
+    body.append(heading("复习提示", 2))
     for index, prompt in enumerate(review_prompts(plan, terms), start=1):
         body.append(paragraph_xml([run_xml(f"{index}. ", bold=True), run_xml(prompt)]))
     return "".join(body)
@@ -431,7 +431,7 @@ def core_xml() -> str:
  xmlns:dcterms="http://purl.org/dc/terms/"
  xmlns:dcmitype="http://purl.org/dc/dcmitype/"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <dc:title>IELTS Reading Lexicon</dc:title>
+  <dc:title>雅思阅读词汇手册</dc:title>
   <dc:creator>ielts-reading-lexicon</dc:creator>
   <dcterms:created xsi:type="dcterms:W3CDTF">{now}</dcterms:created>
   <dcterms:modified xsi:type="dcterms:W3CDTF">{now}</dcterms:modified>

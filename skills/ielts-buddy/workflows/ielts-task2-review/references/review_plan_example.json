@@ -6,11 +6,11 @@
       "comments": [
         {
           "target": "very important",
-          "text": "Try to be more precise"
+          "text": "这里要更精确"
         },
         {
           "target": "also important",
-          "text": "This sounds repetitive"
+          "text": "表达重复"
         }
       ],
       "rewrite": "Some people argue that practical skills should receive greater attention at school, while others believe academic subjects remain more valuable."
@@ -20,11 +20,11 @@
       "comments": [
         {
           "target": "have reasons",
-          "text": "Slightly vague"
+          "text": "有点笼统"
         },
         {
           "target": "better",
-          "text": "Use a more academic comparison"
+          "text": "换成更学术的比较表达"
         }
       ],
       "rewrite": "In my view, although academic subjects are essential, practical skills deserve more emphasis because they prepare students for everyday and professional challenges."
@@ -34,26 +34,26 @@
       "comments": [
         {
           "target": "managing money",
-          "text": "Good example"
+          "text": "例子有效"
         }
       ],
       "rewrite": "For example, learning basic cooking and financial management can help young people become more independent."
     }
   ],
   "scores": {
-    "Task Response": "6.5",
-    "Coherence & Cohesion": "6.5",
-    "Lexical Resource": "6.5",
-    "Grammatical Range & Accuracy": "6.5",
-    "Overall": "6.5"
+    "任务回应 Task Response": "6.5",
+    "连贯与衔接 Coherence & Cohesion": "6.5",
+    "词汇资源 Lexical Resource": "6.5",
+    "语法多样性与准确性 Grammatical Range & Accuracy": "6.5",
+    "总分参考 Overall": "6.5"
   },
   "score_explanation": [
-    "The position is relevant, but the support is still quite general.",
-    "Vocabulary is clear, but several phrases are repetitive or vague."
+    "立场切题，但支撑仍然偏泛。",
+    "词汇表达清楚，但有几处短语重复或笼统。"
   ],
   "focus_feedback": [
-    "To reach a secure Band 7.5, develop each main idea with clearer explanation and a specific example.",
-    "To move toward 8.0, use more flexible academic collocations and make topic vocabulary more precise."
+    "要稳定到 Band 7.5，每个主体观点都需要更清楚的解释和具体例子。",
+    "要继续冲 8.0，使用更灵活的学术搭配，并让话题词汇更精确。"
   ],
   "model_essay": [
     "There is ongoing debate about whether schools should place greater emphasis on practical skills or traditional academic subjects. While academic learning remains essential for intellectual development and future study, I believe practical skills should also receive more attention because they prepare students for real-life challenges.",

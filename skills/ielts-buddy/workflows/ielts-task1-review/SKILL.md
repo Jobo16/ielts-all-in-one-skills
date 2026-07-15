@@ -52,13 +52,13 @@ Use these references in order:
    - Use sentence-level units for grammar, articles, plural forms, data phrasing, collocation, and formal wording.
    - Use paragraph-level units for overview errors, poor grouping, data misreading, map/process sequencing, or missing comparisons.
 6. Add teacher-style comments.
-   - Use short English comments anchored to specific words or phrases.
-   - Use comments like `Specify type: bar chart`, `mention proportions`, `slightly repetitive`, `formal`, `Use comma`, `This is stated in overview`.
+   - Use short Simplified Chinese comments anchored to specific English words or phrases.
+   - Use comments like `图表类型要写具体：bar chart`, `要说明是比例`, `有点重复`, `更正式`, `这里加逗号`, `这句已经在总览里说过`.
 7. Add italic rewrites after relevant units.
    - Rewrites must be concise, formal, data-accurate, and at a stable Band 7.5 standard.
    - Keep rewrites learnable and close to the student's intended meaning; do not turn local fixes into over-complex Band 9 wording.
 8. Score the student's original answer strictly using `references/scoring_guide.md`.
-   - Score Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy, and estimated overall band.
+   - Score with bilingual learner-facing labels: 任务完成度 Task Achievement, 连贯与衔接 Coherence & Cohesion, 词汇资源 Lexical Resource, 语法多样性与准确性 Grammatical Range & Accuracy, and 总分参考 Overall.
    - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original answer sits between adjacent scoring anchors; do not force criterion scores to integers.
 9. Give concise Band 7.5 / 8.0-oriented feedback.
    - Mention blockers preventing stable Band 7.5 first.
@@ -86,7 +86,7 @@ Use these references in order:
    - Do not include a visible `Visual Facts` section unless the user asks for it or `--include-visual-facts` is intentionally used.
    - Do not add big visible section headings such as `Task`, `Reviewed Answer`, `Score`, or `Model Answer`.
    - Preserve the original `word/document.xml` root namespace declarations and `mc:Ignorable`; do not leave undeclared prefixes such as `w14`, `w15`, `w16*`, or `wp14`.
-   - Insert a page break before the score and feedback page; keep the score lines and `To Reach Band 7.5 / 8.0` together; insert another page break before the model answer.
+   - Insert a page break before the score and feedback page; keep the score lines and `冲刺 Band 7.5 / 8.0` together; insert another page break before the model answer.
    - Never overwrite the original answer unless explicitly requested.
 12. Clean up temporary byproducts after a successful review.
    - Delete temporary files such as `review_plan_*.json`, extracted scratch images, and unpacked DOCX folders.
@@ -103,7 +103,7 @@ Use these references in order:
 - `scripts/extract_task1_input.py`: extract prompt, student answer, and student answer paragraph indices from a Task 1 DOCX.
 - `scripts/create_task1_review_docx.py`: create a reviewed DOCX from a JSON review plan; DOCX input is copied first, comments are anchored into extracted student answer paragraphs, and score/model sections are appended.
 - `scripts/create_and_validate_task1_review.py`: create a reviewed DOCX, validate it, and clean extracted scratch images in one command.
-- `scripts/validate_task1_review_docx.py`: verify comments, italic rewrites, student-answer paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, page breaks, font, author, score lines, retained `To Reach Band 7.5 / 8.0` title, removed old headings, and model answer length/four-paragraph structure.
+- `scripts/validate_task1_review_docx.py`: verify comments, italic rewrites, student-answer paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, page breaks, font, author, score lines, retained `冲刺 Band 7.5 / 8.0` title, removed old headings, and model answer length/four-paragraph structure.
 
 ## JSON Review Plan For DOCX Creation
 
@@ -117,19 +117,19 @@ When using `scripts/create_task1_review_docx.py`, first produce a JSON file with
   "review_units": [
     {
       "original": "Student sentence or paragraph.",
-      "comments": [{"target": "specific phrase", "text": "Short teacher-style comment"}],
+      "comments": [{"target": "specific phrase", "text": "中文短批注"}],
       "rewrite": "Italic teacher-style improvement."
     }
   ],
   "scores": {
-    "Task Achievement": "6.5",
-    "Coherence & Cohesion": "7",
-    "Lexical Resource": "6.5",
-    "Grammatical Range & Accuracy": "6.5",
-    "Overall": "6.5"
+    "任务完成度 Task Achievement": "6.5",
+    "连贯与衔接 Coherence & Cohesion": "7",
+    "词汇资源 Lexical Resource": "6.5",
+    "语法多样性与准确性 Grammatical Range & Accuracy": "6.5",
+    "总分参考 Overall": "6.5"
   },
-  "score_explanation": ["Short evidence-based scoring note."],
-  "focus_feedback": ["Focus on overview accuracy and natural comparisons."],
+  "score_explanation": ["基于原文证据的简短中文评分说明。"],
+  "focus_feedback": ["优先修正总览准确性和自然比较表达。"],
   "model_answer": [
     "Paragraph 1: introduction/paraphrase.",
     "Paragraph 2: Overall ...",

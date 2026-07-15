@@ -5,19 +5,19 @@ Use this guide as the highest-priority style reference for comments and rewrites
 ## Overall Marking Personality
 
 - Be direct, short, and practical.
-- Use English comments.
+- Use concise Simplified Chinese comments. Keep quoted targets, corrected phrases, and rewrites in English when they are the learning object.
 - Comment on concrete words or phrases rather than writing long paragraph feedback.
 - Prefer correction-oriented notes over motivational explanations.
 - Keep italic rewrites at a stable Band 7.5 level: natural, formal, concise, but not excessively sophisticated.
 
 ## Common Comment Types
 
-- Grammar: `Fix grammar`, `Careful with articles`, `Plural`, `missing comma`, `Uncountable`.
-- Collocation: `more natural`, `natural collocation`, `is the correct verb`, `sounds more academic`.
-- Concision: `could be more concise`, `Try to be more concise`, `avoid unnecessary words`.
-- Register: `informal`, `slightly informal`, `vague`, `slightly vague`, `too absolute`.
-- Repetition: `repetition`, `repeats previous idea`, `Every word can cause repetition`.
-- Task fit: `Off-topic`, `This does not fully answer the question`, `adv/disadv`, `Be careful with the task wording`.
+- Grammar: `语法要改`, `注意冠词`, `名词复数`, `缺逗号`, `不可数名词`.
+- Collocation: `更自然`, `搭配更地道`, `这个动词更准确`, `更学术`.
+- Concision: `可以更简洁`, `删掉多余词`, `表达偏啰嗦`.
+- Register: `偏口语`, `稍微口语`, `笼统`, `有点笼统`, `太绝对`.
+- Repetition: `重复`, `重复上一句`, `这个词反复出现`.
+- Task fit: `偏题`, `没有完全回应题目`, `注意 adv/disadv`, `注意题目问法`.
 
 ## Rewrite Habits
 
@@ -41,11 +41,11 @@ After comments and rewrites, give a short criteria-based score section, then a c
 Use a tone like:
 
 ```text
-You are close to a secure Band 7.5. To move toward 8.0, focus on:
-Grammar accuracy
-Natural collocations
-Conciseness
-More precise support for main ideas
+你已经接近稳定 Band 7.5。要继续冲 8.0，重点放在：
+语法准确性
+自然搭配
+表达简洁度
+主体观点的支撑更具体
 ```
 
 Do not write a long lecture. Identify the main blockers quickly.
@@ -55,7 +55,7 @@ Do not write a long lecture. Identify the main blockers quickly.
 If the essay significantly misunderstands the task:
 
 - Add an early comment anchored to the problematic idea.
-- Use short wording such as `Off-topic`, `This does not answer the question`, or `Careful: the task asks about advantages/disadvantages`.
+- Use short wording such as `偏题`, `没有回应题目`, or `注意：题目问的是 advantages/disadvantages`.
 - In the italic rewrite, redirect the idea toward the actual task instead of merely polishing grammar.
 - In the model essay, preserve the student's broad position only if it is relevant and defensible.
 

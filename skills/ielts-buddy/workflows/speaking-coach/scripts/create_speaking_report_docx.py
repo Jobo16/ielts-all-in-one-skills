@@ -32,42 +32,42 @@ def default_output(plan_path: Path) -> Path:
 
 
 def create(plan: dict[str, Any], output: Path) -> None:
-    doc = SimpleDocx("IELTS Speaking Report", "speaking-coach")
-    doc.heading("IELTS Speaking Report", 1)
-    doc.paragraph(f"Session: {normalize_spaces(plan.get('session_title', 'IELTS Speaking Practice'))}")
-    doc.paragraph(f"Part: {normalize_spaces(plan.get('part', ''))}")
-    doc.paragraph(f"Band estimate: {normalize_spaces(plan.get('band_estimate', ''))}", bold=True)
+    doc = SimpleDocx("雅思口语反馈报告", "speaking-coach")
+    doc.heading("雅思口语反馈报告", 1)
+    doc.paragraph(f"练习：{normalize_spaces(plan.get('session_title', '雅思口语练习'))}")
+    doc.paragraph(f"部分：{normalize_spaces(plan.get('part', ''))}")
+    doc.paragraph(f"分数参考：{normalize_spaces(plan.get('band_estimate', ''))}", bold=True)
     if plan.get("overall_feedback"):
         doc.paragraph(plan["overall_feedback"])
 
     scores = plan.get("criterion_scores", {})
     if isinstance(scores, dict) and scores:
-        doc.heading("Criterion Scores", 2)
+        doc.heading("维度评分参考", 2)
         rows = []
         for key, raw in scores.items():
             if isinstance(raw, dict):
                 rows.append([key, raw.get("score", ""), raw.get("note", "")])
             else:
                 rows.append([key, raw, ""])
-        doc.table(["Criterion", "Score", "Note"], rows, [2600, 1200, 5560])
+        doc.table(["维度", "分数", "说明"], rows, [2600, 1200, 5560])
 
     answers = dicts(plan.get("answers", []))
     doc.page_break()
-    doc.heading("Answer Review", 1)
+    doc.heading("回答复盘", 1)
     for idx, item in enumerate(answers, start=1):
-        doc.heading(f"Answer {idx}: {normalize_spaces(item.get('question', 'Speaking answer'))}", 2)
+        doc.heading(f"回答 {idx}: {normalize_spaces(item.get('question', '口语回答'))}", 2)
         for label, key in [
-            ("Original answer", "answer"),
-            ("Feedback", "feedback"),
-            ("Natural version", "natural_version"),
-            ("Focus", "focus"),
+            ("原回答", "answer"),
+            ("反馈", "feedback"),
+            ("自然表达版本", "natural_version"),
+            ("重点", "focus"),
         ]:
             if item.get(key):
                 doc.paragraph(label, bold=True)
                 doc.paragraph(item[key])
         chunks = strings(item.get("reusable_chunks", []))
         if chunks:
-            doc.paragraph("Reusable chunks", bold=True)
+            doc.paragraph("可复用表达", bold=True)
             for chunk in chunks:
                 doc.paragraph(f"- {chunk}")
 
@@ -76,11 +76,11 @@ def create(plan: dict[str, Any], output: Path) -> None:
     if patterns or next_questions:
         doc.page_break()
     if patterns:
-        doc.heading("Recurring Patterns", 1)
+        doc.heading("反复出现的问题", 1)
         for item in patterns:
             doc.paragraph(f"- {item}")
     if next_questions:
-        doc.heading("Next Questions", 1)
+        doc.heading("下一轮问题", 1)
         for idx, item in enumerate(next_questions, start=1):
             doc.paragraph(f"{idx}. {item}")
     doc.save(output)
@@ -102,4 +102,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
