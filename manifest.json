@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "ielts-skills",
   "version": "0.2.0",
-  "repository": "https://github.com/Jobo16/ielts-skills",
+  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills",
   "service": {
     "website": "https://ieltsbuddy.igocn.cn",
     "mcp": "https://ieltsbuddy.igocn.cn/mcp",

@@ -1,28 +1,74 @@
-# IELTS Skills
+# 雅思学习 Skills：IELTS Buddy All-in-One Skills
 
-Free and open-source Agent Skills for using IELTS Buddy from Codex, Claude Code, Cursor, WorkBuddy, and other MCP-compatible clients.
+面向中国雅思学习者的开源 AI Agent Skills 仓库。它把雅思备考规划、雅思作文批改 DOCX、Task 1 小作文批改、Task 2 大作文批改、雅思单词卡、听力精听错题本、阅读证据图、口语反馈报告和学习资源推荐整合到一个可安装的 `ielts-buddy` Skill 中。
 
-This repository contains a portable IELTS learning Skill and a zero-dependency local learning mirror. IELTS Buddy provides the live question bank, preparation information, grading, cloud learning-event storage, OAuth, and MCP runtime at [ieltsbuddy.igocn.cn](https://ieltsbuddy.igocn.cn).
+适用于 Codex、Claude Code、Cursor、WorkBuddy、小红书 SkillHub 以及其他支持 Agent Skills / MCP 的本地 AI 助手。IELTS Buddy 服务提供题库、课程路线、学习记录、词汇进度、OAuth 和 MCP 能力；本仓库提供可独立运行的本地学习规则、DOCX 工作流和离线学习镜像。
 
-## Available Skill
+> 本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数参考、批改和学习建议仅供备考学习使用，不等同于官方成绩。
 
-| Skill | Purpose |
+## 这个仓库适合谁
+
+- 正在自学雅思，希望用 AI Agent 做长期学习规划的人。
+- 想要中文雅思作文批改，并生成带真实 Word 批注的 `.docx` 文件的人。
+- 想把阅读、听力、口语、词汇复盘沉淀成可保存学习报告的人。
+- 想在 Codex、Claude Code、Cursor、WorkBuddy 或 SkillHub 里安装雅思学习 Skill 的人。
+- 想基于 IELTS Buddy 的 MCP / API / Web 数据做本地 Agent 学习闭环的人。
+
+## 已包含的 Skill
+
+| Skill | 用途 |
 | --- | --- |
-| [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy, use local-first learning workflows, provide data plus links for browser-first tools, and generate polished IELTS DOCX artifacts locally. |
+| [`ielts-buddy`](skills/ielts-buddy) | 雅思自学 All-in-One Agent Skill：学习路线、作文批改、单词卡、阅读/听力/口语复盘、网页跳转链接、本地 DOCX 报告、MCP 学习记录。 |
 
-## First Run
+## 主要能力
 
-After adding the Skill through your host client or SkillHub, ask:
+| 模块 | 本地可做 | 需要 IELTS Buddy 服务或网页的部分 |
+| --- | --- | --- |
+| 雅思写作批改 | Task 1 / Task 2 生成带 Word 批注、斜体改写、分数参考、中文反馈和范文的 DOCX | 可选同步到网页写作练习 |
+| 写作二改 | 检查二改是否解决上次批注，生成二改报告 DOCX | 可选读取历史写作记录 |
+| 雅思单词卡 | 根据单词数据做主动回忆、中文反馈、周复习表 DOCX | 词书进度、历史学过词、跨设备复习状态 |
+| 雅思阅读复盘 | 根据文章、答案和证据生成阅读证据图 DOCX | 题库文章、题目、历史错题 |
+| 阅读词汇手册 | 从阅读文章提取高价值词组，生成中文词汇手册 DOCX | 可选写入个人词汇本 |
+| 雅思听力精听/错题 | 根据文本、错题和正确答案生成听力错题本 DOCX | 音频播放、题库听力材料、网页精听 |
+| 雅思口语教练 | 根据 typed answer 或 transcript 生成口语反馈报告 DOCX | 口语题库、历史练习记录 |
+| 雅思全科路线 | 本地生成今日计划和课程路线学习手册 | 官方课程路线、进度、下一课链接 |
+| 学习资源推荐 | 使用仓库内置英语学习资源库做推荐和一周计划 | 无需外部本地目录 |
+| Browser-first 练习 | 给出数据摘要和稳定网页链接 | 计时做题、音频播放、整套模考、课程内容 |
+
+## 快速开始
+
+安装或添加这个 Skill 后，直接问：
 
 ```text
 使用 $ielts-buddy 介绍这个雅思 Skill 能做什么，给我 5 个入门用法，并帮我选择第一个学习动作。
 ```
 
-The first-run guide is bundled in [`getting-started.md`](skills/ielts-buddy/references/getting-started.md), and the output examples are listed in [`example-gallery.md`](skills/ielts-buddy/references/example-gallery.md).
+也可以直接从这些任务开始：
 
-## External Service Disclosure
+```text
+使用 $ielts-buddy 批改这篇雅思 Task 2 作文，并输出带 Word 批注的 DOCX。
+```
 
-Some capabilities require the external IELTS Buddy service:
+```text
+使用 $ielts-buddy 给我今天 10 个雅思单词卡，不要重复我已经学过的词。
+```
+
+```text
+使用 $ielts-buddy 把我的阅读错题整理成证据图 DOCX。
+```
+
+```text
+使用 $ielts-buddy 根据这段听力文本和错题生成听力错题本。
+```
+
+更多入门说明见：
+
+- [新手引导](skills/ielts-buddy/references/getting-started.md)
+- [效果示例](skills/ielts-buddy/references/example-gallery.md)
+
+## 可选 MCP 服务
+
+部分能力需要连接 IELTS Buddy 外部服务：
 
 ```text
 name: ielts-buddy
@@ -31,65 +77,47 @@ transport: streamable HTTP
 auth: OAuth
 ```
 
-The service is used for authenticated learning progress, question-bank metadata, course-route data, vocabulary progress, practice history, and browser-first learning links. OAuth is handled by the user's MCP client or browser authorization flow. The Skill must never ask the user to paste passwords, API keys, client secrets, access tokens, refresh tokens, private keys, or browser cookies.
+服务用于读取或写入：
 
-When the MCP service is not configured, the Skill can still run local workflows from user-provided essays, reading passages, transcripts, answers, vocabulary notes, and bundled resource lists.
+- 题库与练习入口；
+- 雅思全科课程路线；
+- 学习事件和练习历史；
+- 词汇进度与历史学过的单词；
+- browser-first 工具的数据摘要和跳转链接。
 
-Client-specific MCP setup is documented in [`references/setup.md`](skills/ielts-buddy/references/setup.md).
+OAuth 由用户的 MCP 客户端或浏览器授权流程处理。这个 Skill 不会要求用户粘贴密码、API Key、client secret、access token、refresh token、私钥、浏览器 cookie 或无关本地文件。
 
-## Safety And Data Use
+如果没有配置 MCP，本 Skill 仍然可以基于用户主动提供的作文、DOCX、阅读文章、听力文本、答案、单词或学习目标生成本地复盘和 DOCX 学习报告。
 
-- This Skill may read user-provided IELTS essays, DOCX files, reading materials, listening transcripts, answers, and study preferences when the user asks it to review or generate learning artifacts.
-- This Skill may create local DOCX reports and a local SQLite learning mirror under `~/.ielts-buddy` unless the user configures another local data directory.
-- This Skill may send authenticated learning events, vocabulary review results, or practice-related requests to the IELTS Buddy MCP service after the user authorizes that service.
-- This Skill does not need and must not request passwords, private keys, API keys, client secrets, access tokens, browser cookies, or unrelated local files.
-- 本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数参考、批改和学习建议仅供备考学习使用，不等同于官方成绩。
+客户端配置见 [MCP 配置说明](skills/ielts-buddy/references/setup.md)。
 
-## What It Can Use
+## 安全与数据使用
 
-- Current IELTS preparation guides and published prep records.
-- Listening, reading, speaking, and writing question-bank search.
-- Data plus browser links for course routes, practice, mock tests, listening dictation, and vocabulary practice.
-- MCP-backed practice discovery, session launch, activity history, and supported browser-first tool data when configured.
-- Cloud-backed learner events, explainable mastery, weak-area selection, and spaced review.
-- A local mirror and offline outbox for uninterrupted learning.
-- Learner profiles, footprints, weak points, and recent activity.
-- Exam-prep planning, next actions, and scheduled study tasks.
-- External learning-resource recommendations from the bundled developer-maintained catalog, with a validated recommendation DOCX when useful.
-- Local daily-study sessions that combine due review, course-route progress, vocabulary, and practice links without letting the server choose the teaching policy; can produce a validated course-route workbook DOCX.
-- Local vocabulary-card sessions using server-prepared cards, per-word progress, active recall, feedback, review write-back, and a validated weekly vocabulary sheet DOCX.
-- Reading review with a validated Evidence Map DOCX when the Agent has passage/practice data, user answers, and answer evidence.
-- Listening review with a validated Error Notebook DOCX when the Agent has dictation/practice results, transcript snippets, or answer data.
-- Speaking review with a validated Speaking Report DOCX when the Agent has typed answers, transcripts, or speaking-topic data.
-- Teacher-style IELTS Writing Task 1 and Task 2 review with anchored comments, rewrites, scores, feedback, a model answer, and validated DOCX output.
-- Writing revision follow-up with a validated revision-report DOCX that checks whether the learner fixed earlier comments before giving a new score estimate.
-- IELTS Reading passage lexicon extraction with anchored phrase comments, bilingual learner notes, examples, review prompts, and validated DOCX output.
-- A visible-workflow catalog for current and future DOCX/report outputs such as writing reviews, reading maps, listening notebooks, speaking reports, vocabulary sheets, route workbooks, and weekly study reports.
-- IELTS Buddy web experiences for courses, mock tests, practice, and learning tools through stable deep links.
+- 只读取用户主动提供或明确放入任务范围的作文、DOCX、阅读材料、听力文本、答案和学习偏好。
+- 可能在本地创建 DOCX 报告。
+- 可能在 `~/.ielts-buddy` 下维护本地 SQLite 学习镜像和离线队列。
+- 用户授权 MCP 后，可能把学习事件、词汇复习结果或练习请求发送到 IELTS Buddy 服务。
+- 不包含 IELTS Buddy 应用源码、私有用户数据、题库数据、课程内容、第三方练习素材、完整官方评分标准文本或模型密钥。
 
-The live capability contract is published at:
+## 仓库边界
 
-```text
-https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
-```
+这个仓库只保存可公开分发的 Skill 指令、脚本、引用资料和验证工具。
 
-## Repository Boundary
+写作批改工作流改编自 Aaron Liang 的 MIT 许可 IELTS writing review Skills，许可文件见 [ielts-writing-review-skills.txt](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt)。新的学习会话工作流参考了 MIT 许可的语言学习和文档类 Skills，来源说明见 [third-party-skill-sources.txt](skills/ielts-buddy/licenses/third-party-skill-sources.txt)。
 
-This repository does not contain IELTS Buddy application code, private learner data, question-bank data, course content, third-party practice assets, full official descriptor text, external package replacement code, or model credentials. It includes a developer-maintained external learning-resource catalog for recommendation workflows. The bundled writing-review workflows adapt Aaron Liang's MIT-licensed IELTS writing review Skills; the license is included at [`skills/ielts-buddy/licenses/ielts-writing-review-skills.txt`](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt). The newer learning-session workflows adapt ideas from MIT-licensed language-learning and document Skills; source notices are included at [`skills/ielts-buddy/licenses/third-party-skill-sources.txt`](skills/ielts-buddy/licenses/third-party-skill-sources.txt). Authenticated learning events are stored by IELTS Buddy; `~/.ielts-buddy/learning.db` is the local mirror and offline outbox.
+IELTS Buddy 服务返回的材料和数据仍遵守其对应权利和条款。
 
-## Validate
+## 验证
 
 ```sh
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
 ```
 
+## 关键词
+
+雅思 AI、雅思 Agent、雅思 Skill、IELTS Skills、IELTS Buddy、雅思作文批改、IELTS Writing Task 1、IELTS Writing Task 2、雅思小作文批改、雅思大作文批改、DOCX 批注、Word 批改、雅思单词卡、雅思词汇、雅思阅读复盘、雅思听力精听、雅思口语练习、MCP、Codex Skills、Claude Code Skills、Cursor、SkillHub、英语学习资源推荐。
+
 ## License
 
-The Skill instructions and repository tooling are released under the [MIT License](LICENSE). IELTS materials and data returned by the hosted service remain subject to their respective rights and terms.
-
-## 中文说明
-
-这是 IELTS Buddy 的免费开源 Agent Skill。本地 Agent 和网页 Agent 使用相同学习模型；登录后学习记录默认保存到云端，本地 SQLite 只作为镜像和离线队列。题库、课程和部分学习进度能力由 IELTS Buddy 服务提供。用户未授权连接 MCP 服务时，Skill 仍可基于用户主动提供的作文、文本、答案或学习材料生成本地复盘和 DOCX 学习报告。
-
-本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数、批改和学习建议仅供备考参考，不等同于官方成绩。
+本仓库的 Skill 指令和工具代码使用 [MIT License](LICENSE) 发布。

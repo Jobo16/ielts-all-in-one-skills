@@ -1,25 +1,24 @@
-# Getting Started
+# 新手引导
 
-Use this guide when the learner asks how to use IELTS Buddy, what the Skill can do, or how to start after adding it.
-Answer new Chinese IELTS learners in Simplified Chinese by default.
+当用户问“这个 IELTS Buddy Skill 怎么用”“能做什么”“安装后第一步做什么”时，读取这份说明。默认用简体中文回答。
 
-## What This Skill Does
+## 这个 Skill 是什么
 
-IELTS Buddy turns the local Agent into an IELTS study coach. It can combine IELTS Buddy service data, local learning rules, and local DOCX workflows to plan study, review practice, run vocabulary sessions, and produce teacher-style artifacts.
+IELTS Buddy 会把本地 Agent 变成雅思学习教练。它可以结合 IELTS Buddy 服务数据、本地学习规则和本地 DOCX 工作流，帮助用户做学习规划、复盘练习、背单词、批改作文，并生成可保存的学习报告。
 
-## First Check
+## 先判断当前模式
 
-Before starting, identify which mode is available:
+开始前先判断可用能力：
 
-- Logged in with IELTS Buddy MCP: use route progress, question-bank data, vocabulary progress, practice history, and cloud learning events.
-- No MCP yet: still run local workflows from user-provided essays, transcripts, reading passages, answers, or the bundled learning-resource catalog.
-- Browser-first task: provide both the best available data summary and the IELTS Buddy deep link.
+- 已登录 IELTS Buddy MCP：可以读取课程路线、题库数据、词汇进度、练习历史和云端学习事件。
+- 暂未配置 MCP：仍可基于用户提供的作文、听力文本、阅读文章、答案或内置学习资源库运行本地工作流。
+- Browser-first 任务：同时提供可用的数据摘要和 IELTS Buddy 深链接，不强迫用户只走网页或只走本地模拟。
 
-If the user is new, ask for only one missing choice: target band, exam date, weakest skill, or whether they want a visible DOCX result.
+如果用户是新用户，只问一个最关键缺失信息：目标分、考试日期、最弱科目，或是否想先看一个可见 DOCX 效果。
 
-## Starter Prompts
+## 入门提示词
 
-Offer these prompts directly:
+直接给用户这 5 个提示词：
 
 1. `使用 $ielts-buddy 看看我接下来雅思自学该做什么。`
 2. `使用 $ielts-buddy 给我做一个冲 Band 7.0 的 7 天雅思计划。`
@@ -27,27 +26,27 @@ Offer these prompts directly:
 4. `使用 $ielts-buddy 推荐适合 B1-B2 雅思学习者的听力资源。`
 5. `使用 $ielts-buddy 说明哪些功能需要网页，哪些可以本地完成。`
 
-## Quick Wins
+## 最容易看到效果的任务
 
-- Writing review: ask the learner to paste a Task 1/Task 2 answer or attach a DOCX. Output a reviewed DOCX.
-- Vocabulary: ask for level, wordbook, or target topic. Output active-recall cards and record review results when storage is available.
-- Reading review: ask for passage, answer key, user answers, and evidence if not available from IELTS Buddy. Output an evidence map.
-- Listening review: ask for transcript snippets, user answer, and correct answer. Output an error notebook.
-- Study route: if logged in, read the route and progress; otherwise create a local plan and provide web links.
+- 写作批改：让用户粘贴 Task 1 / Task 2 作文，或上传 DOCX，输出带真实 Word 批注的批改文档。
+- 单词卡：询问词书、水平或目标话题，做主动回忆卡片；有存储能力时写回复习结果。
+- 阅读复盘：让用户提供文章、答案、自己的答案和证据；输出阅读证据图。
+- 听力复盘：让用户提供文本片段、自己的答案和正确答案；输出听力错题本。
+- 学习路线：已登录时读取路线和进度；未登录时先做本地计划并给网页链接。
 
-## Common Limits
+## 常见限制
 
-- Question-bank content, course lessons, audio playback, timed mock tests, and durable cross-device progress require IELTS Buddy service data or browser links.
-- The public Skill does not bundle third-party practice materials, course content, or full official descriptor text.
-- Local DOCX workflows need enough input material. Do not invent missing passages, transcripts, answer keys, charts, or prompts.
-- If OAuth or MCP is unavailable, give setup instructions from `setup.md` and continue with local workflows where possible.
+- 题库内容、课程正文、音频播放、计时模考和跨设备长期进度需要 IELTS Buddy 服务数据或网页链接。
+- 公共 Skill 不内置第三方练习材料、课程内容或完整官方评分标准文本。
+- 本地 DOCX 工作流需要足够输入材料。不要凭空编造文章、听力文本、答案、图表或题目。
+- OAuth 或 MCP 不可用时，给出 `setup.md` 的配置说明，并继续处理可本地完成的部分。
 
-## Good First Response
+## 推荐首次回复结构
 
-When a user asks “how do I use this?”, answer with:
+用户问“怎么用”时，按这个顺序回答：
 
-1. one-sentence purpose;
-2. whether login/MCP is connected if known;
-3. five starter prompts;
-4. one recommended first action based on their goal;
-5. a note that visible DOCX workflows are available for writing, reading, listening, speaking, vocabulary, and study-route reports.
+1. 一句话说明用途；
+2. 如果能判断，说明当前是否已连接 MCP；
+3. 给 5 个入门提示词；
+4. 根据用户目标推荐第一个动作；
+5. 提醒写作、阅读、听力、口语、词汇和学习路线都可以生成可见 DOCX 报告。

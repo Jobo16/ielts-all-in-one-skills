@@ -1,66 +1,66 @@
-# Setup
+# MCP 配置说明
 
-Use this guide only for configuring the optional IELTS Buddy MCP service after the Skill is already added through the user's host client or SkillHub. This Skill contains runtime guidance and local learning workflow scripts; it does not replace its own package.
+这份说明只用于在用户已经通过客户端或 SkillHub 添加 Skill 后，配置可选的 IELTS Buddy MCP 服务。本 Skill 本身包含运行时指导和本地学习工作流脚本，不依赖自更新或安装脚本。
 
-## External Service
+## 外部服务
 
-IELTS Buddy exposes one OAuth-protected streamable HTTP MCP server:
+IELTS Buddy 暴露一个 OAuth 保护的 streamable HTTP MCP 服务：
 
 ```text
 https://ieltsbuddy.igocn.cn/mcp
 ```
 
-OAuth discovery and dynamic client registration are supported. Do not request a `client_id`, `client_secret`, access token, refresh token, password, API key, private key, or browser cookie from the user.
+支持 OAuth discovery 和动态客户端注册。不要向用户索要 `client_id`、`client_secret`、access token、refresh token、密码、API Key、私钥或浏览器 cookie。
 
-## What Requires MCP
+## 哪些能力需要 MCP
 
-Use the MCP service for:
+以下能力使用 MCP 服务：
 
-- authenticated learning events and cloud progress;
-- course routes and route progress;
-- question-bank metadata and practice history;
-- vocabulary wordbook progress and review write-back;
-- browser-first links for practice, mock tests, listening playback, and web learning tools.
+- 登录后的学习事件和云端进度；
+- 雅思全科课程路线和路线进度；
+- 题库元数据和练习历史；
+- 词书进度、历史学过单词和复习写回；
+- 练习、模考、听力播放和网页学习工具的 browser-first 链接。
 
-Without MCP, continue with local workflows based on user-provided essays, DOCX files, reading passages, listening transcripts, answers, and study preferences.
+没有 MCP 时，继续基于用户提供的作文、DOCX、阅读文章、听力文本、答案和学习偏好运行本地工作流。
 
-## Codex MCP Configuration
+## Codex 配置
 
-Add this to the Codex MCP configuration:
+把下面配置加入 Codex MCP 配置：
 
 ```toml
 [mcp_servers.ielts-buddy]
 url = "https://ieltsbuddy.igocn.cn/mcp"
 ```
 
-Then authenticate through the client:
+然后通过客户端登录：
 
 ```sh
 codex mcp login ielts-buddy
 ```
 
-## Claude Code MCP Configuration
+## Claude Code 配置
 
 ```sh
 claude mcp add --scope user --transport http ielts-buddy "https://ieltsbuddy.igocn.cn/mcp"
 claude mcp login ielts-buddy
 ```
 
-## Other Clients
+## 其他客户端
 
-Create an MCP server named `ielts-buddy`, select streamable HTTP, use the URL above, and choose OAuth or browser authorization.
+创建一个名为 `ielts-buddy` 的 MCP server，选择 streamable HTTP，URL 使用上面的地址，并选择 OAuth 或浏览器授权。
 
-## Troubleshooting
+## 排查
 
-- `401` or an authorization prompt: complete MCP OAuth in the browser and retry.
-- Missing tool: reconnect the MCP server, then inspect the live capability manifest.
-- Missing scope: reauthorize so the client can request the capability's current scopes.
-- Web-only capability: open the corresponding route from `web-workspace.md`.
+- `401` 或出现授权提示：在浏览器里完成 MCP OAuth，然后重试。
+- 缺少 tool：重新连接 MCP server，再查看实时能力清单。
+- 缺少 scope：重新授权，让客户端请求当前能力需要的 scope。
+- Web-only 能力：打开 `web-workspace.md` 中对应的网页路线。
 
-When the user explicitly asks for IELTS Buddy data or an IELTS Buddy action, do not substitute a general web search while setup is incomplete. Explain that the remote step is paused, provide the appropriate MCP configuration or OAuth step, and continue with local workflows when possible.
+当用户明确要求 IELTS Buddy 数据或动作时，如果配置未完成，不要用普通网页搜索替代。说明远程步骤暂停，给出 MCP 配置或 OAuth 步骤，同时继续处理可本地完成的学习工作流。
 
-## Safety Disclosure
+## 安全说明
 
-This Skill may create local DOCX files and maintain a local SQLite learning mirror under `~/.ielts-buddy` unless the user configures another local data directory. It should read only files the user provides or explicitly places in scope. It must not request or inspect passwords, private keys, API keys, client secrets, access tokens, browser cookies, or unrelated local directories.
+本 Skill 可能创建本地 DOCX 文件，并在用户未指定其他目录时维护 `~/.ielts-buddy` 下的 SQLite 学习镜像。它只应读取用户提供或明确放入任务范围的文件。不得请求或检查密码、私钥、API Key、client secret、access token、浏览器 cookie 或无关本地目录。
 
 本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数参考、批改和学习建议仅供备考学习使用，不等同于官方成绩。

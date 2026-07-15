@@ -1,7 +1,6 @@
-# Example Gallery
+# 效果示例
 
-Use this gallery to show new users what IELTS Buddy can produce. Keep examples short and actionable.
-Use Simplified Chinese prompts and descriptions by default.
+用这份示例向新用户展示 IELTS Buddy 可以产出什么。示例要短、具体、可直接复制。
 
 | 场景 | 用户可以这样问 | Agent 输出 |
 | --- | --- | --- |
@@ -16,9 +15,7 @@ Use Simplified Chinese prompts and descriptions by default.
 | 雅思路线 | `根据我的雅思路线进度安排今天学习。` | 本地学习计划或课程路线学习手册，包含下一步行动、达标标准和网页链接。 |
 | 学习资源推荐 | `推荐适合 B1-B2 的雅思听力资源，并做一周计划。` | 来自内置资源库的排序推荐、使用方法、回传任务，可选推荐 DOCX。 |
 
-## Demo Prompts For Visible Outputs
-
-Use these when the user wants to see the effect:
+## 可见效果演示提示词
 
 ```text
 使用 $ielts-buddy 根据我粘贴的一篇短 Task 2 作文生成批改 DOCX。
@@ -40,9 +37,9 @@ Use these when the user wants to see the effect:
 使用 $ielts-buddy 推荐 5 个听力资源，并生成一周学习包。
 ```
 
-## How To Explain The Value
+## 怎么解释价值
 
-- Chat answers are good for quick coaching and next actions.
-- DOCX outputs are better when the learner needs comments, tables, rewrites, score movement, or a printable study artifact.
-- Browser links are best when the task requires playback, timed practice, mock tests, or copyrighted course/question-bank material.
-- The local Agent owns learning policy; the service supplies data, state, media, and browser surfaces.
+- 对话回答适合快速建议和下一步行动。
+- DOCX 输出适合需要批注、表格、改写、分数变化或可打印学习材料的场景。
+- 网页链接适合音频播放、计时练习、整套模考、课程正文或版权题库材料。
+- 本地 Agent 负责学习规则和教学策略；服务端提供数据、状态、媒体和网页执行面。
