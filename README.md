@@ -10,6 +10,16 @@ This repository contains a portable IELTS learning Skill and a zero-dependency l
 | --- | --- |
 | [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy, use local-first learning workflows, provide data plus links for browser-first tools, and generate polished IELTS DOCX artifacts locally. |
 
+## First Run
+
+After installing the Skill, ask:
+
+```text
+Use $ielts-buddy to show me what this IELTS Skill can do, give me 5 starter prompts, and help me choose my first study action.
+```
+
+The first-run guide is bundled in [`getting-started.md`](skills/ielts-buddy/references/getting-started.md), and the output examples are listed in [`example-gallery.md`](skills/ielts-buddy/references/example-gallery.md).
+
 ## Install
 
 Clone a stable release and copy the Skill into your Agent's skill directory:
@@ -64,6 +74,7 @@ python3 <installed-skill>/scripts/update_skill.py apply
 - A local mirror and offline outbox for uninterrupted learning.
 - Learner profiles, footprints, weak points, and recent activity.
 - Exam-prep planning, next actions, and scheduled study tasks.
+- External learning-resource recommendations from the bundled developer-maintained catalog, with a validated recommendation DOCX when useful.
 - Local daily-study sessions that combine due review, course-route progress, vocabulary, and practice links without letting the server choose the teaching policy; can produce a validated course-route workbook DOCX.
 - Local vocabulary-card sessions using server-prepared cards, per-word progress, active recall, feedback, review write-back, and a validated weekly vocabulary sheet DOCX.
 - Reading review with a validated Evidence Map DOCX when the Agent has passage/practice data, user answers, and answer evidence.
@@ -83,7 +94,7 @@ https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
 
 ## Repository Boundary
 
-This repository does not contain IELTS Buddy application code, private learner data, question-bank data, course content, or model credentials. The bundled writing-review workflows adapt Aaron Liang's MIT-licensed IELTS writing review Skills; the license is included at [`skills/ielts-buddy/licenses/ielts-writing-review-skills.txt`](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt). The newer learning-session workflows adapt ideas from MIT-licensed language-learning and document Skills; source notices are included at [`skills/ielts-buddy/licenses/third-party-skill-sources.txt`](skills/ielts-buddy/licenses/third-party-skill-sources.txt). Authenticated learning events are stored by IELTS Buddy; `~/.ielts-buddy/learning.db` is the local mirror and offline outbox.
+This repository does not contain IELTS Buddy application code, private learner data, question-bank data, course content, third-party practice assets, full official descriptor text, or model credentials. It includes a developer-maintained external learning-resource catalog for recommendation workflows. The bundled writing-review workflows adapt Aaron Liang's MIT-licensed IELTS writing review Skills; the license is included at [`skills/ielts-buddy/licenses/ielts-writing-review-skills.txt`](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt). The newer learning-session workflows adapt ideas from MIT-licensed language-learning and document Skills; source notices are included at [`skills/ielts-buddy/licenses/third-party-skill-sources.txt`](skills/ielts-buddy/licenses/third-party-skill-sources.txt). Authenticated learning events are stored by IELTS Buddy; `~/.ielts-buddy/learning.db` is the local mirror and offline outbox.
 
 ## Validate
 

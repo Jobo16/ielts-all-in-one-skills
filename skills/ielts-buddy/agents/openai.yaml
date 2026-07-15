@@ -1,7 +1,7 @@
 interface:
   display_name: "IELTS Buddy"
-  short_description: "Use IELTS data, course routes, local word cards, and DOCX workflows"
-  default_prompt: "Use $ielts-buddy to read my IELTS course route, prepare a focused activity, or run a local vocabulary-card session."
+  short_description: "Start IELTS self-study with plans, word cards, data links, and DOCX reviews"
+  default_prompt: "Use $ielts-buddy to show me what this IELTS Skill can do, give me 5 starter prompts, and help me choose my first study action."
 dependencies:
   tools:
     - type: "mcp"

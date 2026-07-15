@@ -59,4 +59,4 @@ Be concise: do not repeat overview ideas.
 - Use precise comparison language and data phrasing that reflects Band 8.0 control: `whereas`, `respectively`, `that of`, `roughly twice as high as`, and concise bracketed data where natural.
 - Maintain a high level of accuracy in articles, plurals, units, percentages, and verb forms.
 - Avoid opinions, explanations, or causes unless the visual directly requires them.
-- Do not over-write it into a Band 9 style; keep it learnable, concise, and close to the teacher's sample tone.
+- Do not over-write it into a Band 9 style; keep it learnable, concise, and close to this guide's teacher tone.

@@ -7,19 +7,18 @@ description: Review IELTS Writing Task 2 essays in a specific teacher's style an
 
 ## Core Rule
 
-Imitate the teacher's marking style before giving generic IELTS advice. Use the full teacher samples and the official descriptors as the two authorities:
+Imitate the teacher's marking style before giving generic IELTS advice. Use the teacher-style guide and the scoring guide as the two authorities:
 
 1. Read `references/teacher_style.md` before reviewing.
-2. Read `references/ielts_task2_band_descriptors.md` before scoring.
-3. Use `references/teacher_samples_index.md` to find relevant sample files, then read specific full samples from `references/teacher_samples/` when needed.
-4. Use `references/review_format.md` for the output structure.
+2. Read `references/scoring_guide.md` before scoring.
+3. Use `references/review_format.md` for the output structure.
 
 ## Default Deliverable
 
 Deliver a validated reviewed `.docx` by default. The DOCX is the primary local Agent output, not an optional extra.
 
 1. Extract the prompt and scored essay.
-2. Build the teacher-style review plan from the bundled references and closest samples.
+2. Build the teacher-style review plan from the bundled references, the prompt, and the student's essay.
 3. Generate the reviewed DOCX with `scripts/create_review_docx.py`.
 4. Validate it with `scripts/validate_review_docx.py`.
 5. Return the absolute path to the final reviewed DOCX. Do not stop after presenting review text or JSON.
@@ -43,10 +42,9 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
 2. Check task fit before polishing language.
    - If the essay content, position, or logic is significantly off-topic, mark this first in comments.
    - Later italic rewrites and the final model essay must redirect the mistaken idea back to the task.
-3. Select relevant teacher samples before writing comments.
-   - Use `scripts/find_teacher_sample.py` with the input filename or prompt.
-   - The script normalizes spaces/underscores, so `C17T3 Writing Task 2.docx` maps to `C17T3_Writing_Task_2.json`.
-   - If the exact file sample is not relevant, use `references/teacher_samples_index.md` and the prompt wording to choose a closer sample.
+3. Calibrate comment style before writing comments.
+   - Use `references/teacher_style.md` for short anchored comments and realistic Band 7.5 rewrites.
+   - Use the prompt wording to identify the task type before judging task response.
 4. Split the essay into review units.
    - Use sentence-level units when problems are local.
    - Use paragraph-level units when logic, task response, or coherence needs bigger repair.
@@ -57,13 +55,13 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
 6. Add italic rewrites after the relevant original unit.
    - Rewrites should be concise, formal, natural, and at a stable Band 7.5 standard.
    - Keep rewrites close to the student's intended meaning; avoid making local fixes sound like an over-polished Band 9 sample.
-7. Score the student's original essay strictly using official Task 2 descriptors.
+7. Score the student's original essay strictly using `references/scoring_guide.md`.
    - Score Task Response, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy, and estimated overall band.
-   - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original essay sits between adjacent whole-band descriptor anchors; do not force criterion scores to integers.
+   - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original essay sits between adjacent scoring anchors; do not force criterion scores to integers.
    - Do this before giving improvement advice.
 8. Give concise Band 7.5 / 8.0-oriented feedback.
    - Separate issues blocking stable Band 7.5 from improvements needed to move toward 8.0.
-   - Keep this section short, like the teacher samples.
+   - Keep this section short and focused.
 9. Write a 250-300 word model essay at a stable Band 8.0 standard.
    - Use exactly four paragraphs:
      1. Introduction: paraphrase the prompt and state the essay's position.
@@ -71,7 +69,7 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
      3. Body paragraph 2.
      4. Conclusion: begin with `In conclusion`.
    - Leave one blank line between model essay paragraphs in the output DOCX.
-   - Align it with the official criteria.
+   - Align it with the scoring guide.
    - Preserve the student's main position when it is on-topic and defensible.
    - Correct any flawed or off-topic logic from the original draft.
    - It must be strong enough for Band 8.0: a clear and well-developed position, relevant and well-extended support, well-managed cohesion, flexible topic vocabulary, and mostly error-free grammar.
@@ -97,17 +95,12 @@ Use `ielts_writing_read_practice` to reopen the web review and `ielts_writing_su
 
 ## Bundled Resources
 
-- `references/teacher_style.md`: teacher imitation rules distilled from the 11 samples.
-- `references/teacher_samples_index.md`: prompt and count index for all samples.
-- `references/teacher_samples/*.json` and `*.md`: full extracted teacher-reviewed samples.
-- `references/ielts_task2_band_descriptors.md`: complete Task 2 descriptors extracted from the local PDF.
+- `references/teacher_style.md`: teacher imitation rules for short anchored comments and rewrites.
+- `references/scoring_guide.md`: concise, repository-owned Task 2 scoring guide.
 - `references/review_format.md`: canonical reviewed document structure.
 - `scripts/extract_task2_input.py`: extract prompt, optional outline, and student essay from a Task 2 DOCX; it also protects against accidental leftover reviewed content.
-- `scripts/find_teacher_sample.py`: find matching bundled teacher samples using normalized filename and prompt overlap.
 - `scripts/create_review_docx.py`: create a reviewed DOCX from a JSON review plan; DOCX input is copied first, comments are anchored into extracted student essay paragraphs, and score/model sections are appended.
 - `scripts/validate_review_docx.py`: verify comments, italic rewrites, student-essay paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, score lines, retained `To Reach Band 7.5 / 8.0` title, removed old headings, and model essay length/four-paragraph structure.
-- `scripts/extract_teacher_samples.py`: regenerate sample references from the 11 source DOCX files.
-- `scripts/extract_task2_band_descriptors.py`: regenerate descriptors from the PDF.
 
 ## JSON Review Plan For DOCX Creation
 
@@ -160,6 +153,6 @@ If the review plan is a permanent example/reference file, omit `--cleanup-plan`.
 - At least the most important local issues must be anchored to specific text.
 - Italic rewrites must appear after the original unit and be written at a stable Band 7.5 standard.
 - The score must evaluate the original essay, not the revised essay.
-- The model essay must be exactly 4 paragraphs with one blank line between paragraphs, 250-300 words, and should stand securely at Band 8.0 according to the official Task 2 descriptors.
-- The style should look closer to the teacher's samples than to a generic IELTS tutor.
+- The model essay must be exactly 4 paragraphs with one blank line between paragraphs, 250-300 words, and should stand securely at Band 8.0 according to the scoring guide.
+- The style should follow `references/teacher_style.md`, not a generic IELTS tutor voice.
 - Temporary files from the review process should be removed after successful validation.

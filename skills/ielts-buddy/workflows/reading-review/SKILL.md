@@ -64,7 +64,7 @@ Create a JSON file with this shape:
 
 ```json
 {
-  "source_title": "Cambridge IELTS Reading Practice",
+  "source_title": "IELTS Reading Practice",
   "passage_title": "The History of Glass",
   "summary": "Review of wrong and uncertain Reading answers.",
   "items": [

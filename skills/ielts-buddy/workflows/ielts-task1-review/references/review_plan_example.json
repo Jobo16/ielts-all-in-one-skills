@@ -1,37 +1,37 @@
 {
-  "prompt": "The bar chart shows the results of a survey about people's coffee and tea buying and drinking habits in five Australian cities.",
+  "prompt": "The bar chart shows the percentage of students at three language schools who used online videos, mobile vocabulary apps, printed textbooks, and speaking clubs as their main study method in 2025.",
   "visual_facts": [
     "Type: bar chart.",
-    "Unit: percentage of city residents.",
-    "Main feature: going to a cafe was the most popular activity in most cities, while buying fresh coffee was generally the least common."
+    "Unit: percentage of students.",
+    "Main feature: online videos were the most popular method in all three schools, while speaking clubs were used by the smallest share of students."
   ],
   "review_units": [
     {
-      "original": "The graph illustrates the buying and drinking habits of coffee and tea in five Australian cities in last 4 weeks.",
+      "original": "The graph illustrates the learning habits of students in three schools in 2025.",
       "comments": [
         {
           "target": "graph",
           "text": "Specify type: bar chart"
         },
         {
-          "target": "in last 4 weeks",
-          "text": "Missing article"
+          "target": "learning habits",
+          "text": "Be more specific"
         }
       ],
-      "rewrite": "The bar chart illustrates the proportions of people in five Australian cities who bought and consumed coffee and tea in the last four weeks."
+      "rewrite": "The bar chart illustrates the proportions of students at three language schools who mainly used four different study methods in 2025."
     },
     {
-      "original": "Overall, the proportion of people who went to a cafe was higher than the proportions of those who bought fresh or instant coffee in almost all five cities.",
+      "original": "Overall, online videos were more popular than the other methods in all schools, and speaking clubs were not very popular.",
       "comments": [
         {
-          "target": "proportion",
-          "text": "slightly repetitive"
+          "target": "not very popular",
+          "text": "Use more precise data language"
         }
       ],
-      "rewrite": "Overall, visiting cafes was more popular than purchasing either fresh or instant coffee in most cities."
+      "rewrite": "Overall, online videos were the most popular method in every school, whereas speaking clubs accounted for the smallest shares."
     },
     {
-      "original": "The percentages at Brisbane and Adelaide were lower, the former was approximately 55% and the latter was barely 50%.",
+      "original": "The percentages for textbooks in School B and School C were lower, the former was about 25% and the latter was barely 20%.",
       "comments": [
         {
           "target": "the latter",
@@ -42,7 +42,7 @@
           "text": "slightly informal"
         }
       ],
-      "rewrite": "The figures for Brisbane and Adelaide were lower, at approximately 55% and just under 50%, respectively."
+      "rewrite": "The figures for printed textbooks in School B and School C were lower, at approximately 25% and just under 20%, respectively."
     }
   ],
   "scores": {
@@ -53,7 +53,7 @@
     "Overall": "6.5"
   },
   "score_explanation": [
-    "The main trends are clear, but some wording is repetitive and a few data descriptions need to be more precise.",
+    "The main trends are clear, but some wording is general and a few data descriptions need to be more precise.",
     "Small grammar errors with articles and comparison structures prevent a secure Band 7."
   ],
   "focus_feedback": [
@@ -61,9 +61,9 @@
     "To move toward 8.0, select only the most important data and use flexible comparison structures such as respectively and that of."
   ],
   "model_answer": [
-    "The bar chart compares the proportions of residents in five Australian cities who bought fresh coffee, bought instant coffee, or visited a cafe for coffee or tea in the previous four weeks.",
-    "Overall, going to a cafe was the most popular activity in most cities, whereas purchasing fresh coffee was generally the least common. Instant coffee was also noticeably popular in Brisbane and Hobart, where more than half of residents bought it.",
-    "In terms of cafe visits, Melbourne recorded the highest figure, at about 64%, followed closely by Hobart and Sydney, at roughly 63% and 61% respectively. The proportions were lower in Brisbane, at around 55%, and Adelaide, at just under 50%.",
-    "Regarding coffee purchases, instant coffee was more common than fresh coffee in all five cities. This difference was particularly clear in Brisbane and Adelaide, where the share of people buying instant coffee was roughly twice that of those purchasing fresh coffee."
+    "The bar chart compares the proportions of students at three language schools who mainly used online videos, mobile vocabulary apps, printed textbooks, or speaking clubs in 2025.",
+    "Overall, online videos were the most popular study method in every school, whereas speaking clubs accounted for the smallest shares. Mobile vocabulary apps were also widely used, while printed textbooks were less common.",
+    "School A had the highest percentage of students using online videos, at about 55%, compared with roughly 50% in School B and 45% in School C. Vocabulary apps followed a similar pattern, although the figures were lower, ranging from around 30% to just under 40% across the three institutions.",
+    "By contrast, printed textbooks were chosen by only about a quarter of students in School B and slightly fewer in School C, while School A was marginally higher. Speaking clubs attracted the lowest proportions overall, with figures of approximately 10% to 15% across the three schools."
   ]
 }

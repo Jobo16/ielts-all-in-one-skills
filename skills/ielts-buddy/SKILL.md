@@ -24,6 +24,7 @@ Use the client's MCP login or browser authorization flow. Never ask the user for
 
 | User intent | Read |
 | --- | --- |
+| New user onboarding, first-run guidance, examples, demos, or “how do I use this Skill?” | [references/getting-started.md](references/getting-started.md) and [references/example-gallery.md](references/example-gallery.md) |
 | Extend IELTS Buddy from external Skills, decide what can be copied, or inspect source boundaries | [references/external-skill-intake.md](references/external-skill-intake.md) |
 | Choose or design visible DOCX/report workflows | [references/visual-workflow-catalog.md](references/visual-workflow-catalog.md) |
 | Recent IELTS information, guides, predictions, or hit records | [references/prep-search.md](references/prep-search.md) |
@@ -32,6 +33,7 @@ Use the client's MCP login or browser authorization flow. Never ask the user for
 | Record progress, diagnose a weakness, choose the next activity, sync state, or run due review | [references/learning-loop.md](references/learning-loop.md) |
 | Run a local daily IELTS study session from route, review, vocabulary, and practice data | [Daily study loop](workflows/daily-study-loop/SKILL.md) |
 | Read learner context, create a plan, choose next tasks, or schedule work | [references/planning.md](references/planning.md) |
+| Recommend external English/IELTS learning resources from the bundled developer-maintained resource catalog | [Learning resource recommender](workflows/learning-resource-recommender/SKILL.md) |
 | Prepare local vocabulary cards, read built-in wordbook progress, or manage personal vocabulary | [references/vocabulary.md](references/vocabulary.md) |
 | Run local vocabulary flashcards with active recall and progress write-back | [Vocabulary session workflow](workflows/vocabulary-session/SKILL.md) |
 | Review IELTS Reading attempts with evidence, paraphrases, distractors, and error types | [Reading review workflow](workflows/reading-review/SKILL.md) |

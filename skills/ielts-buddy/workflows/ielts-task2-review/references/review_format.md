@@ -57,7 +57,7 @@ Use this structure for every reviewed IELTS Task 2 document.
 - For DOCX input, run `scripts/extract_task2_input.py` before reviewing.
 - Exclude outline/planning bullets from the scored essay.
 - Existing comments, italic rewrites, feedback, or a model essay are accidental leftovers, not normal input. If detected, ignore them for scoring and rewriting; score only the student's original essay.
-- Use `scripts/find_teacher_sample.py` to avoid filename mismatch between names with spaces and bundled samples with underscores.
+- Use the prompt and extracted essay boundaries directly; this public Skill does not bundle private or copyrighted teacher samples.
 
 ## Cleanup Rules
 

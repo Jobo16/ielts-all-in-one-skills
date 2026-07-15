@@ -14,7 +14,7 @@ Analyze the visual prompt before correcting the student's writing. For Task 1, a
 Deliver a validated reviewed `.docx` by default. The DOCX is the primary local Agent output, not an optional extra.
 
 1. Inspect the visual and student answer.
-2. Build the teacher-style review plan from the bundled references and closest samples.
+2. Build the teacher-style review plan from the bundled references, the visual facts, and the student's answer.
 3. Generate the reviewed DOCX with `scripts/create_and_validate_task1_review.py` for DOCX input, or `scripts/create_task1_review_docx.py` followed by the validator for pasted text.
 4. Return the absolute path to the final reviewed DOCX. Do not stop after presenting review text or JSON.
 5. If validation fails, fix the review plan or document and rerun validation before delivery.
@@ -29,9 +29,8 @@ Use these references in order:
 
 1. Read `references/visual_analysis_protocol.md` to inspect the visual.
 2. Read `references/teacher_style.md` for Task 1 teacher-style marking.
-3. Read `references/ielts_task1_band_descriptors.md` before scoring.
-4. Use `references/teacher_samples_index.md` to find relevant samples, then read full samples from `references/teacher_samples/` when useful.
-5. Use `references/review_format.md` for DOCX layout and cleanup rules.
+3. Read `references/scoring_guide.md` before scoring.
+4. Use `references/review_format.md` for DOCX layout and cleanup rules.
 
 ## Workflow
 
@@ -46,10 +45,9 @@ Use these references in order:
    - Keep this note internal unless the user explicitly asks to see it.
 3. Check the student's Task Achievement.
    - Mark inaccurate chart type, wrong units, missing overview, wrong key feature selection, inaccurate values, or irrelevant details in comments.
-4. Select the closest teacher samples by visual type before writing comments.
-   - First classify the new task as bar chart, line graph, table, pie chart, map, process, or mixed visual.
-   - Use `references/teacher_samples_index.md` to find similar sample files, then inspect one or two matching full samples.
-   - Prefer same visual type and same main challenge, such as trend comparison, proportions, maps, process sequencing, or mixed table/chart reporting.
+4. Calibrate comment style before writing comments.
+   - Use `references/teacher_style.md` for short anchored comments and realistic Band 7.5 rewrites.
+   - Classify the new task as bar chart, line graph, table, pie chart, map, process, or mixed visual so the comments target the right Task Achievement issues.
 5. Split the answer into review units.
    - Use sentence-level units for grammar, articles, plural forms, data phrasing, collocation, and formal wording.
    - Use paragraph-level units for overview errors, poor grouping, data misreading, map/process sequencing, or missing comparisons.
@@ -59,9 +57,9 @@ Use these references in order:
 7. Add italic rewrites after relevant units.
    - Rewrites must be concise, formal, data-accurate, and at a stable Band 7.5 standard.
    - Keep rewrites learnable and close to the student's intended meaning; do not turn local fixes into over-complex Band 9 wording.
-8. Score the student's original answer strictly using official Task 1 descriptors.
+8. Score the student's original answer strictly using `references/scoring_guide.md`.
    - Score Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy, and estimated overall band.
-   - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original answer sits between adjacent whole-band descriptor anchors; do not force criterion scores to integers.
+   - For this teacher-style educational review, criterion scores and the estimated overall score may use whole or half bands, such as `6`, `6.5`, or `7`. Use `.5` when the original answer sits between adjacent scoring anchors; do not force criterion scores to integers.
 9. Give concise Band 7.5 / 8.0-oriented feedback.
    - Mention blockers preventing stable Band 7.5 first.
    - Then mention the most useful move toward 8.0.
@@ -72,7 +70,7 @@ Use these references in order:
      3. Body paragraph 1: report the first logical group of details.
      4. Body paragraph 2: report the second logical group of details.
    - Leave one blank line between model answer paragraphs in the output DOCX.
-   - Align it with the visual and official criteria.
+   - Align it with the visual and the scoring guide.
    - Correct any inaccurate visual interpretation.
    - It must be strong enough for Band 8.0: skilful key feature selection, clear overview, logical grouping, precise data language, natural comparisons, well-managed cohesion, and mostly error-free grammar.
    - Keep it realistic and teacher-like, not an over-complex Band 9 answer.
@@ -98,19 +96,14 @@ Use these references in order:
 ## Bundled Resources
 
 - `references/visual_analysis_protocol.md`: checklist for charts, tables, maps, processes, and mixed visuals.
-- `references/teacher_style.md`: Task 1 teacher-style rules distilled from samples.
-- `references/teacher_samples_index.md`: sample index with image files and counts.
-- `references/teacher_samples/*.json` and `*.md`: full extracted teacher-reviewed samples.
-- `references/sample_images/*`: extracted visual prompts from the 12 sample DOCX files.
-- `references/ielts_task1_band_descriptors.md`: complete Task 1 descriptors extracted from the local PDF.
+- `references/teacher_style.md`: Task 1 teacher-style rules for concise anchored comments and rewrites.
+- `references/scoring_guide.md`: concise, repository-owned Task 1 scoring guide.
 - `references/review_format.md`: canonical reviewed document structure.
 - `scripts/extract_docx_images.py`: extract visual prompts from new input DOCX files to a unique scratch directory by default.
 - `scripts/extract_task1_input.py`: extract prompt, student answer, and student answer paragraph indices from a Task 1 DOCX.
 - `scripts/create_task1_review_docx.py`: create a reviewed DOCX from a JSON review plan; DOCX input is copied first, comments are anchored into extracted student answer paragraphs, and score/model sections are appended.
 - `scripts/create_and_validate_task1_review.py`: create a reviewed DOCX, validate it, and clean extracted scratch images in one command.
 - `scripts/validate_task1_review_docx.py`: verify comments, italic rewrites, student-answer paragraph comment anchoring when `--input-docx` is supplied, root namespace compatibility, page breaks, font, author, score lines, retained `To Reach Band 7.5 / 8.0` title, removed old headings, and model answer length/four-paragraph structure.
-- `scripts/extract_task1_teacher_samples.py`: regenerate teacher sample references.
-- `scripts/extract_task1_band_descriptors.py`: regenerate descriptors from the PDF.
 
 ## JSON Review Plan For DOCX Creation
 
@@ -166,11 +159,10 @@ If the review plan is a permanent example/reference file, omit `--cleanup-plan`.
 ## Quality Bar
 
 - The visual must be inspected before scoring or rewriting.
-- Similar teacher samples should be selected by visual type before writing the final comments and model answer.
 - Comments must stay within the extracted student answer paragraphs; prompt text and image captions are not valid anchor targets.
 - The reviewed DOCX must contain real Word comments, not bracketed notes.
 - Important Task Achievement issues must be commented first.
 - Italic rewrites must be data-accurate and written at a stable Band 7.5 standard.
 - The score must evaluate the original answer.
-- The model answer must be exactly 4 paragraphs with one blank line between paragraphs, 150-200 words, and should stand securely at Band 8.0 according to the official Task 1 descriptors.
-- The style should look closer to the teacher's Task 1 samples than to a generic IELTS tutor.
+- The model answer must be exactly 4 paragraphs with one blank line between paragraphs, 150-200 words, and should stand securely at Band 8.0 according to the scoring guide.
+- The style should follow `references/teacher_style.md`, not a generic IELTS tutor voice.

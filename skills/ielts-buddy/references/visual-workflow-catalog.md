@@ -15,6 +15,7 @@ Visible workflows are high-value because the user receives an artifact that look
 | Speaking interview report | Typed answers, transcript, or speaking-topic-weaver data | Speaking report DOCX with criterion scores, answer review, natural rewrites, reusable chunks, recurring patterns, and next questions | Makes typed/transcribed speaking practice reusable without ASR dependency. |
 | Vocabulary review sheet | Vocabulary progress, prepared cards, and review results | Weekly vocabulary sheet DOCX with progress snapshot, word table, weak words, due reviews, and practice prompts | Gives local Agent memory of what not to repeat and what is due next. |
 | Course-route workbook | Course route data, route progress, and next actions | Course route workbook DOCX with next actions, route checklist, success criteria, and checkpoints | Converts the full-course route into a self-study artifact. |
+| Learning resource recommendations | Bundled developer-maintained resource catalog plus learner goal and weakness data | Recommendation DOCX with ranked links, fit rationale, usage method, and weekly plan | Turns large external link lists into focused study actions. |
 
 ## Next Workflows To Build
 

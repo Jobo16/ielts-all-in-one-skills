@@ -75,10 +75,11 @@ Potential student traps:
 
 Keep this note internal by default. Use it to drive comments, rewrites, scoring, and the model answer; only show it in the reviewed DOCX if the user asks for it.
 
-## Sample Similarity Selection
+## Review Focus By Visual Type
 
-After identifying the visual type, consult `teacher_samples_index.md` and pick the closest teacher-reviewed samples:
+After identifying the visual type, use the type to choose the first Task Achievement comments:
 
-- Same visual type first: bar chart, line graph, table, pie chart, map, process, or mixed visual.
-- Same reporting challenge second: trend comparison, proportions, process sequencing, before/after map layout, or mixed data grouping.
-- Prefer one or two close samples over loading many weakly related samples.
+- Bar chart, line graph, table, and pie chart: check measurement wording, overview, key feature selection, grouping, and comparison accuracy.
+- Map: check before/after orientation, changed facilities, replaced areas, and location language.
+- Process: check start/end points, sequence, stage grouping, passive voice, and whether the answer invents causes.
+- Mixed visual: check whether the answer explains the relationship between visuals instead of listing values mechanically.

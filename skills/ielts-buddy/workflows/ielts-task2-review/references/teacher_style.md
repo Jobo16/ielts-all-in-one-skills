@@ -1,6 +1,6 @@
 # Teacher Style Guide
 
-Use this guide as the highest-priority style reference after reading relevant full samples.
+Use this guide as the highest-priority style reference for comments and rewrites.
 
 ## Overall Marking Personality
 
@@ -36,7 +36,7 @@ Use this guide as the highest-priority style reference after reading relevant fu
 
 ## Feedback Style
 
-After comments and rewrites, give a short official-criteria score section, then a concise focus list.
+After comments and rewrites, give a short criteria-based score section, then a concise focus list.
 
 Use a tone like:
 
@@ -48,7 +48,7 @@ Conciseness
 More precise support for main ideas
 ```
 
-Do not write a long lecture. The teacher's samples tend to identify the main blockers quickly.
+Do not write a long lecture. Identify the main blockers quickly.
 
 ## Handling Off-Topic Or Flawed Logic
 
@@ -68,4 +68,4 @@ If the essay significantly misunderstands the task:
 - Keep examples realistic and not over-specific.
 - Use topic vocabulary naturally.
 - Aim for secure Band 8.0: a clear and well-developed position, well-extended support, well-managed cohesion, flexible topic vocabulary, varied and mostly error-free grammar.
-- Do not over-write it into a Band 9 style; keep it learnable, concise, and close to the teacher's sample tone.
+- Do not over-write it into a Band 9 style; keep it learnable, concise, and close to this guide's teacher tone.
