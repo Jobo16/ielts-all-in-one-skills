@@ -1,0 +1,40 @@
+This repository adapts workflow ideas from the following MIT-licensed Skill projects.
+
+The IELTS Buddy files are rewritten for IELTS-specific use and do not vendor the original projects wholesale.
+
+1. Fluent
+
+Source: https://github.com/m98/fluent
+Copyright (c) 2025 Fluent Contributors (github.com/m98/fluent)
+License: MIT License
+
+2. English Coach
+
+Source: https://github.com/tianmind-studio/english-coach
+Copyright (c) 2026
+License: MIT License
+
+3. lang-tutor
+
+Source: https://github.com/hamsamilton/lang-tutor
+Copyright (c) 2026 samhamilton
+License: MIT License
+
+4. Claude Office Skills
+
+Source: https://github.com/claude-office-skills/skills
+Copyright (c) 2026 Claude Office Skills Contributors
+License: MIT License
+
+5. appautomaton document-skills
+
+Source: https://github.com/appautomaton/document-skills
+Copyright (c) 2026 appautomaton
+License: MIT License
+
+MIT License summary for each source:
+
+Permission is granted, free of charge, to any person obtaining a copy of the Software to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies, subject to inclusion of the copyright and permission notice in copies or substantial portions of the Software.
+
+The Software is provided "AS IS", without warranty of any kind.
+

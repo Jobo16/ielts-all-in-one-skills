@@ -18,6 +18,8 @@ Words are deduplicated case-insensitively. Adding an existing phrase enriches it
 
 For local flashcard practice, call `ielts_vocabulary_prepare_cards` and return the card data in the conversation. Do not provide a browser link unless the user explicitly asks to open the web app.
 
+For an interactive local session, use `workflows/vocabulary-session/SKILL.md`: one card at a time, active recall before reveal, concise feedback, and `ielts_vocabulary_record_review` after each answered card.
+
 Common local-card inputs:
 
 - “给我 10 个核心词，不要和上次重复”：`source=builtin`, `setId=core`, `limit=10`, `mode=mixed`, `excludeRecentlyReviewedDays=7`.

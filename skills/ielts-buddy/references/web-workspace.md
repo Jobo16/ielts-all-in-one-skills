@@ -28,3 +28,5 @@ Do not force the browser when data can answer the request. Do not force a local 
 | Band score calculator | `ielts_band_score_calculate` | `https://ieltsbuddy.igocn.cn/ai-apps/band-score-calculator` |
 
 When a row says the portable data interface is incomplete, state the limitation and provide the route. Do not imply the local Agent completed the interactive web operation.
+
+For browser-owned attempts that produce results, transcripts, answers, or notes, continue locally with the relevant review workflow instead of rebuilding the browser UI: `workflows/listening-error-review/SKILL.md`, `workflows/reading-review/SKILL.md`, or `workflows/speaking-coach/SKILL.md`.

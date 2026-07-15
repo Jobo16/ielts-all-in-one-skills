@@ -8,7 +8,7 @@ This repository contains a portable IELTS learning Skill and a zero-dependency l
 
 | Skill | Purpose |
 | --- | --- |
-| [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy, read course-route data, provide data plus links for browser-first tools, and generate polished Task 1, Task 2, and Reading lexicon DOCX files locally. |
+| [`ielts-buddy`](skills/ielts-buddy) | Run IELTS learning through IELTS Buddy, use local-first learning workflows, provide data plus links for browser-first tools, and generate polished IELTS DOCX artifacts locally. |
 
 ## Install
 
@@ -64,8 +64,15 @@ python3 <installed-skill>/scripts/update_skill.py apply
 - A local mirror and offline outbox for uninterrupted learning.
 - Learner profiles, footprints, weak points, and recent activity.
 - Exam-prep planning, next actions, and scheduled study tasks.
+- Local daily-study sessions that combine due review, course-route progress, vocabulary, and practice links without letting the server choose the teaching policy; can produce a validated course-route workbook DOCX.
+- Local vocabulary-card sessions using server-prepared cards, per-word progress, active recall, feedback, review write-back, and a validated weekly vocabulary sheet DOCX.
+- Reading review with a validated Evidence Map DOCX when the Agent has passage/practice data, user answers, and answer evidence.
+- Listening review with a validated Error Notebook DOCX when the Agent has dictation/practice results, transcript snippets, or answer data.
+- Speaking review with a validated Speaking Report DOCX when the Agent has typed answers, transcripts, or speaking-topic data.
 - Teacher-style IELTS Writing Task 1 and Task 2 review with anchored comments, rewrites, scores, feedback, a model answer, and validated DOCX output.
+- Writing revision follow-up with a validated revision-report DOCX that checks whether the learner fixed earlier comments before giving a new score estimate.
 - IELTS Reading passage lexicon extraction with anchored phrase comments, bilingual learner notes, examples, review prompts, and validated DOCX output.
+- A visible-workflow catalog for current and future DOCX/report outputs such as writing reviews, reading maps, listening notebooks, speaking reports, vocabulary sheets, route workbooks, and weekly study reports.
 - IELTS Buddy web experiences for courses, mock tests, practice, and learning tools through stable deep links.
 
 The live capability contract is published at:
@@ -76,7 +83,7 @@ https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
 
 ## Repository Boundary
 
-This repository does not contain IELTS Buddy application code, private learner data, question-bank data, course content, or model credentials. The bundled writing-review workflows adapt Aaron Liang's MIT-licensed IELTS writing review Skills; the license is included at [`skills/ielts-buddy/licenses/ielts-writing-review-skills.txt`](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt). Authenticated learning events are stored by IELTS Buddy; `~/.ielts-buddy/learning.db` is the local mirror and offline outbox.
+This repository does not contain IELTS Buddy application code, private learner data, question-bank data, course content, or model credentials. The bundled writing-review workflows adapt Aaron Liang's MIT-licensed IELTS writing review Skills; the license is included at [`skills/ielts-buddy/licenses/ielts-writing-review-skills.txt`](skills/ielts-buddy/licenses/ielts-writing-review-skills.txt). The newer learning-session workflows adapt ideas from MIT-licensed language-learning and document Skills; source notices are included at [`skills/ielts-buddy/licenses/third-party-skill-sources.txt`](skills/ielts-buddy/licenses/third-party-skill-sources.txt). Authenticated learning events are stored by IELTS Buddy; `~/.ielts-buddy/learning.db` is the local mirror and offline outbox.
 
 ## Validate
 
