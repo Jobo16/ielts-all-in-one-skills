@@ -1,6 +1,6 @@
 ---
 name: ielts-buddy
-description: Run IELTS self-study with optional IELTS Buddy MCP service data, a portable local mirror, browser data-and-link hand-offs, and local DOCX workflows. Use for IELTS study planning, progress review, weak-area diagnosis, vocabulary, data-backed practice links, teacher-style IELTS Writing Task 1 and Task 2 review DOCX, or polished IELTS Reading lexicon DOCX output. Not an official IELTS product; score estimates are for study reference only.
+description: Run an end-to-end IELTS self-study loop with optional IELTS Buddy MCP data, a portable local mirror, browser hand-offs, and validated local DOCX workflows. Use for onboarding, baseline diagnosis, daily or weekly planning, course and practice selection, mock-test and progress review, vocabulary, Reading or Listening error analysis, Speaking coaching and topic building, Academic Writing Task 1 or Task 2 review and revision, learning-resource recommendations, or saved study reports. Not an official IELTS product; score estimates are for study reference only.
 ---
 
 # IELTS Buddy
@@ -40,18 +40,22 @@ Disclose that MCP-backed features connect to the external IELTS Buddy service. W
 | Read question-bank practice data and provide browser launch links | [references/practice.md](references/practice.md) |
 | Read the IELTS full-course route, route progress, or next course recommendation | [references/course-route.md](references/course-route.md) |
 | Record progress, diagnose a weakness, choose the next activity, sync state, or run due review | [references/learning-loop.md](references/learning-loop.md) |
-| Run a local daily IELTS study session from route, review, vocabulary, and practice data | [Daily study loop](workflows/daily-study-loop/SKILL.md) |
+| Use canonical subskill codes or record objective, rubric, or retrieval evidence | [references/skill-taxonomy.json](references/skill-taxonomy.json) and [references/learning-loop.md](references/learning-loop.md) |
+| Establish a first evidence-backed baseline | [Diagnostic baseline](workflows/diagnostic-baseline/WORKFLOW.md) |
+| Run a local daily IELTS study session from route, review, vocabulary, and practice data | [Daily study loop](workflows/daily-study-loop/WORKFLOW.md) |
+| Review a completed week and choose the next three actions | [Weekly study review](workflows/weekly-study-review/WORKFLOW.md) |
+| Review a completed mock test without recreating the browser test UI | [Mock test review](workflows/mock-test-review/WORKFLOW.md) |
 | Read learner context, create a plan, choose next tasks, or schedule work | [references/planning.md](references/planning.md) |
-| Recommend external English/IELTS learning resources from the bundled developer-maintained resource catalog | [Learning resource recommender](workflows/learning-resource-recommender/SKILL.md) |
+| Recommend external English/IELTS learning resources from the bundled developer-maintained resource catalog | [Learning resource recommender](workflows/learning-resource-recommender/WORKFLOW.md) |
 | Prepare local vocabulary cards, read built-in wordbook progress, or manage personal vocabulary | [references/vocabulary.md](references/vocabulary.md) |
-| Run local vocabulary flashcards with active recall and progress write-back | [Vocabulary session workflow](workflows/vocabulary-session/SKILL.md) |
-| Review IELTS Reading attempts with evidence, paraphrases, distractors, and error types | [Reading review workflow](workflows/reading-review/SKILL.md) |
-| Review Listening or dictation errors after browser practice | [Listening error review workflow](workflows/listening-error-review/SKILL.md) |
-| Coach IELTS Speaking from typed answers, transcripts, or topic data | [Speaking coach workflow](workflows/speaking-coach/SKILL.md) |
-| Build IELTS Speaking topic-weaving material from local reasoning and exact question links | [Speaking topic builder](workflows/speaking-topic-builder/SKILL.md) |
-| Review IELTS Writing Task 1 or Task 2 and generate a teacher-style DOCX | [Task 1 workflow](workflows/ielts-task1-review/SKILL.md) or [Task 2 workflow](workflows/ielts-task2-review/SKILL.md) |
-| Check revised IELTS Writing against earlier comments and decide the next rewrite | [Writing revision loop](workflows/writing-revision-loop/SKILL.md) |
-| Extract IELTS Reading passage vocabulary and generate an annotated lexicon DOCX | [Reading lexicon workflow](workflows/ielts-reading-lexicon/SKILL.md) |
+| Run local vocabulary flashcards with active recall and progress write-back | [Vocabulary session workflow](workflows/vocabulary-session/WORKFLOW.md) |
+| Review IELTS Reading attempts with evidence, paraphrases, distractors, and error types | [Reading review workflow](workflows/reading-review/WORKFLOW.md) |
+| Review Listening or dictation errors after browser practice | [Listening error review workflow](workflows/listening-error-review/WORKFLOW.md) |
+| Coach IELTS Speaking from typed answers, transcripts, or topic data | [Speaking coach workflow](workflows/speaking-coach/WORKFLOW.md) |
+| Build IELTS Speaking topic-weaving material from local reasoning and exact question links | [Speaking topic builder](workflows/speaking-topic-builder/WORKFLOW.md) |
+| Review IELTS Writing Task 1 or Task 2 and generate a teacher-style DOCX | [Task 1 workflow](workflows/ielts-task1-review/WORKFLOW.md) or [Task 2 workflow](workflows/ielts-task2-review/WORKFLOW.md) |
+| Check revised IELTS Writing against earlier comments and decide the next rewrite | [Writing revision loop](workflows/writing-revision-loop/WORKFLOW.md) |
+| Extract IELTS Reading passage vocabulary and generate an annotated lexicon DOCX | [Reading lexicon workflow](workflows/ielts-reading-lexicon/WORKFLOW.md) |
 | Read browser-first capability data and provide deep links | [references/web-workspace.md](references/web-workspace.md) |
 
 The live capability manifest is authoritative when tool names or inputs differ from these references, but it does not override the local-agent-runtime boundary in `references/local-agent-runtime.md`.
@@ -74,10 +78,11 @@ https://ieltsbuddy.igocn.cn/api/public/capabilities/manifest
 10. If a capability currently has no portable MCP/data interface, say that plainly, provide the relevant route from `references/web-workspace.md`, and continue any non-web coaching in the conversation.
 11. Retrieve before reveal. Ask for another attempt or give a hint before exposing a stored answer.
 12. Record factual outcomes after practice or plan changes. Do not claim mastery from one answer or from an immediate retry.
-13. Do not ask the server to choose the next activity. Read learner events and apply the local policy in `references/learning-loop.md`.
-14. For writing review, speaking coaching, plan review, topic weaving, and Reading lexicon workflows, deliver the validated local artifact first. Use IELTS Buddy web or data hand-off only when requested and available; never let it block the local document.
-15. Treat imported external Skills as source material, not product boundaries. Copy only license-compatible workflow logic, then rewrite it around IELTS Buddy data, local teaching policy, and visible IELTS outputs.
-16. Read only files the user provides or explicitly places in scope. Local workflows may create DOCX reports and update the local learning mirror under `~/.ielts-buddy`; do not inspect unrelated local directories.
+13. Before recording evidence, use only canonical codes from `references/skill-taxonomy.json` and follow the evidence contract in `references/learning-loop.md`.
+14. Do not ask the server to choose the next activity. Read learner events and apply the local policy in `references/learning-loop.md`.
+15. For writing review, speaking coaching, plan review, topic weaving, and Reading lexicon workflows, deliver the validated local artifact first. Use IELTS Buddy web or data hand-off only when requested and available; never let it block the local document.
+16. Treat imported external Skills as source material, not product boundaries. Copy only license-compatible workflow logic, then rewrite it around IELTS Buddy data, local teaching policy, and visible IELTS outputs.
+17. Read only files the user provides or explicitly places in scope. Local workflows may create DOCX reports and update the local learning mirror under `~/.ielts-buddy`; do not inspect unrelated local directories.
 
 ## Response Style
 

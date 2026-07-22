@@ -1,8 +1,3 @@
----
-name: reading-review
-description: Review IELTS Reading attempts from practice data, user answers, or a passage DOCX by mapping evidence, paraphrases, distractors, and error types into a focused local learning loop and validated Evidence Map DOCX.
----
-
 # Reading Review
 
 ## Core Rule
@@ -37,6 +32,8 @@ For each wrong or uncertain item:
    - grammar or reference-chain confusion.
 5. Create one micro-drill using the same skill.
 6. Record the outcome in the learning loop with a stable question or session ID when available.
+
+Map evidence to canonical codes from `../../references/skill-taxonomy.json`. Use `reading.evidence-location` for locating proof, `reading.paraphrase` for meaning bridges, the specific TFNG or reference-chain code when applicable, and `reading.distractor` only when option elimination caused the miss.
 
 ## Default Deliverable
 

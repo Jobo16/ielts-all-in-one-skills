@@ -21,7 +21,7 @@ IELTS Buddy should grow from Skills first. Hosted services provide data, media, 
 | `appautomaton/document-skills` | MIT | Copy-adapt OOXML editing/redlining/validation patterns when a workflow needs anchored comments or tracked edits. |
 | `anthropics/skills/docx` | Proprietary | Do not copy. The public repo already has original DOCX scripts; keep using original OOXML code and validation. |
 | `GarethManning/education-agent-skills` | CC BY-SA 4.0 | Do not copy into MIT. Useful as a checklist for learning-science concepts only. |
-| Developer-maintained English learning-resource catalog | Project-maintained reference | Bundled as `workflows/learning-resource-recommender/references/learning-english-catalog.md`; runtime must not depend on external local directories. |
+| Developer-maintained English learning-resource catalog | Project-maintained reference | Bundled as the structured, general-audience `../workflows/learning-resource-recommender/references/resources.json`; runtime must not depend on external local directories. |
 | Low-install or unclear-license language tutor Skills | Mixed/unclear | Do not import until the source is verified. |
 
 ## Copy-Adapt Checklist

@@ -1,8 +1,3 @@
----
-name: ielts-reading-lexicon
-description: Extract high-value IELTS Reading vocabulary from a DOCX reading passage and deliver a polished, validated Word DOCX with anchored phrase comments, bilingual learner notes, examples, and review prompts. Use for Reading phrase mining, article vocabulary handouts, collocations, lexical chunks, or optional IELTS Buddy vocabulary sync.
----
-
 # IELTS Reading Lexicon
 
 Default learner-facing notes, comments, section titles, and review prompts are Simplified Chinese. Keep extracted phrases, source sentences, and IELTS-style example sentences in English.

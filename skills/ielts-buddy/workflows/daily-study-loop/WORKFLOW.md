@@ -1,8 +1,3 @@
----
-name: daily-study-loop
-description: Run a local IELTS daily study session from learner state, due reviews, course-route data, vocabulary progress, and browser-first practice links without letting the server choose the teaching policy; generate route workbooks when planning full-course self-study.
----
-
 # Daily Study Loop
 
 ## Core Rule
@@ -13,17 +8,17 @@ The Agent chooses the learning move. IELTS Buddy supplies state, materials, and 
 
 Read only the data needed for the current session:
 
-1. Learning snapshot or cloud events from `references/learning-loop.md`.
-2. Course route progress from `references/course-route.md` when the user asks what to learn.
-3. Vocabulary due/new/weak counts from `references/vocabulary.md` when words are likely part of the session.
-4. Practice availability and browser links from `references/practice.md` or `references/web-workspace.md` when the next task needs actual question interaction.
+1. Learning snapshot or cloud events from `../../references/learning-loop.md`.
+2. Course route progress from `../../references/course-route.md` when the user asks what to learn.
+3. Vocabulary due/new/weak counts from `../../references/vocabulary.md` when words are likely part of the session.
+4. Practice availability and browser links from `../../references/practice.md` or `../../references/web-workspace.md` when the next task needs actual question interaction.
 
 ## Session Policy
 
 1. Start with due review if there is an overdue or failed item.
 2. Otherwise continue an in-progress course route item.
 3. Otherwise target the weakest supported IELTS skill with evidence.
-4. With no evidence, run a short diagnostic: one listening or reading practice route plus one writing or speaking baseline prompt.
+4. With no evidence, read `../diagnostic-baseline/WORKFLOW.md` and run the smallest useful baseline.
 5. Give one task at a time.
 6. Use hint-before-answer for stored answers.
 7. Record the outcome after objective grading or local Agent review.

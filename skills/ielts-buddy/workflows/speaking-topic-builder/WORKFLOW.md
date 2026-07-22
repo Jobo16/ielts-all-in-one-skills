@@ -1,8 +1,3 @@
----
-name: speaking-topic-builder
-description: Build IELTS Speaking topic-weaving practice material locally from learner story, target part, recent weaknesses, and exact IELTS Buddy question links; persist only caller-provided data through MCP. Use when the user wants speaking topic weaving, speaking material creation, reusable story lines, question grouping, or a practice set without server-side AI matching.
----
-
 # Speaking Topic Builder
 
 默认面向中国雅思学习者，用简体中文解释选择理由、练习方法和复盘要求。题目、答案骨架、英文表达块保留英文。
@@ -42,7 +37,7 @@ If exact question links are unavailable, ask the user to choose from data return
    - `reusable_chunks`: 5-8 English chunks.
    - `avoid`: 2-4 common weak expressions or logic traps.
    - `practice_order`: easy-to-hard sequence.
-5. Coach the first answer locally or hand off to `workflows/speaking-coach/SKILL.md`.
+5. Coach the first answer locally or hand off to `../speaking-coach/WORKFLOW.md`.
 6. Persist only if the MCP tool accepts caller-provided fields without AI matching. If the manifest says omitted links trigger AI matching, supply exact links; if exact links are impossible, skip persistence and return the local material plus browser route.
 
 ## Response Shape

@@ -1,8 +1,3 @@
----
-name: speaking-coach
-description: Coach IELTS Speaking from typed answers, transcripts, or IELTS Buddy speaking-topic data with communication-first feedback, concise corrections, reusable chunks, progress recording, and a validated Speaking Report DOCX.
----
-
 # Speaking Coach
 
 Default learner-facing coaching language is Simplified Chinese. Keep the learner's answer, corrected English sentences, natural versions, reusable chunks, and IELTS criterion names in English where needed.
@@ -21,7 +16,7 @@ Use:
 - the user's target band and part number.
 
 If audio or ASR is unavailable, run typed speaking practice. Do not pretend to assess pronunciation from text.
-If the user asks to create or weave topic material before answering, use `workflows/speaking-topic-builder/SKILL.md` first. Do not ask IELTS Buddy to auto-match questions.
+If the user asks to create or weave topic material before answering, use `../speaking-topic-builder/WORKFLOW.md` first. Do not ask IELTS Buddy to auto-match questions.
 
 ## Practice Flow
 
@@ -37,6 +32,8 @@ If the user asks to create or weave topic material before answering, use `workfl
 5. Give a natural alternative answer or sentence upgrade.
 6. Add 2-4 reusable chunks.
 7. Ask one follow-up question.
+
+Record locally judged criterion evidence as `rubric` using canonical Speaking codes from `../../references/skill-taxonomy.json`. Store the learner-facing band estimate and concrete evidence in event details. Never record `speaking.pronunciation` without audio evidence.
 
 ## Feedback Format
 

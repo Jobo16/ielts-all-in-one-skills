@@ -6,6 +6,39 @@
 
 > 本 Skill 非 IELTS 官方产品，不代表任何考试主办方；分数参考、批改和学习建议仅供备考学习使用，不等同于官方成绩。
 
+## 一键安装
+
+安装学习者 Skill `ielts-buddy`。需要 Node.js 18+；命令会把完整 Skill 安装到 Codex 的用户级 Skills 目录：
+
+```sh
+npx skills add Jobo16/ielts-all-in-one-skills --skill ielts-buddy --agent codex --global --yes
+```
+
+使用其他兼容 Agent 时，可运行交互式安装并选择目标 Agent：
+
+```sh
+npx skills add Jobo16/ielts-all-in-one-skills --skill ielts-buddy
+```
+
+安装完成后，在新的对话中输入：
+
+```text
+使用 $ielts-buddy 介绍你能提供的雅思学习能力，并根据我的目标推荐第一个动作。
+```
+
+### 让 Agent 自动安装
+
+把下面这段话直接发给 Codex、WorkBuddy、CodeBuddy 或其他能管理 Agent Skills 的本地 Agent：
+
+```text
+请从 https://github.com/Jobo16/ielts-all-in-one-skills 安装学习者 Skill `ielts-buddy`。
+优先使用你内置的 Skill 安装器；如果没有，则执行：
+npx skills add Jobo16/ielts-all-in-one-skills --skill ielts-buddy --global --yes
+必须安装完整目录，不能只复制 SKILL.md。安装后验证 Skill 名称为 `ielts-buddy`，并告诉我安装位置和下一轮如何触发。
+```
+
+WorkBuddy 也可以在“专家·技能·连接器 → 添加技能”中描述上述需求，让 WorkBuddy 查找或创建安装任务；如果使用本地技能包，请导入 GitHub Release 中的 `ielts-buddy-skill-*.tar.gz` 完整压缩包。
+
 ## 这个仓库适合谁
 
 - 正在自学雅思，希望用 AI Agent 做长期学习规划的人。
@@ -14,7 +47,7 @@
 - 想在 Codex、Claude Code、Cursor、WorkBuddy 或 SkillHub 里安装雅思学习 Skill 的人。
 - 想基于 IELTS Buddy 的 MCP / API / Web 数据做本地 Agent 学习闭环的人。
 
-## 已包含的 Skill
+## 包含的 Skill
 
 | Skill | 用途 |
 | --- | --- |
@@ -32,7 +65,7 @@
 | 雅思听力精听/错题 | 根据文本、错题和正确答案生成听力错题本 DOCX | 音频播放、题库听力材料、网页精听 |
 | 雅思口语教练 | 根据 typed answer 或 transcript 生成口语反馈报告 DOCX | 口语题库、历史练习记录 |
 | 雅思全科路线 | 本地生成今日计划和课程路线学习手册 | 官方课程路线、进度、下一课链接 |
-| 学习资源推荐 | 使用仓库内置英语学习资源库做推荐和一周计划 | 无需外部本地目录 |
+| 学习资源推荐 | 以 IELTS 备考为主，使用仓库内置的 IELTS 与通用英语资源库做推荐和一周计划 | 无需外部本地目录 |
 | Browser-first 练习 | 给出数据摘要和稳定网页链接 | 计时做题、音频播放、整套模考、课程内容 |
 
 ## 快速开始
@@ -88,6 +121,8 @@ auth: OAuth
 OAuth 由用户的 MCP 客户端或浏览器授权流程处理。这个 Skill 不会要求用户粘贴密码、API Key、client secret、access token、refresh token、私钥、浏览器 cookie 或无关本地文件。
 
 如果没有配置 MCP，本 Skill 仍然可以基于用户主动提供的作文、DOCX、阅读文章、听力文本、答案、单词或学习目标生成本地复盘和 DOCX 学习报告。
+
+当前本地写作 Task 1 批改覆盖 IELTS Academic 图表、表格、地图和流程题；General Training Task 1 信件暂不在此工作流范围内。
 
 客户端配置见 [MCP 配置说明](skills/ielts-buddy/references/setup.md)。
 

@@ -19,10 +19,10 @@ https://ieltsbuddy.igocn.cn/practice
 
 ## Local Review Boundary
 
-Use `references/local-agent-runtime.md` for any practice result that requires teaching judgment.
+Use `local-agent-runtime.md` for any practice result that requires teaching judgment.
 
-- Reading/listening objective questions: use answer keys or returned graded results as data, then explain errors locally with `workflows/reading-review/SKILL.md` or `workflows/listening-error-review/SKILL.md`.
-- Writing/speaking open-ended answers: do not submit through MCP for server-side feedback. Use `workflows/ielts-task1-review/SKILL.md`, `workflows/ielts-task2-review/SKILL.md`, `workflows/writing-revision-loop/SKILL.md`, or `workflows/speaking-coach/SKILL.md`.
+- Reading/listening objective questions: use answer keys or returned graded results as data, then explain errors locally with `../workflows/reading-review/WORKFLOW.md` or `../workflows/listening-error-review/WORKFLOW.md`.
+- Writing/speaking open-ended answers: do not submit through MCP for server-side feedback. Use `../workflows/ielts-task1-review/WORKFLOW.md`, `../workflows/ielts-task2-review/WORKFLOW.md`, `../workflows/writing-revision-loop/WORKFLOW.md`, or `../workflows/speaking-coach/WORKFLOW.md`.
 - If the learner gives answers in chat, the Agent may review them locally. Only write back caller-provided results, scores, summaries, and events.
 
 ## MCP Interfaces

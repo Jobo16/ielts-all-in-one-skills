@@ -54,7 +54,7 @@ Use this structure for every reviewed IELTS Task 2 document.
 ## Input Parsing Rules
 
 - Normal DOCX input should be an unreviewed student file containing only the prompt, optional outline, and student essay.
-- For DOCX input, run `scripts/extract_task2_input.py` before reviewing.
+- For DOCX input, run `../scripts/extract_task2_input.py` before reviewing.
 - Exclude outline/planning bullets from the scored essay.
 - Existing comments, italic rewrites, feedback, or a model essay are accidental leftovers, not normal input. If detected, ignore them for scoring and rewriting; score only the student's original essay.
 - Use the prompt and extracted essay boundaries directly; this public Skill does not bundle private or copyrighted teacher samples.

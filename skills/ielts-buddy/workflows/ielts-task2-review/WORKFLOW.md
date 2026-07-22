@@ -1,8 +1,3 @@
----
-name: ielts-task2-review
-description: Review IELTS Writing Task 2 essays locally in a specific teacher's style and deliver a polished, validated Word DOCX with real anchored comments, Band 7.5 rewrites, scores, focused feedback, and a Band 8 model essay. Use for Task 2 correction, teacher-style marking, reviewed DOCX output, comments, model essays, or data-only result hand-off. Supports pasted prompt and essay text or DOCX input.
----
-
 # IELTS Task 2 Review
 
 ## Core Rule
@@ -30,7 +25,7 @@ When IELTS Buddy MCP tools are available and the user wants the result saved, fi
 
 Only call a data-only writing save/import tool if it persists caller-provided data without running server-side review. The payload should contain the prompt, essay, target band, local score summary, local feedback summary, and reviewed DOCX metadata or link when available.
 
-Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `workflows/writing-revision-loop/SKILL.md` locally and persist only caller-provided revision results.
+Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `../writing-revision-loop/WORKFLOW.md` locally and persist only caller-provided revision results.
 
 ## Workflow
 
@@ -157,4 +152,5 @@ If the review plan is a permanent example/reference file, omit `--cleanup-plan`.
 - The score must evaluate the original essay, not the revised essay.
 - The model essay must be exactly 4 paragraphs with one blank line between paragraphs, 250-300 words, and should stand securely at Band 8.0 according to the scoring guide.
 - The style should follow `references/teacher_style.md`, not a generic IELTS tutor voice.
+- Record locally judged criterion evidence as `rubric` with canonical Writing codes from `../../references/skill-taxonomy.json`; keep band estimates and cited text in event details.
 - Temporary files from the review process should be removed after successful validation.

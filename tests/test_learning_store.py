@@ -51,6 +51,7 @@ class LearningStoreTest(unittest.TestCase):
         state = self.run_cli("snapshot", "--subject", "reading")
         self.assertEqual(state["eventCount"], 2)
         self.assertEqual(state["mastery"][0]["mastery"], 0.5128)
+        self.assertEqual(state["mastery"][0]["recentPerformance"], 0.5)
         self.assertEqual(state["upcomingReviews"][0]["intervalDays"], 1)
 
         outbox = self.run_cli("outbox")
@@ -69,8 +70,8 @@ class LearningStoreTest(unittest.TestCase):
             "subjectCode": "listening",
             "objectType": "question",
             "objectId": "q-remote",
-            "skillCodes": ["listening.detail"],
-            "payload": {"correct": True},
+            "skillCodes": ["listening.sound-discrimination"],
+            "payload": {"evidenceType": "objective", "correct": True, "reviewable": True},
             "schemaVersion": 1,
             "occurredAt": "2026-07-12T10:00:00Z",
         }
@@ -92,10 +93,11 @@ class LearningStoreTest(unittest.TestCase):
                 "eventId": "d6e78f54-5910-44a1-a7cd-abba7c808f4c",
                 "deviceId": "agent-a",
                 "eventType": "practice.attempted",
+                "subjectCode": "reading",
                 "objectType": "question",
                 "objectId": "q-1",
-                "skillCodes": ["reading.detail"],
-                "payload": {"correct": False},
+                "skillCodes": ["reading.evidence-location"],
+                "payload": {"evidenceType": "objective", "correct": False, "reviewable": True},
                 "schemaVersion": 1,
                 "occurredAt": "2026-07-12T12:00:00Z",
             },
@@ -104,10 +106,11 @@ class LearningStoreTest(unittest.TestCase):
                 "eventId": "7af19fd1-3b82-454d-a262-f6df89a02d08",
                 "deviceId": "agent-b",
                 "eventType": "practice.attempted",
+                "subjectCode": "reading",
                 "objectType": "question",
                 "objectId": "q-1",
-                "skillCodes": ["reading.detail"],
-                "payload": {"correct": True},
+                "skillCodes": ["reading.evidence-location"],
+                "payload": {"evidenceType": "objective", "correct": True, "reviewable": True},
                 "schemaVersion": 1,
                 "occurredAt": "2026-07-12T10:00:00Z",
             },
@@ -117,6 +120,52 @@ class LearningStoreTest(unittest.TestCase):
         self.run_cli("import", "--input", str(payload))
         state = self.run_cli("snapshot")
         self.assertEqual(state["mastery"][0]["evidenceCount"], 2)
+
+    def test_rubric_evidence_updates_mastery_without_due_review(self):
+        self.run_cli("init")
+        recorded = self.run_cli(
+            "record-evidence",
+            "--subject", "writing",
+            "--object-type", "essay",
+            "--object-id", "essay-1",
+            "--skill", "writing.idea-development",
+            "--evidence-type", "rubric",
+            "--performance", "0.72",
+            "--confidence", "medium",
+            "--details-json", '{"criterionScore": 6.5}',
+        )
+        self.assertEqual(recorded["event"]["payload"]["criterionScore"], 6.5)
+        state = self.run_cli("snapshot", "--subject", "writing")
+        self.assertEqual(state["mastery"][0]["mastery"], 0.72)
+        self.assertEqual(state["dueReviews"], [])
+        self.assertEqual(state["upcomingReviews"], [])
+
+    def test_unknown_skill_code_is_rejected(self):
+        result = subprocess.run(
+            [
+                "python3", str(SCRIPT), "--db", str(self.db), "record-attempt",
+                "--subject", "reading", "--object-type", "question", "--object-id", "q-1",
+                "--skill", "reading.unknown", "--correct", "true",
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Unknown skill code", result.stderr)
+
+    def test_retrieval_evidence_is_reviewable_by_default(self):
+        self.run_cli(
+            "record-evidence",
+            "--subject", "listening",
+            "--object-type", "phrase",
+            "--object-id", "phrase-1",
+            "--skill", "listening.connected-speech",
+            "--evidence-type", "retrieval",
+            "--rating", "again",
+        )
+        state = self.run_cli("snapshot", "--subject", "listening")
+        self.assertEqual(state["dueReviews"][0]["objectId"], "phrase-1")
+        self.assertEqual(state["mastery"][0]["mastery"], 0.0)
 
 
 if __name__ == "__main__":
