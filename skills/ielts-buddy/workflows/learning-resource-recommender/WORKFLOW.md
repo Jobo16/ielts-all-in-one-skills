@@ -1,8 +1,3 @@
----
-name: learning-resource-recommender
-description: Recommend external English and IELTS learning resources from IELTS Buddy data and the bundled developer-maintained resource catalog; can generate a validated resource recommendation DOCX.
----
-
 # Learning Resource Recommender
 
 ## Core Rule
@@ -17,7 +12,7 @@ Use any available combination:
 
 - IELTS Buddy route progress, weak skills, vocabulary progress, or recent practice errors.
 - User goal: IELTS band, CEFR level, target skill, accent preference, topic interest, available minutes.
-- The bundled catalog at `references/learning-english-catalog.md`.
+- The curated catalog at `references/resources.json`.
 - Direct resource candidates supplied in chat.
 
 ## Workflow
@@ -31,7 +26,7 @@ Use any available combination:
    - grammar;
    - exam-specific IELTS practice;
    - background immersion.
-2. Run `scripts/extract_learning_resource_catalog.py` without a path to read the bundled catalog.
+2. Run `scripts/extract_learning_resource_catalog.py` to read the bundled catalog. Prefer entries reviewed recently enough for the current request; verify unstable availability before making a high-cost recommendation.
 3. Filter candidates by:
    - target skill;
    - level or difficulty cues;
@@ -61,7 +56,7 @@ Use concise chat for quick recommendations. When the user asks for a study pack,
 - `scripts/extract_learning_resource_catalog.py`: parse a Markdown resource catalog into JSON candidates with title, URL, description, and heading path.
 - `scripts/create_resource_recommendations_docx.py`: create a recommendation DOCX with ranked resources and a weekly usage plan.
 - `scripts/validate_resource_recommendations_docx.py`: verify required sections, tables, Times New Roman, and plan content.
-- `references/learning-english-catalog.md`: bundled developer-maintained external learning-resource catalog.
+- `references/resources.json`: structured, general-audience resource catalog with skill, level, access, transcript, exercise, provider, and review metadata.
 
 ## JSON Recommendation Plan
 
@@ -91,7 +86,7 @@ Use concise chat for quick recommendations. When the user asks for a study pack,
 ```
 
 ```bash
-python scripts/extract_learning_resource_catalog.py --skill listening --limit 30
+python scripts/extract_learning_resource_catalog.py --skill listening --level B2 --limit 12
 python scripts/create_resource_recommendations_docx.py resource_recommendation_plan.json
 python scripts/validate_resource_recommendations_docx.py ~/Desktop/IELTS_Resource_Recommendations_YYYYMMDD_HHMM.docx --plan-json resource_recommendation_plan.json
 ```
@@ -101,4 +96,4 @@ python scripts/validate_resource_recommendations_docx.py ~/Desktop/IELTS_Resourc
 - Do not recommend more than seven resources at once.
 - Do not treat general English resources as IELTS materials unless they train a concrete IELTS subskill.
 - Include a use method, not just a URL.
-- Prefer bundled-catalog parsing over web browsing for normal recommendations.
+- Use only catalog entries that satisfy its general-audience policy. Browse to verify availability when the resource is time-sensitive, paid, region-dependent, or likely to have changed since `lastReviewed`.

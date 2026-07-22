@@ -1,8 +1,3 @@
----
-name: vocabulary-session
-description: Run local IELTS vocabulary-card practice using server-prepared cards, per-word progress, active recall, immediate feedback, review write-back, and optional validated Weekly Vocabulary Sheet DOCX.
----
-
 # Vocabulary Session
 
 ## Core Rule
@@ -11,7 +6,7 @@ Vocabulary practice is local-first and data-backed. The service prepares cards a
 
 ## Start
 
-1. Read `references/vocabulary.md`.
+1. Read `../../references/vocabulary.md`.
 2. Choose source:
    - built-in wordbook: `core`, `listening`, or `reading`;
    - personal vocabulary book;

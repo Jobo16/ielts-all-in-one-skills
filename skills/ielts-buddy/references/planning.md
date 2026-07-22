@@ -10,7 +10,7 @@ Use `ielts_exam_prep_inspect` to read planning context before creating a plan. T
 
 Inspect first. Ask only for planning fields still missing after inspection.
 
-Do not call a server workflow whose job is to generate or refresh the plan text. If a data-only persistence capability exists, use it after the local plan is written and shown. Otherwise return the local plan or generate a DOCX route workbook through `workflows/daily-study-loop/SKILL.md`.
+Do not call a server workflow whose job is to generate or refresh the plan text. If a data-only persistence capability exists, use it after the local plan is written and shown. Otherwise return the local plan or generate a DOCX route workbook through `../workflows/daily-study-loop/WORKFLOW.md`.
 
 ## Study Plans
 

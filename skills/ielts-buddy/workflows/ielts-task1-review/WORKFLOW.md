@@ -1,9 +1,6 @@
----
-name: ielts-task1-review
-description: Review IELTS Academic Writing Task 1 answers locally in a specific teacher's style and deliver a polished, validated Word DOCX with real anchored comments, Band 7.5 rewrites, scores, focused feedback, and a Band 8 model answer. Use for Task 1 correction, chart/table/map/process review, teacher-style marking, reviewed DOCX output, or data-only result hand-off. Supports DOCX input with an embedded visual and pasted text with an attached image or image path.
----
-
 # IELTS Task 1 Review
+
+This workflow covers IELTS Academic Writing Task 1 only. Do not apply chart, map, table, or process criteria to General Training letters.
 
 ## Core Rule
 
@@ -25,7 +22,7 @@ When IELTS Buddy MCP tools are available and the user wants the result saved, fi
 
 Only call a data-only writing save/import tool if it persists caller-provided data without running server-side review. The payload should contain the prompt, essay, target band, `visualContext`, local score summary, local feedback summary, and reviewed DOCX metadata or link when available.
 
-Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `workflows/writing-revision-loop/SKILL.md` locally and persist only caller-provided revision results.
+Do not call `ielts_writing_import_submission` if the manifest says it will run a teacher-style review. Do not call `ielts_writing_submit_revision` if the manifest says it will generate a fresh review. For rewrites, use `../writing-revision-loop/WORKFLOW.md` locally and persist only caller-provided revision results.
 
 Use these references in order:
 
@@ -168,3 +165,4 @@ If the review plan is a permanent example/reference file, omit `--cleanup-plan`.
 - The score must evaluate the original answer.
 - The model answer must be exactly 4 paragraphs with one blank line between paragraphs, 150-200 words, and should stand securely at Band 8.0 according to the scoring guide.
 - The style should follow `references/teacher_style.md`, not a generic IELTS tutor voice.
+- Record locally judged criterion evidence as `rubric` with canonical Writing codes from `../../references/skill-taxonomy.json`; keep band estimates and cited text in event details.

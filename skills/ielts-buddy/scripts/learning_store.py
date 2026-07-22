@@ -14,11 +14,30 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-SCHEMA_VERSION = 1
+STORE_SCHEMA_VERSION = 1
+EVENT_SCHEMA_VERSION = 1
 RECENCY_WEIGHTS = (0.50, 0.70, 0.85, 0.95, 1.00)
-CONFIDENCE_CAPS = {1: 0.50, 2: 0.80}
 REVIEW_INTERVAL_DAYS = (1, 3, 7, 14, 30, 60, 90)
-SUPPORTED_SUBJECTS = ("listening", "reading", "writing", "speaking")
+CONFIDENCE_LEVELS = ("low", "medium", "high")
+TAXONOMY_PATH = Path(__file__).resolve().parents[1] / "references" / "skill-taxonomy.json"
+
+
+def load_taxonomy() -> dict[str, Any]:
+    with TAXONOMY_PATH.open(encoding="utf-8") as handle:
+        value = json.load(handle)
+    if not isinstance(value.get("subjects"), dict) or not isinstance(value.get("evidenceTypes"), dict):
+        raise ValueError(f"Invalid skill taxonomy: {TAXONOMY_PATH}")
+    return value
+
+
+TAXONOMY = load_taxonomy()
+SUPPORTED_SUBJECTS = tuple(TAXONOMY["subjects"])
+SKILL_SUBJECTS = {
+    skill_code: subject
+    for subject, skill_codes in TAXONOMY["subjects"].items()
+    for skill_code in skill_codes
+}
+RATING_PERFORMANCE = TAXONOMY["evidenceTypes"]["retrieval"]["ratings"]
 
 
 def default_db_path() -> Path:
@@ -74,7 +93,7 @@ def open_store(path: Path) -> sqlite3.Connection:
           ON learning_events(synced, local_seq);
         """
     )
-    ensure_metadata(connection, "schema_version", str(SCHEMA_VERSION))
+    ensure_metadata(connection, "schema_version", str(STORE_SCHEMA_VERSION))
     ensure_metadata(connection, "device_id", str(uuid.uuid4()))
     ensure_metadata(connection, "cloud_cursor", "0")
     connection.commit()
@@ -96,6 +115,7 @@ def metadata(connection: sqlite3.Connection, key: str) -> str:
 
 
 def record_event(connection: sqlite3.Connection, event: dict[str, Any], synced: bool = False) -> bool:
+    validate_event(event)
     remote_cursor = event.get("cursor")
     cursor = connection.execute(
         """
@@ -114,7 +134,7 @@ def record_event(connection: sqlite3.Connection, event: dict[str, Any], synced: 
             event.get("objectId"),
             json.dumps(event.get("skillCodes", []), separators=(",", ":")),
             json.dumps(event.get("payload", {}), separators=(",", ":")),
-            int(event.get("schemaVersion", SCHEMA_VERSION)),
+            int(event.get("schemaVersion", EVENT_SCHEMA_VERSION)),
             iso_datetime(event.get("occurredAt")),
             1 if synced else 0,
             int(remote_cursor) if remote_cursor is not None else None,
@@ -135,6 +155,55 @@ def record_event(connection: sqlite3.Connection, event: dict[str, Any], synced: 
     return inserted
 
 
+def validate_event(event: dict[str, Any]) -> None:
+    required = ("eventId", "deviceId", "eventType", "schemaVersion", "occurredAt")
+    missing = [field for field in required if field not in event]
+    if missing:
+        raise ValueError(f"Learning event is missing fields: {', '.join(missing)}")
+    subject = event.get("subjectCode")
+    if subject is not None and subject not in SUPPORTED_SUBJECTS:
+        raise ValueError(f"Unknown subject code: {subject}")
+    for skill_code in event.get("skillCodes", []):
+        expected_subject = SKILL_SUBJECTS.get(skill_code)
+        if expected_subject is None:
+            raise ValueError(f"Unknown skill code: {skill_code}")
+        if subject is not None and expected_subject != subject:
+            raise ValueError(f"Skill code {skill_code} does not belong to subject {subject}")
+    payload = event.get("payload", {})
+    if not isinstance(payload, dict):
+        raise ValueError("Learning event payload must be an object")
+    evidence_type = payload.get("evidenceType")
+    if evidence_type is not None:
+        if subject is None or not event.get("skillCodes"):
+            raise ValueError("Evidence events require a subject and at least one skill code")
+        performance_value(payload)
+
+
+def performance_value(payload: dict[str, Any]) -> float | None:
+    evidence_type = payload.get("evidenceType")
+    if evidence_type == "objective":
+        correct = payload.get("correct")
+        if not isinstance(correct, bool):
+            raise ValueError("Objective evidence requires boolean payload.correct")
+        return 1.0 if correct else 0.0
+    if evidence_type == "rubric":
+        performance = payload.get("performance")
+        confidence = payload.get("confidence")
+        if not isinstance(performance, (int, float)) or isinstance(performance, bool) or not 0 <= performance <= 1:
+            raise ValueError("Rubric evidence requires payload.performance between 0 and 1")
+        if confidence not in CONFIDENCE_LEVELS:
+            raise ValueError("Rubric evidence requires confidence: low, medium, or high")
+        return float(performance)
+    if evidence_type == "retrieval":
+        rating = payload.get("rating")
+        if rating not in RATING_PERFORMANCE:
+            raise ValueError("Retrieval evidence requires rating: again, hard, or good")
+        return float(RATING_PERFORMANCE[rating])
+    if evidence_type is None:
+        return None
+    raise ValueError(f"Unknown evidence type: {evidence_type}")
+
+
 def new_event(connection: sqlite3.Connection, args: argparse.Namespace, payload: dict[str, Any]) -> dict[str, Any]:
     return {
         "eventId": args.event_id or str(uuid.uuid4()),
@@ -145,7 +214,7 @@ def new_event(connection: sqlite3.Connection, args: argparse.Namespace, payload:
         "objectId": args.object_id,
         "skillCodes": sorted(set(args.skill or [])),
         "payload": payload,
-        "schemaVersion": SCHEMA_VERSION,
+        "schemaVersion": EVENT_SCHEMA_VERSION,
         "occurredAt": iso_datetime(args.occurred_at),
     }
 
@@ -182,22 +251,21 @@ def row_to_event(row: sqlite3.Row) -> dict[str, Any]:
 
 
 def mastery_snapshot(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    outcomes: dict[str, list[bool]] = defaultdict(list)
+    outcomes: dict[str, list[float]] = defaultdict(list)
     subjects: dict[str, str | None] = {}
     for event in events:
-        correct = event.get("payload", {}).get("correct")
-        if not isinstance(correct, bool):
+        performance = performance_value(event.get("payload", {}))
+        if performance is None:
             continue
         for skill in event.get("skillCodes", []):
-            outcomes[skill].append(correct)
+            outcomes[skill].append(performance)
             subjects[skill] = event.get("subjectCode")
 
     result = []
     for skill, history in outcomes.items():
         recent = history[-len(RECENCY_WEIGHTS) :]
         weights = RECENCY_WEIGHTS[-len(recent) :]
-        raw = sum(weight for weight, correct in zip(weights, recent) if correct) / sum(weights)
-        mastery = min(raw, CONFIDENCE_CAPS.get(len(recent), 1.0))
+        mastery = sum(weight * performance for weight, performance in zip(weights, recent)) / sum(weights)
         result.append(
             {
                 "skillCode": skill,
@@ -205,8 +273,8 @@ def mastery_snapshot(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "mastery": round(mastery, 4),
                 "confidence": round(min(1.0, len(history) / 5), 4),
                 "evidenceCount": len(history),
-                "recentCorrect": sum(recent),
-                "recentAttempts": len(recent),
+                "recentPerformance": round(sum(recent) / len(recent), 4),
+                "recentEvidence": len(recent),
             }
         )
     return sorted(result, key=lambda item: (item["mastery"], -item["confidence"], item["skillCode"]))
@@ -216,21 +284,25 @@ def review_snapshot(events: list[dict[str, Any]], now: datetime | None = None) -
     now = now or utc_now()
     histories: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for event in events:
-        correct = event.get("payload", {}).get("correct")
-        if not isinstance(correct, bool) or not event.get("objectType") or not event.get("objectId"):
+        payload = event.get("payload", {})
+        performance = performance_value(payload)
+        reviewable = payload.get("reviewable", payload.get("evidenceType") in {"objective", "retrieval"})
+        if performance is None or not reviewable or not event.get("objectType") or not event.get("objectId"):
             continue
         histories[(event["objectType"], event["objectId"])].append(event)
 
     reviews = []
     for (object_type, object_id), history in histories.items():
         latest = history[-1]
-        latest_correct = latest["payload"]["correct"]
+        latest_performance = performance_value(latest["payload"])
+        latest_successful = latest_performance is not None and latest_performance >= 0.7
         correct_streak = 0
         for event in reversed(history):
-            if event["payload"].get("correct") is not True:
+            performance = performance_value(event["payload"])
+            if performance is None or performance < 0.7:
                 break
             correct_streak += 1
-        if latest_correct:
+        if latest_successful:
             interval = REVIEW_INTERVAL_DAYS[min(correct_streak - 1, len(REVIEW_INTERVAL_DAYS) - 1)]
             due_at = parse_datetime(latest["occurredAt"]) + timedelta(days=interval)
         else:
@@ -272,6 +344,8 @@ def next_activity(connection: sqlite3.Connection, subject: str | None = None) ->
         return {"activityType": "review", "reason": "due_review", "review": review}
     if state["mastery"]:
         skill = state["mastery"][0]
+        if skill["confidence"] < 0.4:
+            return {"activityType": "diagnostic_practice", "reason": "low_confidence", "skill": skill}
         return {"activityType": "targeted_practice", "reason": "lowest_mastery", "skill": skill}
     return {
         "activityType": "diagnostic_practice",
@@ -305,7 +379,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("init")
-    for command in ("record-event", "record-attempt"):
+    for command in ("record-event", "record-attempt", "record-evidence"):
         child = subparsers.add_parser(command)
         child.add_argument("--event-id")
         child.add_argument("--subject", choices=SUPPORTED_SUBJECTS)
@@ -321,6 +395,14 @@ def build_parser() -> argparse.ArgumentParser:
     attempt_parser.add_argument("--correct", choices=("true", "false"), required=True)
     attempt_parser.add_argument("--score", type=float)
     attempt_parser.add_argument("--session-id")
+    evidence_parser = subparsers.choices["record-evidence"]
+    evidence_parser.set_defaults(event_type="learning.evidence_recorded")
+    evidence_parser.add_argument("--evidence-type", choices=("rubric", "retrieval"), required=True)
+    evidence_parser.add_argument("--performance", type=float)
+    evidence_parser.add_argument("--rating", choices=tuple(RATING_PERFORMANCE))
+    evidence_parser.add_argument("--confidence", choices=CONFIDENCE_LEVELS)
+    evidence_parser.add_argument("--reviewable", action="store_true")
+    evidence_parser.add_argument("--details-json", default="{}")
 
     for command in ("snapshot", "next"):
         child = subparsers.add_parser(command)
@@ -338,7 +420,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     connection = open_store(args.db)
     try:
         if args.command == "init":
-            return {"database": str(args.db), "deviceId": metadata(connection, "device_id"), "schemaVersion": SCHEMA_VERSION}
+            return {
+                "database": str(args.db),
+                "deviceId": metadata(connection, "device_id"),
+                "storeSchemaVersion": STORE_SCHEMA_VERSION,
+                "eventSchemaVersion": EVENT_SCHEMA_VERSION,
+            }
         if args.command == "record-event":
             payload = json.loads(args.payload_json)
             if not isinstance(payload, dict):
@@ -347,11 +434,24 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             record_event(connection, event)
             return {"recorded": True, "event": event}
         if args.command == "record-attempt":
-            payload = {"correct": args.correct == "true"}
+            payload = {"evidenceType": "objective", "correct": args.correct == "true", "reviewable": True}
             if args.score is not None:
                 payload["score"] = args.score
             if args.session_id:
                 payload["sessionId"] = args.session_id
+            event = new_event(connection, args, payload)
+            record_event(connection, event)
+            return {"recorded": True, "event": event}
+        if args.command == "record-evidence":
+            details = json.loads(args.details_json)
+            if not isinstance(details, dict):
+                raise ValueError("details-json must be a JSON object")
+            reviewable = args.reviewable or args.evidence_type == "retrieval"
+            payload = {**details, "evidenceType": args.evidence_type, "reviewable": reviewable}
+            if args.evidence_type == "rubric":
+                payload.update({"performance": args.performance, "confidence": args.confidence})
+            else:
+                payload["rating"] = args.rating
             event = new_event(connection, args, payload)
             record_event(connection, event)
             return {"recorded": True, "event": event}

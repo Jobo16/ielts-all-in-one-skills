@@ -1,8 +1,3 @@
----
-name: listening-error-review
-description: Review IELTS Listening or dictation mistakes after browser practice by using transcripts, user answers, and results to classify sound, spelling, distractor, number, grammar, and paraphrase errors, then generate a validated Listening Error Notebook DOCX.
----
-
 # Listening Error Review
 
 ## Core Rule
@@ -20,7 +15,7 @@ Use any available combination:
 - question type and answer key;
 - user-pasted notes from the web session.
 
-If the user only asks to do dictation, provide the listening-dictation route from `references/web-workspace.md`.
+If the user only asks to do dictation, provide the listening-dictation route from `../../references/web-workspace.md`.
 
 ## Error Taxonomy
 
@@ -51,6 +46,8 @@ Avoid generic “listen more” feedback.
    - identify distractor phrase.
 4. Save high-value phrases to vocabulary only when the user asks or when the phrase is clearly reusable.
 5. Record learning events after grading.
+
+Map the primary cause to one canonical code from `../../references/skill-taxonomy.json`. Record an objective result for the question and add no more than two supported skill codes; do not turn every surface typo into a separate weakness.
 
 ## Default Deliverable
 

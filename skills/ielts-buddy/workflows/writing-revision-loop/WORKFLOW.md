@@ -1,8 +1,3 @@
----
-name: writing-revision-loop
-description: Run an IELTS Writing revision cycle after a Task 1 or Task 2 reviewed DOCX by checking whether earlier comments were fixed, identifying new issues, and planning the next rewrite.
----
-
 # Writing Revision Loop
 
 ## Core Rule
@@ -34,6 +29,8 @@ Do not call a server-side “fresh review” or “submit revision for feedback�
 5. Give a new band estimate only after the fix-check.
 6. Create one next rewrite target, not a full new essay plan unless asked.
 7. Record recurring writing errors into the learning loop.
+
+Use the same canonical Writing codes as the first review. Record a new rubric observation only when the revision provides direct evidence; task completion alone is not evidence of improvement.
 
 ## Default Deliverable
 

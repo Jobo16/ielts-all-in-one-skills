@@ -13,6 +13,7 @@ THIS_FILE = Path(__file__).resolve()
 SKILLS_DIR = ROOT / "skills"
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARKDOWN_LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+LOCAL_CODE_PATH_PATTERN = re.compile(r"`((?:\.\.?/|references/|scripts/|workflows/)[^`\s]+)`")
 TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".txt"}
 FORBIDDEN_SUFFIXES = {".pdf", ".doc", ".docx"}
 FORBIDDEN_NAMES = {".DS_Store"}
@@ -58,6 +59,8 @@ def validate_skill(skill_dir: Path) -> dict[str, object]:
         raise ValueError(f"{skill_dir}: manifest id must match Skill name")
     if not re.fullmatch(r"\d+\.\d+\.\d+", str(skill_manifest.get("version", ""))):
         raise ValueError(f"{skill_dir}: manifest version must be stable semver")
+    if skill_manifest.get("audience") != "learner":
+        raise ValueError(f"{skill_dir}: manifest audience must be learner")
     for script in ("learning_store.py",):
         if not (skill_dir / "scripts" / script).is_file():
             raise ValueError(f"{skill_dir}: missing scripts/{script}")
@@ -121,6 +124,62 @@ def validate_markdown_links() -> None:
                 raise ValueError(f"{path}: missing markdown target: {target}")
 
 
+def validate_local_code_paths() -> None:
+    for path in iter_repository_files():
+        if path.suffix.lower() != ".md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        for target in LOCAL_CODE_PATH_PATTERN.findall(text):
+            target_path = target.rstrip(".,;:")
+            if not (path.parent / target_path).exists():
+                raise ValueError(f"{path}: missing local code path: {target}")
+
+
+def validate_workflows() -> None:
+    skill_dir = SKILLS_DIR / "ielts-buddy"
+    workflows_dir = skill_dir / "workflows"
+    workflow_files = sorted(workflows_dir.glob("*/WORKFLOW.md"))
+    if not workflow_files:
+        raise ValueError("ielts-buddy has no internal workflows")
+    nested_skill_files = sorted(workflows_dir.rglob("SKILL.md"))
+    if nested_skill_files:
+        raise ValueError(f"internal workflows must use WORKFLOW.md: {nested_skill_files}")
+    router = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+    for workflow_file in workflow_files:
+        text = workflow_file.read_text(encoding="utf-8")
+        if text.startswith("---\n") or not text.startswith("# "):
+            raise ValueError(f"{workflow_file}: internal workflow must start with one H1 and no frontmatter")
+        target = workflow_file.relative_to(skill_dir).as_posix()
+        if target not in router:
+            raise ValueError(f"{workflow_file}: workflow is not routed from ielts-buddy/SKILL.md")
+
+
+def validate_json_files() -> None:
+    for path in iter_repository_files():
+        if path.suffix.lower() == ".json":
+            json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_repository_manifest(manifest: dict[str, object], skill_manifests: dict[str, dict[str, object]]) -> None:
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError("repository manifest must use schemaVersion 1")
+    service = manifest.get("service")
+    if not isinstance(service, dict) or not str(service.get("mcp", "")).startswith("https://"):
+        raise ValueError("repository manifest has invalid service")
+    entries = manifest.get("skills")
+    if not isinstance(entries, list):
+        raise ValueError("repository manifest skills must be an array")
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("repository manifest skill entry must be an object")
+        skill_id = entry.get("id")
+        if skill_id not in skill_manifests:
+            raise ValueError(f"repository manifest has unknown skill: {skill_id}")
+        expected_path = f"skills/{skill_id}"
+        if entry.get("path") != expected_path or entry.get("entry") != f"{expected_path}/SKILL.md":
+            raise ValueError(f"repository manifest has invalid paths for {skill_id}")
+
+
 def validate_python_scripts() -> None:
     for path in sorted((ROOT / "skills").rglob("*.py")):
         result = subprocess.run(
@@ -152,11 +211,19 @@ def main() -> None:
     for skill_id, skill_manifest in skill_manifests.items():
         if skill_manifest["version"] != manifest["version"]:
             raise ValueError(f"{skill_id}: Skill and repository versions differ")
+    validate_repository_manifest(manifest, skill_manifests)
 
     validate_repository_files()
+    validate_json_files()
     validate_markdown_links()
+    validate_local_code_paths()
+    validate_workflows()
     validate_python_scripts()
-    print(f"validated {len(skill_dirs)} top-level skill(s), {len(skill_files)} skill file(s)")
+    workflow_count = len(list((SKILLS_DIR / "ielts-buddy" / "workflows").glob("*/WORKFLOW.md")))
+    print(
+        f"validated {len(skill_dirs)} top-level skill(s), "
+        f"{len(skill_files)} skill file(s), {workflow_count} workflow(s)"
+    )
 
 
 if __name__ == "__main__":
