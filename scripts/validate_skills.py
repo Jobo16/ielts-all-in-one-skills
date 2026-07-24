@@ -14,9 +14,11 @@ SKILLS_DIR = ROOT / "skills"
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MARKDOWN_LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 LOCAL_CODE_PATH_PATTERN = re.compile(r"`((?:\.\.?/|references/|scripts/|workflows/)[^`\s]+)`")
+TEXT_FENCE_PATTERN = re.compile(r"```text\r?\n(.+?)\r?\n```", re.DOTALL)
 TEXT_SUFFIXES = {".md", ".json", ".yaml", ".yml", ".py", ".txt"}
 FORBIDDEN_SUFFIXES = {".pdf", ".doc", ".docx"}
 FORBIDDEN_NAMES = {".DS_Store"}
+STORE_ICONS = {"sparkles", "calendar", "pen", "mic", "book", "headphones", "cards", "chart"}
 FORBIDDEN_TEXT_PATTERNS = [
     re.compile(r"/Users/"),
     re.compile(r"\bDownloads\b"),
@@ -135,23 +137,26 @@ def validate_local_code_paths() -> None:
                 raise ValueError(f"{path}: missing local code path: {target}")
 
 
-def validate_workflows() -> None:
-    skill_dir = SKILLS_DIR / "ielts-buddy"
-    workflows_dir = skill_dir / "workflows"
-    workflow_files = sorted(workflows_dir.glob("*/WORKFLOW.md"))
-    if not workflow_files:
-        raise ValueError("ielts-buddy has no internal workflows")
-    nested_skill_files = sorted(workflows_dir.rglob("SKILL.md"))
-    if nested_skill_files:
-        raise ValueError(f"internal workflows must use WORKFLOW.md: {nested_skill_files}")
-    router = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
-    for workflow_file in workflow_files:
-        text = workflow_file.read_text(encoding="utf-8")
-        if text.startswith("---\n") or not text.startswith("# "):
-            raise ValueError(f"{workflow_file}: internal workflow must start with one H1 and no frontmatter")
-        target = workflow_file.relative_to(skill_dir).as_posix()
-        if target not in router:
-            raise ValueError(f"{workflow_file}: workflow is not routed from ielts-buddy/SKILL.md")
+def validate_workflows(skill_dirs: list[Path]) -> int:
+    workflow_count = 0
+    for skill_dir in skill_dirs:
+        workflows_dir = skill_dir / "workflows"
+        workflow_files = sorted(workflows_dir.glob("*/WORKFLOW.md")) if workflows_dir.is_dir() else []
+        if not workflow_files:
+            raise ValueError(f"{skill_dir}: missing workflows")
+        nested_skill_files = sorted(workflows_dir.rglob("SKILL.md"))
+        if nested_skill_files:
+            raise ValueError(f"{skill_dir}: internal workflows must use WORKFLOW.md: {nested_skill_files}")
+        router = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+        for workflow_file in workflow_files:
+            text = workflow_file.read_text(encoding="utf-8")
+            if text.startswith("---\n") or not text.startswith("# "):
+                raise ValueError(f"{workflow_file}: internal workflow must start with one H1 and no frontmatter")
+            target = workflow_file.relative_to(skill_dir).as_posix()
+            if target not in router:
+                raise ValueError(f"{workflow_file}: workflow is not routed from {skill_dir.name}/SKILL.md")
+        workflow_count += len(workflow_files)
+    return workflow_count
 
 
 def validate_json_files() -> None:
@@ -160,24 +165,63 @@ def validate_json_files() -> None:
             json.loads(path.read_text(encoding="utf-8"))
 
 
+def validate_store_entry(entry: dict[str, object], entry_id: str) -> None:
+    for field in ("name", "summary", "example"):
+        if not isinstance(entry.get(field), str) or not str(entry[field]).strip():
+            raise ValueError(f"repository manifest has incomplete display data for {entry_id}")
+    if entry.get("icon") not in STORE_ICONS:
+        raise ValueError(f"repository manifest has invalid store icon for {entry_id}")
+    highlights = entry.get("highlights")
+    if not isinstance(highlights, list) or not highlights or not all(isinstance(item, str) and item.strip() for item in highlights):
+        raise ValueError(f"repository manifest has invalid highlights for {entry_id}")
+    for field in ("webPrompt", "agentPrompt"):
+        prompt_path = entry.get(field)
+        if not isinstance(prompt_path, str) or not (ROOT / prompt_path).is_file():
+            raise ValueError(f"repository manifest has invalid {field} for {entry_id}")
+        prompt_text = (ROOT / prompt_path).read_text(encoding="utf-8")
+        if not TEXT_FENCE_PATTERN.search(prompt_text):
+            raise ValueError(f"{prompt_path}: missing complete text prompt")
+
+
 def validate_repository_manifest(manifest: dict[str, object], skill_manifests: dict[str, dict[str, object]]) -> None:
-    if manifest.get("schemaVersion") != 1:
-        raise ValueError("repository manifest must use schemaVersion 1")
+    if manifest.get("schemaVersion") != 2:
+        raise ValueError("repository manifest must use schemaVersion 2")
     service = manifest.get("service")
     if not isinstance(service, dict) or not str(service.get("mcp", "")).startswith("https://"):
         raise ValueError("repository manifest has invalid service")
     entries = manifest.get("skills")
     if not isinstance(entries, list):
         raise ValueError("repository manifest skills must be an array")
+    manifest_skill_ids: set[str] = set()
     for entry in entries:
         if not isinstance(entry, dict):
             raise ValueError("repository manifest skill entry must be an object")
         skill_id = entry.get("id")
         if skill_id not in skill_manifests:
             raise ValueError(f"repository manifest has unknown skill: {skill_id}")
+        if skill_id in manifest_skill_ids:
+            raise ValueError(f"repository manifest has duplicate skill: {skill_id}")
+        manifest_skill_ids.add(skill_id)
         expected_path = f"skills/{skill_id}"
         if entry.get("path") != expected_path or entry.get("entry") != f"{expected_path}/SKILL.md":
             raise ValueError(f"repository manifest has invalid paths for {skill_id}")
+        validate_store_entry(entry, skill_id)
+
+    bundles = manifest.get("bundles")
+    if not isinstance(bundles, list) or not bundles:
+        raise ValueError("repository manifest must include at least one bundle")
+    for bundle in bundles:
+        if not isinstance(bundle, dict):
+            raise ValueError("repository manifest bundle must be an object")
+        skill_ids = bundle.get("skillIds")
+        if not isinstance(skill_ids, list) or not skill_ids:
+            raise ValueError(f"repository manifest bundle has no skills: {bundle.get('id')}")
+        if set(skill_ids) - set(skill_manifests):
+            raise ValueError(f"repository manifest bundle has unknown skills: {bundle.get('id')}")
+        bundle_id = bundle.get("id")
+        if not isinstance(bundle_id, str) or not bundle_id:
+            raise ValueError("repository manifest bundle has no id")
+        validate_store_entry(bundle, bundle_id)
 
 
 def validate_python_scripts() -> None:
@@ -217,9 +261,8 @@ def main() -> None:
     validate_json_files()
     validate_markdown_links()
     validate_local_code_paths()
-    validate_workflows()
+    workflow_count = validate_workflows(skill_dirs)
     validate_python_scripts()
-    workflow_count = len(list((SKILLS_DIR / "ielts-buddy" / "workflows").glob("*/WORKFLOW.md")))
     print(
         f"validated {len(skill_dirs)} top-level skill(s), "
         f"{len(skill_files)} skill file(s), {workflow_count} workflow(s)"

@@ -1,9 +1,0 @@
-{
-  "schemaVersion": 1,
-  "id": "ielts-buddy",
-  "version": "0.3.0",
-  "eventSchemaVersion": 1,
-  "audience": "learner",
-  "channel": "stable",
-  "repository": "https://github.com/Jobo16/ielts-all-in-one-skills"
-}

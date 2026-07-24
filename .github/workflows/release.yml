@@ -22,12 +22,12 @@ jobs:
         run: test "${GITHUB_REF_NAME}" = "v$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')"
       - name: Build release package
         run: |
-          asset="ielts-buddy-skill-${GITHUB_REF_NAME}.tar.gz"
-          tar -czf "$asset" -C skills ielts-buddy
+          asset="ielts-buddy-skills-${GITHUB_REF_NAME}.tar.gz"
+          tar -czf "$asset" skills
           shasum -a 256 "$asset" > "$asset.sha256"
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           files: |
-            ielts-buddy-skill-${{ github.ref_name }}.tar.gz
-            ielts-buddy-skill-${{ github.ref_name }}.tar.gz.sha256
+            ielts-buddy-skills-${{ github.ref_name }}.tar.gz
+            ielts-buddy-skills-${{ github.ref_name }}.tar.gz.sha256
